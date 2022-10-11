@@ -18,7 +18,7 @@ const setup: AppRouteModule = {
     {
       path: 'index',
       name: 'SetupDemoPage',
-      component: () => import('/@/views/demo/setup/index.vue'),
+      component: () => import('@/views/demo/setup/index.vue'),
       meta: {
         title: t('routes.demo.setup.page'),
         icon: 'whh:paintroll',

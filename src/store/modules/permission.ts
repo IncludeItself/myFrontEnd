@@ -39,6 +39,8 @@ interface PermissionState {
   // backMenuList: Menu[];
   // 菜单列表
   frontMenuList: Menu[];
+
+  flattedRoutes: AppRouteRecordRaw[]
 }
 
 export const usePermissionStore = defineStore({
@@ -58,6 +60,8 @@ export const usePermissionStore = defineStore({
     // menu List
     // 菜单列表
     frontMenuList: [],
+
+    flattedRoutes:[]
   }),
   getters: {
     // getPermCodeList(): string[] | number[] {
@@ -75,6 +79,10 @@ export const usePermissionStore = defineStore({
     getIsDynamicAddedRoute(): boolean {
       return this.isDynamicAddedRoute;
     },
+
+    getFlattedRoutes():AppRouteRecordRaw[]{
+      return this.flattedRoutes;
+    }
   },
   actions: {
     // setPermCodeList(codeList: string[]) {
@@ -97,6 +105,11 @@ export const usePermissionStore = defineStore({
     setDynamicAddedRoute(added: boolean) {
       this.isDynamicAddedRoute = added;
     },
+
+    setFlattedRoutes(flattedRoutes:AppRouteRecordRaw[]){
+      this.flattedRoutes=flattedRoutes;
+    },
+
     resetState(): void {
       this.isDynamicAddedRoute = false;
       // this.permCodeList = [];
@@ -203,6 +216,7 @@ export const usePermissionStore = defineStore({
           // Convert multi-level routing to level 2 routing
           // 将多级路由转换为 2 级路由
           routes = flatMultiLevelRoutes(routes);
+          this.setFlattedRoutes(routes);
           // break;
 
         //  If you are sure that you do not need to do background dynamic permissions, please comment the entire judgment below

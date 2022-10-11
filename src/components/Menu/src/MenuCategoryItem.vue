@@ -1,5 +1,5 @@
 <template>
-  <n-card :title="t(item.name)">
+  <n-card :title="t(item.meta.title)" size="small">
     <span>hehe</span>
 
   </n-card>
@@ -14,8 +14,6 @@ const {t}=useI18n();
 const props=defineProps({
   item: Object as PropType<Nullable<Menu>>
 });
-
-console.log("item",props.item);
 
 </script>
 

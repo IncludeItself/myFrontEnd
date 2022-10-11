@@ -17,7 +17,7 @@ Object.keys(modules).forEach((key) => {
     routeModuleList.push(...modList);
 });
 
-export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...routeModuleList];
+    export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...routeModuleList];
 
 // 根路由
 export const RootRoute: AppRouteRecordRaw = {

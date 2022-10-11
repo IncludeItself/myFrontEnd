@@ -10,18 +10,11 @@
       </template>
     </NButton>
     <NCard class="miniMenu" embedded>
-      MenuItems will be displayed here!!!!
-      <br/>
-      <br/>
-      <br/>
-      1
-      1
-      1
-      1
-      22222222222222222222222222222222
-      {{t('common.saveText')}}
-
-      <MenuCategoryItem :item="menus[3]"/>
+      {{ t('common.saveText') }}
+      <n-space>
+        <MenuCategoryItem v-for="menuItem in menus" :item="menuItem"/>
+<!--        <MenuCategoryItem  :item="menus[4]"/>-->
+      </n-space>
 
       <span>bot</span>
 
@@ -33,23 +26,25 @@
 </template>
 
 <script>
-import {defineComponent,reactive,unref,toRaw} from 'vue';
-import {NButton, NCard,NSpace} from 'naive-ui';
+import {defineComponent, reactive, unref, toRaw} from 'vue';
+import {NButton, NCard, NSpace} from 'naive-ui';
 import {Icon} from "@vicons/utils";
 import {MenuSharp} from '@vicons/ionicons5';
 import {useI18n} from "@/hooks/web/useI18n";
 import {usePermissionStore} from "@/store/modules/permission";
 import MenuCategoryItem from './MenuCategoryItem.vue';
-const permissionStore=usePermissionStore();
-const {t}=useI18n();
+import {router} from "@/router/index";
+
+const permissionStore = usePermissionStore();
+const {t} = useI18n();
 
 export default defineComponent({
   name: "MiniMenu",
-  components: {Icon, MenuSharp, NButton, NCard,NSpace,MenuCategoryItem},
+  components: {Icon, MenuSharp, NButton, NCard, NSpace, MenuCategoryItem},
   setup() {
-    const menus=permissionStore.getFrontMenuList;
-
-    return {t,menus}
+    const menus = permissionStore.getFlattedRoutes;
+    console.log("menus",menus);
+    return {t, menus}
 
   }
 
@@ -58,20 +53,21 @@ export default defineComponent({
 
 <style lang="less" scoped>
 
-.miniMenuWrapper{
+.miniMenuWrapper {
   position: relative;
   float: left;
   display: block;
 
-  .miniMenuBtn{
+  .miniMenuBtn {
     z-index: 3;
   }
-  .miniMenu{
+
+  .miniMenu {
     display: none;
   }
 
-  &:hover{
-    .miniMenu{
+  &:hover {
+    .miniMenu {
       display: block;
       position: fixed;
       width: auto;

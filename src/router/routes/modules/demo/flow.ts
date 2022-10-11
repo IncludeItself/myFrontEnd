@@ -17,7 +17,7 @@ const charts: AppRouteModule = {
     {
       path: 'flowChart',
       name: 'flowChartDemo',
-      component: () => import('/@/views/demo/comp/flow-chart/index.vue'),
+      component: () => import('@/views/demo/comp/flow-chart/index.vue'),
       meta: {
         title: t('routes.demo.flow.flowChart'),
       },

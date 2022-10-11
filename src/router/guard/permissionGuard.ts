@@ -97,7 +97,7 @@ export function createPermissionGuard(router: Router) {
     routes.forEach((route) => {
       router.addRoute(route as unknown as RouteRecordRaw);
     });
-
+    // console.log("router.getRoutes in permissionGuard",router.getRoutes());
     router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw);
 
     permissionStore.setDynamicAddedRoute(true);
