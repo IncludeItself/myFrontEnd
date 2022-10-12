@@ -10,7 +10,7 @@
       </template>
     </NButton>
     <NCard class="miniMenu" embedded>
-      <n-space>
+      <n-space @click="handleClick">
         <MenuCategoryItem v-for="menuItem in menus" :item="menuItem"/>
 <!--        <MenuCategoryItem  :item="menus[4]"/>-->
       </n-space>
@@ -41,8 +41,14 @@ export default defineComponent({
   components: {Icon, MenuSharp, NButton, NCard, NSpace, MenuCategoryItem},
   setup() {
     const menus = permissionStore.getFlattedRoutes;
-    console.log("menus",menus);
-    return {t, menus}
+    const handleClick=(a)=>{
+      console.log("a",a);
+    };
+    // console.log("menus",menus);
+    return {t,
+      menus,
+      handleClick
+    }
 
   }
 
