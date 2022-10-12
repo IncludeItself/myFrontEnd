@@ -16,13 +16,17 @@
 <script>
 import {computed, defineComponent} from 'vue';
 import {AppLocalePicker, AppThemeToggle} from "@/components/Application";
-import {MiniMenu} from '@/components/Menu';
+// import {MiniMenu} from '@/components/Menu';
 import {NLayoutHeader, NButton} from 'naive-ui';
+import { createAsyncComponent } from '@/utils/factory/createAsyncComponent';
 // import {useHeaderSetting} from "@/hooks/setting/useHeaderSetting.js";
 
 export default defineComponent({
   name: "LayoutHeader",
-  components: {AppThemeToggle, AppLocalePicker, NLayoutHeader, MiniMenu, NButton},
+  components: {AppThemeToggle, AppLocalePicker, NLayoutHeader,
+    MiniMenu:createAsyncComponent(() => import('@/components/Menu/src/MiniMenu.vue')),
+    NButton
+  },
   setup() {
     // const {getFixed}=useHeaderSetting();
     // const fixedMenu= computed(()=>getFixed?'absolute':'static');

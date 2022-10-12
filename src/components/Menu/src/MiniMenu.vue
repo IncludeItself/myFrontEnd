@@ -10,7 +10,6 @@
       </template>
     </NButton>
     <NCard class="miniMenu" embedded>
-      {{ t('common.saveText') }}
       <n-space>
         <MenuCategoryItem v-for="menuItem in menus" :item="menuItem"/>
 <!--        <MenuCategoryItem  :item="menus[4]"/>-->
@@ -26,14 +25,13 @@
 </template>
 
 <script>
-import {defineComponent, reactive, unref, toRaw} from 'vue';
+import {defineComponent} from 'vue';
 import {NButton, NCard, NSpace} from 'naive-ui';
 import {Icon} from "@vicons/utils";
 import {MenuSharp} from '@vicons/ionicons5';
 import {useI18n} from "@/hooks/web/useI18n";
 import {usePermissionStore} from "@/store/modules/permission";
 import MenuCategoryItem from './MenuCategoryItem.vue';
-import {router} from "@/router/index";
 
 const permissionStore = usePermissionStore();
 const {t} = useI18n();
@@ -72,7 +70,9 @@ export default defineComponent({
       position: fixed;
       width: auto;
       z-index: 2;
-
+      overflow: auto;
+      max-height: 90vh;
+      max-width: 80vw;
     }
   }
 
