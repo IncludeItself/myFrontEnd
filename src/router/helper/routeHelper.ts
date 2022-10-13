@@ -155,6 +155,10 @@ function promoteRouteLevel(routeModule: AppRouteModule) {
 
 
 function footRouteLevel(routeModule: AppRouteModule){
+  if(routeModule.meta.hideChildrenInMenu || (routeModule.children?.length||0)<=1){
+    routeModule.children=[omit(routeModule,'children')];
+    return;
+  }
   let router: Router | null = createRouter({
     routes: [routeModule as unknown as RouteRecordNormalized],
     history: createWebHashHistory(),
@@ -162,9 +166,9 @@ function footRouteLevel(routeModule: AppRouteModule){
   // getRoutes： 获取所有 路由记录的完整列表。
   const routes = router.getRoutes();
   // 将所有子路由添加到二级路由
-  const footRoutes:AppRouteModule=cloneDeep(routeModule);
-  footRoutes.children=[];
-  getChildrenRoutes(routes, routeModule.children || [],footRoutes);
+  const children=routeModule.children;
+  routeModule.children=[];
+  getChildrenRoutes(routes, children || [],routeModule);
   router = null;
 
 
