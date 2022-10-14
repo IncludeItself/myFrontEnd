@@ -21,10 +21,10 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
         // have to
         vueJsx(),
         // support name
-        vueSetupExtend(),
-        VitePluginCertificate({
-            source: 'coding',
-        }),
+        // vueSetupExtend(),
+        // VitePluginCertificate({
+        //     source: 'coding',
+        // }),
     ];
 
 
