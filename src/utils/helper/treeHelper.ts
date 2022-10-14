@@ -44,6 +44,18 @@ export function treeToList<T = any>(tree: any, config: Partial<TreeHelperConfig>
   return result;
 }
 
+export function treeFootToList<T = any>(tree: any, config: Partial<TreeHelperConfig> = {}): T {
+  config = getConfig(config);
+  const { children } = config;
+  const result: any = [...tree];
+  for (let i = 0; i < result.length; i++) {
+    if (!result[i][children!]) continue;
+    result.splice(i , 1, ...result[i][children!]);
+    i--;
+  }
+  return result;
+}
+
 export function findNode<T = any>(
   tree: any,
   func: Fn,

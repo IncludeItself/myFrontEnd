@@ -6,8 +6,8 @@ import {useI18n} from '@/hooks/web/useI18n';
 import {useUserStore} from './user';
 import {useAppStoreWithOut} from './app';
 import {toRaw} from 'vue';
-import {transformObjToRoute, flatMultiLevelRoutes, footMultiLevelRoutes} from '@/router/helper/routeHelper';
-import {transformRouteToMenu} from '@/router/helper/menuHelper';
+import {transformObjToRoute, flatMultiLevelRoutes} from '@/router/helper/routeHelper';
+import {flatMenuList, transformRouteToMenu} from '@/router/helper/menuHelper';
 
 import projectSetting from '@/settings/projectSetting';
 
@@ -16,7 +16,7 @@ import {PermissionModeEnum} from '@/enums/appEnum';
 import {asyncRoutes} from '@/router/routes';
 import {ERROR_LOG_ROUTE, PAGE_NOT_FOUND_ROUTE} from '@/router/routes/basic';
 
-import {filter} from '@/utils/helper/treeHelper';
+import {filter, treeFootToList} from '@/utils/helper/treeHelper';
 
 // import { getMenuList } from '@/api/sys/menu';
 // import { getPermCode } from '/@/api/sys/user';
@@ -40,7 +40,7 @@ interface PermissionState {
     // 菜单列表
     frontMenuList: Menu[];
 
-    flattedRoutes: AppRouteRecordRaw[]
+    flattedMenu: Menu[]
 }
 
 export const usePermissionStore = defineStore({
@@ -61,7 +61,7 @@ export const usePermissionStore = defineStore({
         // 菜单列表
         frontMenuList: [],
 
-        flattedRoutes: []
+        flattedMenu: []
     }),
     getters: {
         // getPermCodeList(): string[] | number[] {
@@ -80,8 +80,8 @@ export const usePermissionStore = defineStore({
             return this.isDynamicAddedRoute;
         },
 
-        getFlattedRoutes(): AppRouteRecordRaw[] {
-            return this.flattedRoutes;
+        getFlattedMenu(): Menu[] {
+            return this.flattedMenu;
         }
     },
     actions: {
@@ -106,8 +106,8 @@ export const usePermissionStore = defineStore({
             this.isDynamicAddedRoute = added;
         },
 
-        setFlattedRoutes(flattedRoutes: AppRouteRecordRaw[]) {
-            this.flattedRoutes = flattedRoutes;
+        setFlattedMenu(flattedMenu: Menu[]) {
+            this.flattedMenu = flattedMenu;
         },
 
         resetState(): void {
@@ -213,11 +213,15 @@ export const usePermissionStore = defineStore({
             // 设置菜单列表
             this.setFrontMenuList(menuList);
 
+            //变形成二级菜单，只要Category和末级菜单
+            const flattedMenuList=flatMenuList(menuList);
+            this.setFlattedMenu(flattedMenuList);
+
             // Convert multi-level routing to level 2 routing
             // 将多级路由转换为 2 级路由
             // routes = flatMultiLevelRoutes(routes);//吴鑫峰改了，改成了下面这一行
-            routes = footMultiLevelRoutes(routes);
-            this.setFlattedRoutes(routes);
+            routes = flatMultiLevelRoutes(routes);
+
             // break;
 
             //  If you are sure that you do not need to do background dynamic permissions, please comment the entire judgment below

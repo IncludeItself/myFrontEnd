@@ -113,26 +113,6 @@ export function flatMultiLevelRoutes(routeModules: AppRouteModule[]) {
   return modules;
 }
 
-/**
- * Convert multi-level routing to level 2 routing and ...
- * 将多级路由转换为 2 级路由，并且只取保留末级的路由，不要有children的路由
- */
-export function footMultiLevelRoutes(routeModules: AppRouteModule[]) {
-  const modules: AppRouteModule[] = cloneDeep(routeModules);
-
-  for (let index = 0; index < modules.length; index++) {
-    const routeModule = modules[index];
-    // 判断级别是否 多级 路由
-    if (!isMultipleRoute(routeModule)) {
-      // 声明终止当前循环， 即跳过此次循环，进行下一轮
-      continue;
-    }
-    // 路由等级提升
-    footRouteLevel(routeModule);
-  }
-  return modules;
-}
-
 // Routing level upgrade
 // 路由等级提升
 function promoteRouteLevel(routeModule: AppRouteModule) {
@@ -153,26 +133,6 @@ function promoteRouteLevel(routeModule: AppRouteModule) {
   routeModule.children = routeModule.children?.map((item) => omit(item, 'children'));
 }
 
-
-function footRouteLevel(routeModule: AppRouteModule){
-  if(routeModule.meta.hideChildrenInMenu || (routeModule.children?.length||0)<=1){
-    routeModule.children=[omit(routeModule,'children')];
-    return;
-  }
-  let router: Router | null = createRouter({
-    routes: [routeModule as unknown as RouteRecordNormalized],
-    history: createWebHashHistory(),
-  });
-  // getRoutes： 获取所有 路由记录的完整列表。
-  const routes = router.getRoutes();
-  // 将所有子路由添加到二级路由
-  const children=routeModule.children;
-  routeModule.children=[];
-  getChildrenRoutes(routes, children || [],routeModule);
-  router = null;
-
-
-}
 
 // Add all sub-routes to the secondary route
 // 将所有子路由添加到二级路由
@@ -198,25 +158,6 @@ function addToChildren(
 }
 
 
-function getChildrenRoutes(
-    routes: RouteRecordNormalized[],
-    children: AppRouteRecordRaw[],
-    routeModule: AppRouteModule,){
-  let childrenRouts:AppRouteRecordRaw[] =[];
-  for (let index = 0; index < children.length; index++) {
-    const child = children[index];
-    const route = routes.find((item) => item.name === child.name);
-    if (!route) {
-      continue;
-    }
-    routeModule.children = routeModule.children || [];
-    if (child.children?.length && !child.meta.hideChildrenInMenu) {
-      getChildrenRoutes(routes, child.children,routeModule);
-    }else if(!childrenRouts.find((item) => item.name === route.name)) {
-      routeModule.children.push(route as unknown as AppRouteModule);
-    }
-  }
-}
 
 // Determine whether the level exceeds 2 levels
 // 判断级别是否超过2级

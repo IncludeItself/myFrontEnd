@@ -5,8 +5,8 @@
 
   <!--  </NLayoutSider>-->
   <n-layout-sider position="absolute" class="layout-sider" width="auto">
-    <div style="width: 80px">
-      <span >||This is Sider!!!!!This is Sider!!!!!This is Sider!!!!!This is Sider!!!!!</span>
+    <div>
+      <span >||This is Sider!!!!!2156666666688888</span>
     </div>
   </n-layout-sider>
 
