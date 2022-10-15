@@ -46,3 +46,10 @@ export interface BeforeMiniState {
   menuMode?: MenuModeEnum;
   menuType?: MenuTypeEnum;
 }
+
+export type MessageType = 'error' | 'info' | 'loading' | 'success' | 'warning';
+
+export interface NewMessage {
+  type:MessageType;
+  content:string
+}

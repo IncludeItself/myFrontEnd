@@ -1,6 +1,10 @@
 <template>
   <ConfigProvider>
-    <RouterView/>
+    <AppProvider>
+
+      <RouterView/>
+
+    </AppProvider>
 
 
   </ConfigProvider>
@@ -9,6 +13,7 @@
 
 <script setup lang="ts">
 import ConfigProvider from '@/components/Application/src/ConfigProvider.vue';
+import AppProvider from "@/components/Application/src/AppProvider.vue";
 
 import HelloWorld from './components/HelloWorld.vue';
 import {useDesignStore} from "@/store/modules/design";

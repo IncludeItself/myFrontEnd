@@ -3,25 +3,25 @@
 
 import type { AxiosResponse } from 'axios';
 import { clone } from 'lodash-es';
-import type { RequestOptions, Result } from '/#/axios';
+import type { RequestOptions, Result } from '#/axios';
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform';
 import { VAxios } from './Axios';
 import { checkStatus } from './checkStatus';
-import { useGlobSetting } from '/@/hooks/setting';
-import { useMessage } from '/@/hooks/web/useMessage';
-import { RequestEnum, ResultEnum, ContentTypeEnum } from '/@/enums/httpEnum';
-import { isString } from '/@/utils/is';
-import { getToken } from '/@/utils/auth';
-import { setObjToUrlParams, deepMerge } from '/@/utils';
-import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
-import { useI18n } from '/@/hooks/web/useI18n';
+import { useGlobSetting } from '@/hooks/setting';
+import { useNotification } from 'naive-ui';
+import { RequestEnum, ResultEnum, ContentTypeEnum } from '@/enums/httpEnum';
+import { isString } from '@/utils/is';
+import { getToken } from '@/utils/auth';
+import { setObjToUrlParams, deepMerge } from '@/utils';
+import { useErrorLogStoreWithOut } from '@/store/modules/errorLog';
+import { useI18n } from '@/hooks/web/useI18n';
 import { joinTimestamp, formatRequestDate } from './helper';
-import { useUserStoreWithOut } from '/@/store/modules/user';
-import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
+import { useUserStoreWithOut } from '@/store/modules/user';
+import { AxiosRetry } from '@/utils/http/axios/axiosRetry';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
-const { createMessage, createErrorModal } = useMessage();
+const  createNotification  = useNotification();
 
 /**
  * @description: 数据处理，方便区分多种处理方式
@@ -77,9 +77,9 @@ const transform: AxiosTransform = {
     // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
     // errorMessageMode='none' 一般是调用时明确表示不希望自动弹出错误提示
     if (options.errorMessageMode === 'modal') {
-      createErrorModal({ title: t('sys.api.errorTip'), content: timeoutMsg });
+      createNotification.error({ title: t('sys.api.errorTip'), content: timeoutMsg });
     } else if (options.errorMessageMode === 'message') {
-      createMessage.error(timeoutMsg);
+      createNotification.info({content:timeoutMsg});
     }
 
     throw new Error(timeoutMsg || t('sys.api.apiRequestFailed'));
@@ -179,9 +179,9 @@ const transform: AxiosTransform = {
 
       if (errMessage) {
         if (errorMessageMode === 'modal') {
-          createErrorModal({ title: t('sys.api.errorTip'), content: errMessage });
+          createNotification.error({ title: t('sys.api.errorTip'), content: errMessage });
         } else if (errorMessageMode === 'message') {
-          createMessage.error(errMessage);
+          createNotification.error({content:errMessage});
         }
         return Promise.reject(error);
       }
