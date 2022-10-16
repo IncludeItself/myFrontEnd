@@ -22,8 +22,6 @@ import {defineComponent} from 'vue';
 import LayoutHeader from './header/index.vue';
 import LayoutContent from './content/index.vue';
 import LayoutSideBar from './sider/index.vue';
-
-// import {useMenuSetting} from '@/hooks/setting/useMenuSetting';
 import {useLockPage} from '@/hooks/web/useLockPage';
 
 export default defineComponent({

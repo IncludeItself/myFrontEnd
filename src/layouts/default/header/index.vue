@@ -14,12 +14,10 @@
 </template>
 
 <script>
-import {computed, defineComponent} from 'vue';
+import { defineComponent} from 'vue';
 import {AppLocalePicker, AppThemeToggle} from "@/components/Application";
-// import {MiniMenu} from '@/components/Menu';
 import {NLayoutHeader, NButton} from 'naive-ui';
 import { createAsyncComponent } from '@/utils/factory/createAsyncComponent';
-// import {useHeaderSetting} from "@/hooks/setting/useHeaderSetting.js";
 
 export default defineComponent({
   name: "LayoutHeader",

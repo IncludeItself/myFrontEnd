@@ -1,5 +1,5 @@
 import type { ErrorMessageMode } from '#/axios';
-import { useNotification } from 'naive-ui';
+import {useMessageWithOut as useMessage} from "@/store/modules/message";
 import { useI18n } from '@/hooks/web/useI18n';
 // import router from '/@/router';
 // import { PageEnum } from '/@/enums/pageEnum';
@@ -7,7 +7,7 @@ import { useUserStoreWithOut } from '@/store/modules/user';
 import projectSetting from '@/settings/projectSetting';
 import { SessionTimeoutProcessingEnum } from '@/enums/appEnum';
 
-const createNotification = useNotification();
+const createNotification = useMessage();
 const stp = projectSetting.sessionTimeoutProcessing;
 
 export function checkStatus(

@@ -23,9 +23,9 @@ export function createParamMenuGuard(router: Router) {
 
     let menus: Menu[] = [];
     if (isBackMode()) {
-      // menus = permissionStore.getBackMenuList;
-    // } else if (isRouteMappingMode()) {
-    } else if (true) {
+      menus = permissionStore.getBackMenuList;
+    } else if (isRouteMappingMode()) {
+    // } else if (true) {
       menus = permissionStore.getFrontMenuList;
     }
     menus.forEach((item) => configureDynamicParamsMenu(item, to.params));

@@ -1,41 +1,65 @@
-import {NewMessage} from "#/store";
-
 import { defineStore } from 'pinia';
 import { store } from '@/store';
+import type {MessageOptions, MessageType, NotificationOptions} from "naive-ui";
+import {VNodeChild} from "vue";
+import {MessageApiInjection} from "naive-ui/es/message/src/MessageProvider";
+import {NotificationApiInjection} from "naive-ui/es/notification/src/NotificationProvider";
 
-import { LOCALE_KEY } from '@/enums/cacheEnum';
-import { createLocalStorage } from '@/utils/cache';
-import {DATELOCALE, LOCALE, localeSetting} from '@/settings/localeSetting';
-import {dateEnUS, enUS, NDateLocale, NLocale} from "naive-ui";
-
-const ls = createLocalStorage();
-
-// const lsLocaleSetting = (ls.get(LOCALE_KEY) || localeSetting) as LocaleSetting;
 
 interface MessageState {
-  newMessage:NewMessage
-
+  messageFn:MessageApiInjection|null;
+  notificationFn:NotificationApiInjection|null;
 }
 
-export const useMessageStore = defineStore('app-message',{
+export const useMessage = defineStore('app-message',{
   state: (): MessageState => ({
-    newMessage:{} as NewMessage
+    messageFn:null,
+    notificationFn:null
   }),
-  getters: {
-    getNewMessage():NewMessage{
-      return this.newMessage;
-    }
-
-  },
+  // getters: {
+  //   getMessageFn():MessageFn{
+  //     return this.messageFn;
+  //   }
+  //
+  // },
   actions: {
-    setNewMessage(msg:NewMessage){
-      this.newMessage=msg;
+    setMessageFn(fn:MessageApiInjection){
+      this.messageFn=fn;
+    },
+    setNotificationFn(fn:NotificationApiInjection){
+      this.notificationFn=fn;
+    },
+    error(opt:NotificationOptions){
+      if(this.notificationFn){
+        this.notificationFn['error'](opt);
+      }
+
+    },
+    info(opt:NotificationOptions){
+      if(this.notificationFn) {
+        this.notificationFn['info'](opt);
+      }
+    },
+    loading(content: string | (() => VNodeChild), option?: MessageOptions){
+      if(this.messageFn) {
+        this.messageFn['loading'](content, option);
+      }
+    },
+    success(opt:NotificationOptions){
+      if(this.notificationFn) {
+        this.notificationFn['success'](opt);
+      }
+    },
+    warning(opt:NotificationOptions){
+      if(this.notificationFn) {
+        this.notificationFn['warning'](opt);
+      }
     }
 
   },
 });
 
 // Need to be used outside the setup
-export function useLocaleStoreWithOut() {
-  return useMessageStore(store);
+export function useMessageWithOut() {
+  return useMessage(store);
 }

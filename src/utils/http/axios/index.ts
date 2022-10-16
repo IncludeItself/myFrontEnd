@@ -8,7 +8,7 @@ import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform';
 import { VAxios } from './Axios';
 import { checkStatus } from './checkStatus';
 import { useGlobSetting } from '@/hooks/setting';
-import { useNotification } from 'naive-ui';
+import {useMessage} from "@/store/modules/message";
 import { RequestEnum, ResultEnum, ContentTypeEnum } from '@/enums/httpEnum';
 import { isString } from '@/utils/is';
 import { getToken } from '@/utils/auth';
@@ -21,7 +21,7 @@ import { AxiosRetry } from '@/utils/http/axios/axiosRetry';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
-const  createNotification  = useNotification();
+const  createNotification  = useMessage();
 
 /**
  * @description: 数据处理，方便区分多种处理方式

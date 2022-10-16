@@ -1,7 +1,7 @@
 <template>
   <n-loading-bar-provider>
     <n-dialog-provider>
-      <DialogContent />
+<!--      <DialogContent />-->
       <n-notification-provider>
         <n-message-provider>
           <MessageContent />
@@ -20,7 +20,7 @@ import {
   NMessageProvider,
   NLoadingBarProvider,
 } from 'naive-ui';
-
+import MessageContent from './MessageContent.vue';
 
 export default defineComponent({
   name: 'Application',
@@ -29,7 +29,7 @@ export default defineComponent({
     NNotificationProvider,
     NMessageProvider,
     NLoadingBarProvider,
-
+    MessageContent
   },
   setup() {
     return {};

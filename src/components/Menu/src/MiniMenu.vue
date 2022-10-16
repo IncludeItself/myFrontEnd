@@ -33,6 +33,7 @@ export default defineComponent({
   setup() {
     const menus = permissionStore.getFlattedMenu;
 
+
     return {
       t,
       menus,

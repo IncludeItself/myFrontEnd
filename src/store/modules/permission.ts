@@ -13,7 +13,7 @@ import {PermissionModeEnum} from '@/enums/appEnum';
 import {asyncRoutes} from '@/router/routes';
 import {ERROR_LOG_ROUTE, PAGE_NOT_FOUND_ROUTE} from '@/router/routes/basic';
 import {filter} from '@/utils/helper/treeHelper';
-import {useMessage} from 'naive-ui'
+import {useMessage} from "@/store/modules/message";
 import {getMenuList} from '@/api/sys/menu';
 import {getPermCode} from '@/api/sys/user';
 
@@ -243,11 +243,13 @@ export const usePermissionStore = defineStore({
                     // Dynamically introduce components
                     // 动态引入组件
                     routeList = transformObjToRoute(routeList);
-
                     //  Background routing to menu structure
                     //  后台路由到菜单结构
                     const backMenuList = transformRouteToMenu(routeList);
                     this.setBackMenuList(backMenuList);
+
+                    //变形成二级菜单，只要Category和末级菜单
+                    this.setFlattedMenu(flatMenuList(backMenuList));
 
                     // remove meta.ignoreRoute item
                     // 删除 meta.ignoreRoute 项
