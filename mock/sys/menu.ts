@@ -263,7 +263,6 @@ export default [
         default:
           menu = [];
       }
-
       return resultSuccess(menu);
     },
   },

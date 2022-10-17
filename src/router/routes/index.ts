@@ -41,7 +41,6 @@ export const LoginRoute: AppRouteRecordRaw = {
 // Basic routing without permission
 // 未经许可的基本路由
 export const basicRoutes = [
-    // ...asyncRoutes,  //吴鑫峰加的
     LoginRoute,
     RootRoute,
     ...mainOutRoutes,

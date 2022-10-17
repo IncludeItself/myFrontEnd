@@ -10,7 +10,7 @@ export type Component<T = any> =
 
 export interface AppRouteRecordRaw extends Omit<RouteRecordRaw, 'children'> {//吴鑫峰改过
   name: string;
-  meta?: RouteMeta;
+  meta: RouteMeta;
   component?: Component | string;
   components?: Component;
   children?: AppRouteRecordRaw[];

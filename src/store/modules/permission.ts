@@ -214,7 +214,6 @@ export const usePermissionStore = defineStore({
 
                     // Convert multi-level routing to level 2 routing
                     // 将多级路由转换为 2 级路由
-                    // routes = flatMultiLevelRoutes(routes);//吴鑫峰改了，改成了下面这一行
                     routes = flatMultiLevelRoutes(routes);
 
                     break;
