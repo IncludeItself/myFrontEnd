@@ -38,8 +38,6 @@ const hasChildren = (route: Menu): Boolean => {
 
 const handleClick = (path: string) => {
   go(path);
-  // go('/about');
-  // console.log("path",path);
 };
 
 </script>
