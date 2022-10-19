@@ -16,10 +16,10 @@ export function createParamMenuGuard(router: Router) {
     }
 
     // menu has been built.
-    // if (!permissionStore.getIsDynamicAddedRoute) {
-    //   next();
-    //   return;
-    // }
+    if (!permissionStore.getIsDynamicAddedRoute) {
+      next();
+      return;
+    }
 
     let menus: Menu[] = [];
     if (isBackMode()) {

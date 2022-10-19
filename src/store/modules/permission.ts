@@ -204,7 +204,6 @@ export const usePermissionStore = defineStore({
                     menuList.sort((a, b) => {
                         return (a.meta?.orderNo as number || 0) - (b.meta?.orderNo as number || 0);
                     });
-
                     // 设置菜单列表
                     this.setFrontMenuList(menuList);
 

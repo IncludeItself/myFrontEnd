@@ -4,10 +4,8 @@
   <!--    <div>asdfasdf</div>-->
 
   <!--  </NLayoutSider>-->
-  <n-layout-sider position="absolute" class="layout-sider" width="auto">
-    <div>
-      <span >||This is Sider!!!!!2156666666688888</span>
-    </div>
+  <n-layout-sider position="absolute" class="layout-sider" width="auto" bordered>
+    <SideMenu/>
   </n-layout-sider>
 
 </template>
@@ -15,10 +13,11 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {NLayoutSider} from 'naive-ui'
+import SideMenu from "@/components/Menu/src/SideMenu.vue";
 
 export default defineComponent({
   name: "SiderWrapper",
-  components: {NLayoutSider},
+  components: {SideMenu, NLayoutSider},
   setup() {
     return {};
   }

@@ -46,11 +46,13 @@ export function transformRouteToMenu(routeModList: AppRouteModule[], routerMappi
   // 借助 lodash 深拷贝
   const cloneRouteModList = cloneDeep(routeModList);
   const routeList: AppRouteRecordRaw[] = [];
+
   // 对路由项进行修改
   cloneRouteModList.forEach((item) => {
     if (routerMapping && item.meta.hideChildrenInMenu && typeof item.redirect === 'string') {
       item.path = item.redirect;
     }
+
     if (item.meta?.single) {
       const realItem = item?.children?.[0];
       realItem && routeList.push(realItem);
@@ -58,11 +60,11 @@ export function transformRouteToMenu(routeModList: AppRouteModule[], routerMappi
       routeList.push(item);
     }
   });
-
   // 提取树指定结构
   const list = treeMap(routeList, {
     conversion: (node: AppRouteRecordRaw) => {
       const { meta: { title, hideMenu = false } = {} } = node;
+
       return {
         ...(node.meta || {}),
         meta: node.meta,
@@ -73,7 +75,6 @@ export function transformRouteToMenu(routeModList: AppRouteModule[], routerMappi
       };
     },
   });
-
   // 路径处理
   joinParentPath(list);
   return cloneDeep(list);
@@ -106,13 +107,14 @@ export function configureDynamicParamsMenu(menu: Menu, params: RouteParams) {
 
 
 export function flatMenuList(menuList:AppRouteRecordRaw[]):Menu[]{
-  for(let i=0;i<menuList.length;i++){
-    if(menuList[i].meta.hideChildrenInMenu){
-      menuList[i]=omit(menuList[i],'children');
+  const flattedMenuList=cloneDeep(menuList);
+  for(let i=0;i<flattedMenuList.length;i++){
+    if(flattedMenuList[i].meta.hideChildrenInMenu){
+      flattedMenuList[i]=omit(flattedMenuList[i],'children');
     }else{
-      menuList[i].children=treeFootToList(menuList[i].children);
+      flattedMenuList[i].children=treeFootToList(flattedMenuList[i].children);
     }
 
   }
-  return menuList;
+  return flattedMenuList;
 }
