@@ -4,6 +4,7 @@
     <br />
     <NInput />
     <NButton @click="handleClick">点我showMessage</NButton>
+    <Icon icon="ant-design:login-outlined" size="50px"/>
 
   </div>
 </template>
@@ -11,10 +12,11 @@
   import { defineComponent } from 'vue';
   import { NInput ,NButton,NIcon} from 'naive-ui';
   import {useMessage} from "@/store/modules/message";
+  import Icon from "@/components/Icon";
   const createMessage=useMessage();
   export default defineComponent({
     name: 'Menu2Demo',
-    components: { NInput,NButton,NIcon },
+    components: {Icon, NInput,NButton,NIcon },
     setup(){
       // const useMessage=window['$message'];
       const handleClick=()=>{

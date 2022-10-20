@@ -1,121 +1,54 @@
 <template>
-  <SvgIcon
-    :size="size"
-    :name="getSvgIcon"
-    v-if="isSvgIcon"
-    :class="[$attrs.class, 'anticon']"
-    :spin="spin"
-  />
-  <span
-    v-else
-    ref="elRef"
-    :class="[$attrs.class, 'app-iconify anticon', spin && 'app-iconify-spin']"
-    :style="getWrapStyle"
-  ></span>
+  <span :style="{ fontSize: size }">
+    <span ref="elRef" class="iconify m-iconify"></span>
+  </span>
 </template>
+
 <script lang="ts">
-  import type { PropType } from 'vue';
-  import {
-    defineComponent,
-    ref,
-    watch,
-    onMounted,
-    nextTick,
-    unref,
-    computed,
-    CSSProperties,
-  } from 'vue';
-  import SvgIcon from './SvgIcon.vue';
-  import Iconify from '@purge-icons/generated';
-  import { isString } from '@/utils/is';
-  import { propTypes } from '@/utils/propTypes';
+import {defineComponent, nextTick, onMounted, ref, unref, watch} from 'vue';
+import Iconify from '@purge-icons/generated';
 
-  const SVG_END_WITH_FLAG = '|svg';
-  export default defineComponent({
-    name: 'Icon',
-    components: { SvgIcon },
-    props: {
-      // icon name
-      icon: propTypes.string,
-      // icon color
-      color: propTypes.string,
-      // icon size
-      size: {
-        type: [String, Number] as PropType<string | number>,
-        default: 16,
-      },
-      spin: propTypes.bool.def(false),
-      prefix: propTypes.string.def(''),
-    },
-    setup(props) {
-      const elRef = ref<ElRef>(null);
+export default defineComponent({
+  name: 'Icon',
+  props: {
+    icon: { type: String, required: true },
+    size: { type: String, default: '18' },
+  },
 
-      const isSvgIcon = computed(() => props.icon?.endsWith(SVG_END_WITH_FLAG));
-      const getSvgIcon = computed(() => props.icon.replace(SVG_END_WITH_FLAG, ''));
-      const getIconRef = computed(() => `${props.prefix ? props.prefix + ':' : ''}${props.icon}`);
+  setup(props) {
+    const elRef = ref<ElRef>(null);
 
-      const update = async () => {
-        if (unref(isSvgIcon)) return;
+    const update = async () => {
 
-        const el = unref(elRef);
-        if (!el) return;
+      const el = unref(elRef);
+      if (!el) return;
 
-        await nextTick();
-        const icon = unref(getIconRef);
-        if (!icon) return;
+      await nextTick();
 
-        const svg = Iconify.renderSVG(icon, {});
-        if (svg) {
-          el.textContent = '';
-          el.appendChild(svg);
-        } else {
-          const span = document.createElement('span');
-          span.className = 'iconify';
-          span.dataset.icon = icon;
-          el.textContent = '';
-          el.appendChild(span);
-        }
-      };
-
-      const getWrapStyle = computed((): CSSProperties => {
-        const { size, color } = props;
-        let fs = size;
-        if (isString(size)) {
-          fs = parseInt(size, 10);
-        }
-
-        return {
-          fontSize: `${fs}px`,
-          color: color,
-          display: 'inline-flex',
-        };
-      });
-
-      watch(() => props.icon, update, { flush: 'post' });
-
-      onMounted(update);
-
-      return { elRef, getWrapStyle, isSvgIcon, getSvgIcon };
-    },
-  });
-</script>
-<style lang="less">
-  .app-iconify {
-    display: inline-block;
-    // vertical-align: middle;
-
-    &-spin {
-      svg {
-        animation: loadingCircle 1s infinite linear;
+      const svg = Iconify.renderSVG(props.icon, {});
+      if (svg) {
+        el.textContent = '';
+        el.appendChild(svg);
+      } else {
+        const span = document.createElement('span');
+        span.className = 'iconify';
+        span.dataset.icon = props.icon;
+        el.textContent = '';
+        el.appendChild(span);
       }
-    }
-  }
+    };
 
-  span.iconify {
-    display: block;
-    min-width: 1em;
-    min-height: 1em;
-    background-color: @iconify-bg-color;
-    border-radius: 100%;
-  }
+    watch(() => props.icon, update, { flush: 'post' });
+
+    onMounted(update);
+
+    return {elRef};
+  },
+});
+</script>
+
+<style scoped lang="less">
+.m-iconify {
+  vertical-align: middle;
+}
 </style>
