@@ -20,16 +20,18 @@ export function createPermissionGuard(router: Router) {
   const permissionStore = usePermissionStoreWithOut();
   router.beforeEach(async (to, from, next) => {
     if (
-      from.path === ROOT_PATH &&
-      to.path === PageEnum.BASE_HOME &&
-      userStore.getUserInfo.homePath &&
-      userStore.getUserInfo.homePath !== PageEnum.BASE_HOME
+        from.path === ROOT_PATH &&
+        to.path === PageEnum.BASE_HOME &&
+        userStore.getUserInfo.homePath &&
+        userStore.getUserInfo.homePath !== PageEnum.BASE_HOME
     ) {
       next(userStore.getUserInfo.homePath);
       return;
     }
 
     const token = userStore.getToken;
+
+
     // Whitelist can be directly entered
     if (whitePathList.includes(to.path as PageEnum)) {
       if (to.path === LOGIN_PATH && token) {
@@ -45,6 +47,7 @@ export function createPermissionGuard(router: Router) {
       next();
       return;
     }
+
     // token does not exist
     if (!token) {
       // You can access without permission. You need to set the routing meta.ignoreAuth to true
@@ -70,9 +73,9 @@ export function createPermissionGuard(router: Router) {
 
     // Jump to the 404 page after processing the login
     if (
-      from.path === LOGIN_PATH &&
-      to.name === PAGE_NOT_FOUND_ROUTE.name &&
-      to.fullPath !== (userStore.getUserInfo.homePath || PageEnum.BASE_HOME)
+        from.path === LOGIN_PATH &&
+        to.name === PAGE_NOT_FOUND_ROUTE.name &&
+        to.fullPath !== (userStore.getUserInfo.homePath || PageEnum.BASE_HOME)
     ) {
       next(userStore.getUserInfo.homePath || PageEnum.BASE_HOME);
       return;
@@ -97,6 +100,7 @@ export function createPermissionGuard(router: Router) {
     routes.forEach((route) => {
       router.addRoute(route as unknown as RouteRecordRaw);
     });
+
     router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw);
 
     permissionStore.setDynamicAddedRoute(true);
