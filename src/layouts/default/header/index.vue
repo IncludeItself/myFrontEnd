@@ -1,7 +1,7 @@
 <template>
 
 
-  <n-layout-header class="layout-header" position="absolute">
+  <n-layout-header class="layout-header" position="absolute" bordered>
 
     <MiniMenu class="miniMenu"/>
     <AppLocalePicker class="locale-picker"/>

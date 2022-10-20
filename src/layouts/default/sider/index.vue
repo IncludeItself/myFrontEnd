@@ -1,10 +1,12 @@
 <template>
-  <!--  <NLayoutSider class="layout-sider" :inverted="true" width="50px">-->
-
-  <!--    <div>asdfasdf</div>-->
-
-  <!--  </NLayoutSider>-->
-  <n-layout-sider position="absolute" class="layout-sider" width="auto" bordered>
+  <n-layout-sider
+      position="absolute"
+      class="layout-sider"
+      width="auto"
+      bordered
+      :native-scrollbar="false"
+      :inverted="true"
+  >
     <SideMenu/>
   </n-layout-sider>
 
@@ -31,6 +33,7 @@ export default defineComponent({
   position: relative;
   transition: all 0.2s ease-in-out;
   padding-top: 35px;
+  box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
 }
 
 </style>

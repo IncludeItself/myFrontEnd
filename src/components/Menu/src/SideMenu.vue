@@ -6,8 +6,12 @@
       :render-icon="renderIcon"
       :key="path"
       key-field="path"
-      :collapsed-icon-size="24"
+      :collapsed-width="64"
+      :collapsed-icon-size="20"
+      :indent="24"
       :on-update:value="handleChanged"
+      mode="vertical"
+      :inverted="true"
 
   />
 </template>
@@ -18,11 +22,13 @@ import {usePermissionStore} from "@/store/modules/permission";
 import {useI18n} from "@/hooks/web/useI18n";
 import {NMenu} from 'naive-ui';
 import {useGo} from "@/hooks/web/usePage";
+import Icon from "@/components/Icon";
+import {useAppStore} from "@/store/modules/app";
 const {t} =useI18n();
 
 export default defineComponent({
   name: "SideMenu",
-  components:{NMenu},
+  components:{NMenu,Icon},
   setup() {
     let selectedKdy='';
     const permissionStore=usePermissionStore();
@@ -31,7 +37,7 @@ export default defineComponent({
       return t(option.meta.title);
     };
     const renderIcon=(option)=>{
-      return null;
+      return h(Icon,{icon:option.meta.icon});
     };
 
     const go = useGo();
@@ -54,6 +60,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+  //.menuItemCls{
+  //  display: block;
+  //  height: 1040px;
+  //}
 </style>

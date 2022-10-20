@@ -1,5 +1,5 @@
 <template>
-  <n-layout-content class="layout-content">
+  <n-layout-content class="layout-content" :native-scrollbar="false">
     <div class="layout-content-main">
       <div class="main-view">
 <!--        <div v-for="a in 1000">-->

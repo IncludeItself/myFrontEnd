@@ -4,6 +4,7 @@ import {setupStore} from "@/store";
 import {setupI18n} from "@/locales/setupI18n";
 import {router, setupRouter} from '@/router';
 import {setupRouterGuard} from "@/router/guard";
+import '@purge-icons/generated';
 
 async function bootstrap() {
     const app = createApp(App);
