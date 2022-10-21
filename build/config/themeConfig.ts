@@ -1,6 +1,6 @@
 export const primaryColor = '#46ff08';
 
-export const theme = 'lightTheme';
+export const darkTheme = false;
 
 // type Fn = (...arg: any) => any;
 //

@@ -17,7 +17,7 @@ export const LOCK_INFO_KEY = 'LOCK__INFO__KEY__';
 
 export const MULTIPLE_TABS_KEY = 'MULTIPLE_TABS__KEY__';
 
-export const APP_THEME_KEY = '__APP_THEME_KEY__';
+export const APP_DARKTHEME_KEY = '__APP_THEME_KEY__';
 
 export const APP_THEMEOVERRIDES_KEY = '__APP_THEMEOVERRIDES_KEY__';
 

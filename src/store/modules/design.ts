@@ -3,9 +3,9 @@ import {designSetting} from '#/config';
 import {defineStore} from 'pinia';
 import {store} from '@/store';
 
-import {APP_THEME_KEY, APP_THEMEOVERRIDES_KEY} from '@/enums/cacheEnum';
+import {APP_DARKTHEME_KEY, APP_THEMEOVERRIDES_KEY} from '@/enums/cacheEnum';
 import {createLocalStorage} from '@/utils/cache';
-import {PrimaryColor, Theme} from '@/settings/designSetting';
+import {PrimaryColor, DarkTheme} from '@/settings/designSetting';
 import {ThemeEnum} from "@/enums/appEnum";
 import {lighten} from "@/utils/color";
 import {deepMerge} from "@/utils";
@@ -13,22 +13,22 @@ import {darkTheme, GlobalTheme, lightTheme} from "naive-ui";
 
 const ls = createLocalStorage();
 
-const acheTheme = ls.get(APP_THEME_KEY) || Theme;
+const acheTheme = ls.get(APP_DARKTHEME_KEY) || DarkTheme;
 const themeOverrides=ls.get(APP_THEMEOVERRIDES_KEY);
 
 interface DesignState{
-  theme:ThemeEnum
+  darkTheme:Boolean,
   themeOverrides: designSetting;
 }
 
 export const useDesignStore = defineStore('app-design',{
   state: (): DesignState => ({
-    theme:acheTheme||ThemeEnum.LIGHT,
+    darkTheme:acheTheme||false,
     themeOverrides
   }),
   getters: {
-    getTheme(): ThemeEnum {
-      return this.theme;
+    getDarkTheme(): Boolean {
+      return this.darkTheme;
     },
     getThemeOverrides(): designSetting {
       if(this.themeOverrides?.common?.primaryColor){
@@ -47,15 +47,15 @@ export const useDesignStore = defineStore('app-design',{
       return deepMerge(this.themeOverrides||{},defaultOverrides);
     },
     getNaiveTheme():GlobalTheme{
-      return this.theme==ThemeEnum.LIGHT?lightTheme:darkTheme;
+      return this.darkTheme?darkTheme:lightTheme;
     }
 
   },
   actions: {
 
-    setTheme(theme: ThemeEnum) {
-      this.theme = theme;
-      ls.set(APP_THEME_KEY, this.theme);
+    setDarkTheme(theme: Boolean) {
+      this.darkTheme = theme;
+      ls.set(APP_DARKTHEME_KEY, this.darkTheme);
     },
     setThemeOverrides(change:Partial<designSetting>){
       this.themeOverrides=deepMerge(this.themeOverrides,change);

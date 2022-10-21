@@ -27,10 +27,10 @@ const designStore = useDesignStoreWithOut();
 
 const isDarkTheme = computed({
   get() {
-    return designStore.getTheme === ThemeEnum.DARK;
+    return designStore.getDarkTheme;
   },
   set(th) {
-    designStore.setTheme(th ? ThemeEnum.DARK : ThemeEnum.LIGHT);
+    designStore.setDarkTheme(th);
   }
 });
 

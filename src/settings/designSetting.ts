@@ -1,11 +1,11 @@
 import { ThemeEnum } from '@/enums/appEnum';
-import {theme} from "../../build/config/themeConfig";
+import {darkTheme} from "../../build/config/themeConfig";
 
 import { primaryColor } from '../../build/config/themeConfig';
 
 // export const prefixCls = 'vben';
 
-export const Theme = theme;
+export const DarkTheme = darkTheme;
 export const PrimaryColor=primaryColor;
 
 // app theme preset color
