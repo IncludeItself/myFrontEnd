@@ -1,5 +1,6 @@
 <template>
-  <AppThemeToggle/>
+  <AppThemeToggle class="mx-auto"/>
+  <SwitchItem ref="" :event="HandlerEnum.CHANGE_THEME" :title="t('layout.setting.sysTheme')"/>
   <SwitchItem :event="HandlerEnum.CHANGE_THEME" :title="t('layout.setting.sysTheme')"/>
 
 

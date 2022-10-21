@@ -13,6 +13,7 @@
       mode="vertical"
       :inverted="true"
       style="overflow: hidden"
+      dropdown-props=""
 
   />
 </template>
