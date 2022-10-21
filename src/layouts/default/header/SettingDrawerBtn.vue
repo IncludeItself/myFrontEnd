@@ -9,9 +9,9 @@
     <span>项目配置</span>
   </n-tooltip>
 
-  <n-drawer v-model:show="isDrawer" :width="width" :placement="placement">
+  <n-drawer v-model:show="isDrawer" >
     <n-drawer-content :title="title" :native-scrollbar="false">
-      <Setting/>
+      <AppSettings/>
     </n-drawer-content>
   </n-drawer>
 </div>
@@ -19,13 +19,13 @@
 
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
-import Setting from "../setting/components/AppSettings.vue";
+import AppSettings from "../setting/components/AppSettings.vue";
 import {NDrawer,NDrawerContent,NIcon,NTooltip} from 'naive-ui';
 import {SettingsOutline} from '@vicons/ionicons5';
 
 export default defineComponent({
   name: "SettingDrawerBtn",
-  components: {Setting,NDrawer,NDrawerContent,NIcon,NTooltip,SettingsOutline},
+  components: {AppSettings,NDrawer,NDrawerContent,NIcon,NTooltip,SettingsOutline},
   props: {
     title: {
       type: String,

@@ -5,6 +5,11 @@
     <NInput />
     <NButton @click="handleClick">点我showMessage</NButton>
     <Icon icon="ant-design:login-outlined" size="50px"/>
+    <div style="height: 100px;width: 200px;background-color: #535bf2" >
+      <div class="mx-auto" style="height: 10px;width: 20px;background-color: blueviolet">
+        <n-button >ytyt</n-button>
+      </div>
+    </div>
 
   </div>
 </template>

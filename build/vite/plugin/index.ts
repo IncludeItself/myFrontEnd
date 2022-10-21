@@ -1,11 +1,12 @@
-import { PluginOption } from 'vite';
+import {PluginOption} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 
 import purgeIcons from 'vite-plugin-purge-icons';
+import windiCSS from 'vite-plugin-windicss';
 import VitePluginCertificate from 'vite-plugin-mkcert';
 import vueSetupExtend from 'vite-plugin-vue-setup-extend';
-import { configMockPlugin } from './mock';
+import {configMockPlugin} from './mock';
 
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
@@ -29,15 +30,14 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
         // }),
     ];
 
-
+    // vite-plugin-windicss
+    vitePlugins.push(windiCSS());
 
     // vite-plugin-mock
     VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild));
 
     // vite-plugin-purge-icons
     vitePlugins.push(purgeIcons());
-
-
 
 
     return vitePlugins;

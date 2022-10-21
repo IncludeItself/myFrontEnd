@@ -1,9 +1,16 @@
 <template>
-  <AppThemeToggle class="mx-auto"/>
-  <SwitchItem ref="" :event="HandlerEnum.CHANGE_THEME" :title="t('layout.setting.sysTheme')"/>
-  <SwitchItem :event="HandlerEnum.CHANGE_THEME" :title="t('layout.setting.sysTheme')"/>
+  <div style="height: 100px;width: 200px;background-color: #535bf2" >
 
+    <SwitchItem class="mx-auto" ref="" :event="HandlerEnum.CHANGE_THEME" :title="t('layout.setting.sysTheme')"/>
+    <SwitchItem class="mx-auto" :event="HandlerEnum.CHANGE_THEME" :title="t('layout.setting.sysTheme')"/>
 
+    <div style="height: 100px;width: 200px;background-color: #535bf2" >
+
+        <AppThemeToggle class="mx-auto"/>
+
+    </div>
+
+  </div>
 </template>
 
 <script lang="ts">

@@ -7,8 +7,8 @@ import {useDesignStore} from "@/store/modules/design";
 
 export default defineComponent({
   name: "ConfigProvider",
-  components:{NConfigProvider},
-  setup(props,{slots}) {
+  components: {NConfigProvider},
+  setup(props, {slots}) {
 
     const localStore = useLocaleStore();
     const designStore = useDesignStore();
@@ -21,8 +21,8 @@ export default defineComponent({
         "theme-overrides": designStore.getThemeOverrides
       }
     });
-    return ()=>{
-      return h(NConfigProvider,getBindValues.value,{default:()=>slots.default?.()})
+    return () => {
+      return h(NConfigProvider, getBindValues.value, {default: ()=> slots.default?.()})
     }
   }
 });
