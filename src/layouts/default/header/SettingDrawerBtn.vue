@@ -1,22 +1,20 @@
 <template>
-
-  <div @click="openDrawer">
-    <n-tooltip placement="bottom-end">
-      <template #trigger>
-        <n-icon size="18" style="font-weight: bold">
-          <SettingsOutline />
-        </n-icon>
-      </template>
-      <span>项目配置</span>
-    </n-tooltip>
-  </div>
+<div @click="openDrawer">
+  <n-tooltip placement="bottom-end">
+    <template #trigger>
+      <n-icon size="18" style="font-weight: bold">
+        <SettingsOutline/>
+      </n-icon>
+    </template>
+    <span>项目配置</span>
+  </n-tooltip>
 
   <n-drawer v-model:show="isDrawer" :width="width" :placement="placement">
     <n-drawer-content :title="title" :native-scrollbar="false">
       <Setting/>
     </n-drawer-content>
   </n-drawer>
-
+</div>
 </template>
 
 <script lang="ts">

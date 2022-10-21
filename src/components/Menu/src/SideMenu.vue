@@ -12,6 +12,7 @@
       :on-update:value="handleChanged"
       mode="vertical"
       :inverted="true"
+      style="overflow: hidden"
 
   />
 </template>

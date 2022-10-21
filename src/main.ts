@@ -5,6 +5,7 @@ import {setupI18n} from "@/locales/setupI18n";
 import {router, setupRouter} from '@/router';
 import {setupRouterGuard} from "@/router/guard";
 import '@purge-icons/generated';
+import {initAppConfigStore} from "@/logics/initAppConfig";
 
 async function bootstrap() {
     const app = createApp(App);
@@ -16,7 +17,7 @@ async function bootstrap() {
 
     // Initialize internal system configuration
     // 初始化内部系统配置
-    // initAppConfigStore();
+    initAppConfigStore();
 
     // Register global components
     // 注册全局组件

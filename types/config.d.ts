@@ -1,4 +1,5 @@
-import {RouterTransitionEnum, ThemeEnum} from "@/enums/appEnum";
+import { MenuTypeEnum, MenuModeEnum, TriggerEnum, MixSidebarTriggerEnum } from '@/enums/menuEnum';
+import {ContentEnum, RouterTransitionEnum, ThemeEnum} from "@/enums/appEnum";
 import {CacheTypeEnum} from "@/enums/cacheEnum";
 
 export type LocaleType = 'zhCN' | 'enUS' | 'ruRU' | 'jaJP' | 'koKR';

@@ -1,18 +1,11 @@
 <template>
-
-  <n-layout class="layout" position="absolute">
-    <LayoutHeader/>
-
-    <n-layout inverted has-sider style="width: 100vw" position="absolute">
-
-
-      <LayoutSideBar/>
-
-      <LayoutContent/>
+  <n-layout class="layout" position="absolute" has-sider>
+    <LayoutSideBar class="layout-sider"/>
+    <n-layout inverted>
+      <LayoutHeader/>
+      <LayoutContent class="layout-content"/>
     </n-layout>
   </n-layout>
-
-
 </template>
 
 <script lang="ts">
@@ -48,27 +41,35 @@ export default defineComponent({
 </script>
 
 <style lang="less">
+.layout-side-drawer {
+  background-color: rgb(0, 20, 40);
 
-
-.layout-sider {
-  min-height: 100vh;
-  box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
-  position: relative;
-  transition: all 0.2s ease-in-out;
+  .layout-sider {
+    min-height: 100vh;
+    box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
+    position: relative;
+    z-index: 13;
+    transition: all 0.2s ease-in-out;
+  }
 }
-
 </style>
 <style lang="less" scoped>
 .layout {
-  //display: flex;
-  //flex-direction: column;
-  //flex: auto;
-  //height: 100vh;
+  display: flex;
+  flex-direction: row;
+  flex: auto;
 
   &-default-background {
     background: #f5f7f9;
   }
 
+  .layout-sider {
+    min-height: 100vh;
+    box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
+    position: relative;
+    z-index: 13;
+    transition: all 0.2s ease-in-out;
+  }
 
   .layout-sider-fix {
     position: fixed;
@@ -89,9 +90,9 @@ export default defineComponent({
 
   .layout-content {
     flex: auto;
-    flex-direction: column;
     height: 100vh;
     padding-top: 35px;
+    margin: 0 0;
   }
 
   .n-layout-header.n-layout-header--absolute-positioned {
@@ -110,7 +111,7 @@ export default defineComponent({
 }
 
 .layout-content-main-fix {
-  padding-top: 64px;
+  //padding-top: 64px;
 }
 
 .fluid-header {

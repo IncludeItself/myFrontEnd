@@ -1,126 +1,100 @@
 <template>
   <n-layout-header bordered position="absolute" class="layout-header">
-<!--    <div >-->
-      <!--顶部菜单-->
-      <!--    <div-->
-      <!--        class="layout-header-left"-->
-      <!--        v-if="navMode === 'horizontal' || (navMode === 'horizontal-mix' && mixMenu)"-->
-      <!--    >-->
-      <!--      <div class="logo" v-if="navMode === 'horizontal'">-->
-      <!--        <img :src="websiteConfig.logo" alt="" />-->
-      <!--        <h2 v-show="!collapsed" class="title">{{ websiteConfig.title }}</h2>-->
-      <!--      </div>-->
-      <!--      <AsideMenu-->
-      <!--          v-model:collapsed="collapsed"-->
-      <!--          v-model:location="getMenuLocation"-->
-      <!--          :inverted="getInverted"-->
-      <!--          mode="horizontal"-->
-      <!--      />-->
-      <!--    </div>-->
-      <!--左侧菜单-->
-      <div class="layout-header-left">
-        <!-- 菜单收起 -->
-        <div
-            class="ml-1 layout-header-trigger layout-header-trigger-min"
-        >
-          <n-icon size="18" v-if="collapsed">
-            <MenuOutline/>
-          </n-icon>
-          <n-icon size="18" v-else>
-            <MenuOutline/>
-          </n-icon>
-        </div>
-        <!-- 刷新 -->
-        <div
-            class="mr-1 layout-header-trigger layout-header-trigger-min"
-            v-if="collapsed"
-        >
-          <n-icon size="18">
-            <ReloadOutline/>
-          </n-icon>
-        </div>
-        <!-- 面包屑 -->
-        <!--      <n-breadcrumb v-if="crumbsSetting.show">-->
-        <!--        <template v-for="routeItem in breadcrumbList" :key="routeItem.name">-->
-        <!--          <n-breadcrumb-item v-if="routeItem.meta.title">-->
-        <!--            <n-dropdown-->
-        <!--                v-if="routeItem.children.length"-->
-        <!--                :options="routeItem.children"-->
-        <!--                @select="dropdownSelect"-->
-        <!--            >-->
-        <!--              <span class="link-text">-->
-        <!--                <component-->
-        <!--                    v-if="crumbsSetting.showIcon && routeItem.meta.icon"-->
-        <!--                    :is="routeItem.meta.icon"-->
-        <!--                />-->
-        <!--                {{ routeItem.meta.title }}-->
-        <!--              </span>-->
-        <!--            </n-dropdown>-->
-        <!--            <span class="link-text" v-else>-->
-        <!--              <component-->
-        <!--                  v-if="crumbsSetting.showIcon && routeItem.meta.icon"-->
-        <!--                  :is="routeItem.meta.icon"-->
-        <!--              />-->
-        <!--              {{ routeItem.meta.title }}-->
-        <!--            </span>-->
-        <!--          </n-breadcrumb-item>-->
-        <!--        </template>-->
-        <!--      </n-breadcrumb>-->
+    <!--顶部菜单-->
+    <MiniMenu class="layout-header-left" v-if="getMenuMode === 'horizontal'"/>
+    <!--左侧菜单-->
+    <div class="layout-header-left">
+      <!-- 菜单收起 -->
+      <div
+          class="ml-1 layout-header-trigger layout-header-trigger-min"
+      >
+        <n-icon size="18" v-if="collapsed">
+          <MenuOutline/>
+        </n-icon>
+        <n-icon size="18" v-else>
+          <MenuOutline/>
+        </n-icon>
       </div>
-      <div class="layout-header-right">
-        <div
-            class="layout-header-trigger layout-header-trigger-min"
-        >
-          <n-tooltip placement="bottom">
-            <template #trigger>
-              <n-icon size="18">
-                <!--              <component :is="item.icon" v-on="item.eventObject || {}" />-->
-                <AmericanFootballOutline/>
-              </n-icon>
-            </template>
-            <span>item.tips</span>
-          </n-tooltip>
-        </div>
-        <!--切换全屏-->
-        <div class="layout-header-trigger layout-header-trigger-min">
-          <n-tooltip placement="bottom">
-            <template #trigger>
-              <n-icon size="18">
-                <!--              <component :is="fullscreenIcon" @click="toggleFullScreen" />-->
-                <AmericanFootballOutline/>
-              </n-icon>
-            </template>
-            <span>全屏</span>
-          </n-tooltip>
-        </div>
-        <!-- 个人中心 -->
-        <div class="layout-header-trigger layout-header-trigger-min">
-          <n-dropdown trigger="hover">
-            <div class="avatar">
-              <n-avatar round>
-                username
-                <template #icon>
-                  <AccessibilityOutline/>
-                </template>
-              </n-avatar>
-            </div>
-          </n-dropdown>
-        </div>
-        <!--设置-->
-        <div class="layout-header-trigger layout-header-trigger-min">
-          <n-tooltip placement="bottom-end">
-            <template #trigger>
-              <n-icon size="18" style="font-weight: bold">
-                <SettingsOutline/>
-              </n-icon>
-            </template>
-            <span>项目配置</span>
-          </n-tooltip>
-        </div>
+      <!-- 刷新 -->
+      <div
+          class="mr-1 layout-header-trigger layout-header-trigger-min"
+          v-if="collapsed"
+      >
+        <n-icon size="18">
+          <ReloadOutline/>
+        </n-icon>
       </div>
-<!--    </div>-->
-    <!--项目配置-->
-<!--    <ProjectSetting ref="drawerSetting"/>-->
+      <!-- 面包屑 -->
+      <!--      <n-breadcrumb v-if="crumbsSetting.show">-->
+      <!--        <template v-for="routeItem in breadcrumbList" :key="routeItem.name">-->
+      <!--          <n-breadcrumb-item v-if="routeItem.meta.title">-->
+      <!--            <n-dropdown-->
+      <!--                v-if="routeItem.children.length"-->
+      <!--                :options="routeItem.children"-->
+      <!--                @select="dropdownSelect"-->
+      <!--            >-->
+      <!--              <span class="link-text">-->
+      <!--                <component-->
+      <!--                    v-if="crumbsSetting.showIcon && routeItem.meta.icon"-->
+      <!--                    :is="routeItem.meta.icon"-->
+      <!--                />-->
+      <!--                {{ routeItem.meta.title }}-->
+      <!--              </span>-->
+      <!--            </n-dropdown>-->
+      <!--            <span class="link-text" v-else>-->
+      <!--              <component-->
+      <!--                  v-if="crumbsSetting.showIcon && routeItem.meta.icon"-->
+      <!--                  :is="routeItem.meta.icon"-->
+      <!--              />-->
+      <!--              {{ routeItem.meta.title }}-->
+      <!--            </span>-->
+      <!--          </n-breadcrumb-item>-->
+      <!--        </template>-->
+      <!--      </n-breadcrumb>-->
+    </div>
+    <div class="layout-header-right">
+      <div
+          class="layout-header-trigger layout-header-trigger-min"
+      >
+        <n-tooltip placement="bottom">
+          <template #trigger>
+            <n-icon size="18">
+              <!--              <component :is="item.icon" v-on="item.eventObject || {}" />-->
+              <AmericanFootballOutline/>
+            </n-icon>
+          </template>
+          <span>item.tips</span>
+        </n-tooltip>
+      </div>
+      <!--切换全屏-->
+      <div class="layout-header-trigger layout-header-trigger-min">
+        <n-tooltip placement="bottom">
+          <template #trigger>
+            <n-icon size="18">
+              <!--              <component :is="fullscreenIcon" @click="toggleFullScreen" />-->
+              <AmericanFootballOutline/>
+            </n-icon>
+          </template>
+          <span>全屏</span>
+        </n-tooltip>
+      </div>
+      <!-- 个人中心 -->
+      <div class="layout-header-trigger layout-header-trigger-min">
+        <n-dropdown trigger="hover">
+          <div class="avatar">
+            <n-avatar round>
+              username
+              <template #icon>
+                <AccessibilityOutline/>
+              </template>
+            </n-avatar>
+          </div>
+        </n-dropdown>
+      </div>
+
+      <!--设置-->
+      <SettingDrawerBtn class="layout-header-trigger layout-header-trigger-min"/>
+    </div>
   </n-layout-header>
 </template>
 
@@ -128,7 +102,7 @@
 import {defineComponent, reactive, toRefs, ref, computed, unref} from 'vue';
 import {useRouter, useRoute} from 'vue-router';
 // import components from './components';
-import {NTooltip, NDropdown, NAvatar,NLayoutHeader} from 'naive-ui';
+import {NTooltip, NDropdown, NAvatar, NLayoutHeader, NIcon} from 'naive-ui';
 import {useMessage} from "@/store/modules/message";
 // import { TABS_ROUTES } from '@/store/mutation-types';
 import {useUserStore} from '@/store/modules/user';
@@ -144,10 +118,15 @@ import {
   MenuOutline,
   AmericanFootballOutline
 } from '@vicons/ionicons5';
+import SettingDrawerBtn from "@/layouts/default/header/SettingDrawerBtn.vue";
+import MiniMenu from "@/components/Menu/src/MiniMenu.vue";
+import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 
 export default defineComponent({
   name: 'PageHeader',
   components: {
+    MiniMenu,
+    SettingDrawerBtn,
     SettingsOutline,
     NTooltip,
     AccessibilityOutline,
@@ -156,7 +135,8 @@ export default defineComponent({
     ReloadOutline,
     MenuOutline,
     AmericanFootballOutline,
-    NLayoutHeader
+    NLayoutHeader,
+    NIcon
   },
   props: {
     collapsed: {
@@ -167,6 +147,8 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const {getMenuMode}=useMenuSetting();
+
     // const userStore = useUserStore();
     // // const useLockscreen = useLockscreenStore();
     // const message = useMessage();
@@ -339,7 +321,8 @@ export default defineComponent({
     const collapsed = false;
 
     return {
-      collapsed
+      collapsed,
+      getMenuMode
       // ...toRefs(state),
       // iconList,
       // toggleFullScreen,
@@ -362,13 +345,13 @@ export default defineComponent({
 });
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .layout-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0;
-  height: 64px;
+  height: 35px;
   box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
   transition: all 0.2s ease-in-out;
   width: 100%;
@@ -382,8 +365,8 @@ export default defineComponent({
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 64px;
-      line-height: 64px;
+      height: 35px;
+      line-height: 35px;
       overflow: hidden;
       white-space: nowrap;
       padding-left: 10px;
@@ -420,7 +403,7 @@ export default defineComponent({
     .avatar {
       display: flex;
       align-items: center;
-      height: 64px;
+      height: 35px;
     }
 
     > * {
@@ -430,8 +413,8 @@ export default defineComponent({
 
   &-trigger {
     display: inline-block;
-    width: 64px;
-    height: 64px;
+    width: 35px;
+    height: 35px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -439,8 +422,8 @@ export default defineComponent({
     .n-icon {
       display: flex;
       align-items: center;
-      height: 64px;
-      line-height: 64px;
+      height: 35px;
+      line-height: 35px;
     }
 
     &:hover {
