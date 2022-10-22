@@ -93,7 +93,8 @@
       </div>
 
       <!--设置-->
-      <SettingDrawerBtn class="layout-header-trigger layout-header-trigger-min"/>
+<!--      <SettingDrawerBtn class="layout-header-trigger layout-header-trigger-min"/>-->
+      <SettingDrawer class="layout-header-trigger layout-header-trigger-min"/>
     </div>
   </n-layout-header>
 </template>
@@ -111,6 +112,7 @@ import {useUserStore} from '@/store/modules/user';
 // import { AsideMenu } from '@/layout/components/Menu';
 // import { useProjectSetting } from '@/hooks/setting/useProjectSetting';
 // import { websiteConfig } from '@/config/website.config';
+
 import {
   SettingsOutline,
   AccessibilityOutline,
@@ -118,15 +120,16 @@ import {
   MenuOutline,
   AmericanFootballOutline
 } from '@vicons/ionicons5';
-import SettingDrawerBtn from "@/layouts/default/header/SettingDrawerBtn.vue";
+// import SettingDrawerBtn from "@/layouts/default/header/SettingDrawerBtn.vue";
 import MiniMenu from "@/components/Menu/src/MiniMenu.vue";
 import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
+import {createAsyncComponent} from "@/utils/factory/createAsyncComponent";
 
 export default defineComponent({
   name: 'PageHeader',
   components: {
     MiniMenu,
-    SettingDrawerBtn,
+    // SettingDrawerBtn,
     SettingsOutline,
     NTooltip,
     AccessibilityOutline,
@@ -136,7 +139,8 @@ export default defineComponent({
     MenuOutline,
     AmericanFootballOutline,
     NLayoutHeader,
-    NIcon
+    NIcon,
+    SettingDrawer:createAsyncComponent(() => import('@/layouts/default/setting/index.vue'),{loading: true,})
   },
   props: {
     collapsed: {

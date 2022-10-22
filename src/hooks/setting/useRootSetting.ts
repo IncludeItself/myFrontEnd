@@ -3,6 +3,7 @@ import type { ProjectConfig } from '#/config';
 import { computed } from 'vue';
 
 import { useAppStore } from '@/store/modules/app';
+import {useDesignStore} from "@/store/modules/design";
 import { ContentEnum, ThemeEnum } from '@/enums/appEnum';
 
 type RootSetting = Omit<
@@ -12,7 +13,7 @@ type RootSetting = Omit<
 
 export function useRootSetting() {
   const appStore = useAppStore();
-
+  const designStore=useDesignStore();
   const getPageLoading = computed(() => appStore.getPageLoading);
 
   const getOpenKeepAlive = computed(() => appStore.getProjectConfig.openKeepAlive);
@@ -37,7 +38,7 @@ export function useRootSetting() {
 
   const getShowBreadCrumb = computed(() => appStore.getProjectConfig.showBreadCrumb);
 
-  // const getThemeColor = computed(() => appStore.getProjectConfig.themeColor);
+  const getThemeColor = computed(() => designStore.getThemeOverrides.common.primaryColor);
 
   const getShowBreadCrumbIcon = computed(() => appStore.getProjectConfig.showBreadCrumbIcon);
 
@@ -87,7 +88,7 @@ export function useRootSetting() {
     getShowFooter,
     getContentMode,
     getLockTime,
-    // getThemeColor,
+    getThemeColor,
     // getDarkMode,
     // setDarkMode,
     getShowDarkModeToggle,
