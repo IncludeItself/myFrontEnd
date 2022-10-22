@@ -17,7 +17,7 @@ export interface LocaleSetting {
     availableLocales: LocaleType[];
 }
 
-export interface designSetting{
+export interface ThemeOverrides{
     common: {
         primaryColor: string,
         primaryColorHover: string,
@@ -25,6 +25,9 @@ export interface designSetting{
     },
     LoadingBar: {
         colorLoading: string,
+    },
+    Layout:{
+        headerColor:string
     }
 }
 

@@ -6,7 +6,6 @@ import {store} from '@/store';
 import {APP_DARKTHEME_KEY, APP_THEMEOVERRIDES_KEY} from '@/enums/cacheEnum';
 import {createLocalStorage} from '@/utils/cache';
 import {PrimaryColor, DarkTheme} from '@/settings/designSetting';
-import {ThemeEnum} from "@/enums/appEnum";
 import {lighten} from "@/utils/color";
 import {deepMerge} from "@/utils";
 import {darkTheme, GlobalTheme, lightTheme} from "naive-ui";

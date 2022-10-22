@@ -12,11 +12,12 @@ import {
   PROJ_CFG_KEY,
   APP_LOCAL_CACHE_KEY,
   APP_SESSION_CACHE_KEY,
-  MULTIPLE_TABS_KEY,
+  MULTIPLE_TABS_KEY, APP_THEMEOVERRIDES_KEY,
 } from '@/enums/cacheEnum';
 import { DEFAULT_CACHE_TIME } from '@/settings/encryptionSetting';
 import { toRaw } from 'vue';
 import { pick, omit } from 'lodash-es';
+import {ThemeOverrides} from "#/config";
 
 interface BasicStore {
   [TOKEN_KEY]: string | number | null | undefined;
@@ -25,6 +26,7 @@ interface BasicStore {
   [LOCK_INFO_KEY]: LockInfo;
   [PROJ_CFG_KEY]: ProjectConfig;
   [MULTIPLE_TABS_KEY]: RouteLocationNormalized[];
+  [APP_THEMEOVERRIDES_KEY]:ThemeOverrides;
 }
 
 type LocalStore = BasicStore;

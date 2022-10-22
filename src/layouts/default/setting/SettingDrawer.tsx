@@ -1,5 +1,5 @@
-import {defineComponent, computed, unref} from 'vue';
-import {NDrawer,NDivider} from 'naive-ui';
+import {defineComponent, computed, unref, ref} from 'vue';
+import {NDrawer, NDivider, NDrawerContent} from 'naive-ui';
 import {
     TypePicker,
     ThemeColorPicker,
@@ -38,10 +38,13 @@ import {
     APP_PRESET_COLOR_LIST,
 } from '@/settings/designSetting';
 
-import {useDesignStore} from "@/store/modules/design";
 
 const {t} = useI18n();
-const designStore = useDesignStore();
+const isShow = ref<Boolean>(false);
+
+export function openDrawer() {
+    isShow.value = true;
+}
 
 export default defineComponent({
     name: 'SettingDrawer',
@@ -404,25 +407,28 @@ export default defineComponent({
                 title={t('layout.setting.drawerTitle')}
                 width={330}
                 class="setting-drawer"
+                v-model:show={isShow.value}
             >
-                {unref(getShowDarkModeToggle) && <NDivider>{() => t('layout.setting.darkMode')}</NDivider>}
-                {unref(getShowDarkModeToggle) && <AppThemeToggle class="mx-auto"/>}
-                <NDivider>{() => t('layout.setting.navMode')}</NDivider>
-                {renderSidebar()}
-                <NDivider>{() => t('layout.setting.sysTheme')}</NDivider>
-                {renderMainTheme()}
-                <NDivider>{() => t('layout.setting.headerTheme')}</NDivider>
-                {renderHeaderTheme()}
-                <NDivider>{() => t('layout.setting.sidebarTheme')}</NDivider>
-                {renderSiderTheme()}
-                <NDivider>{() => t('layout.setting.interfaceFunction')}</NDivider>
-                {renderFeatures()}
-                <NDivider>{() => t('layout.setting.interfaceDisplay')}</NDivider>
-                {renderContent()}
-                <NDivider>{() => t('layout.setting.animation')}</NDivider>
-                {renderTransition()}
-                <NDivider/>
-                <SettingFooter/>
+                <NDrawerContent native-scrollbar={false}>
+                    {unref(getShowDarkModeToggle) && <NDivider>{() => t('layout.setting.darkMode')}</NDivider>}
+                    {unref(getShowDarkModeToggle) && <AppThemeToggle class="mx-auto"/>}
+                    <NDivider>{() => t('layout.setting.navMode')}</NDivider>
+                    {renderSidebar()}
+                    <NDivider>{() => t('layout.setting.sysTheme')}</NDivider>
+                    {renderMainTheme()}
+                    <NDivider>{() => t('layout.setting.headerTheme')}</NDivider>
+                    {renderHeaderTheme()}
+                    <NDivider>{() => t('layout.setting.sidebarTheme')}</NDivider>
+                    {renderSiderTheme()}
+                    <NDivider>{() => t('layout.setting.interfaceFunction')}</NDivider>
+                    {renderFeatures()}
+                    <NDivider>{() => t('layout.setting.interfaceDisplay')}</NDivider>
+                    {renderContent()}
+                    <NDivider>{() => t('layout.setting.animation')}</NDivider>
+                    {renderTransition()}
+                    <NDivider/>
+                    <SettingFooter/>
+                </NDrawerContent>
             </NDrawer>
         );
     },

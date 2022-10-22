@@ -1,9 +1,10 @@
+//项目配置
 import type {
   ProjectConfig,
   HeaderSetting,
   MenuSetting,
   TransitionSetting,
-  MultiTabsSetting,
+  MultiTabsSetting, ThemeOverrides,
 } from '#/config';
 import type { BeforeMiniState } from '#/store';
 
@@ -11,13 +12,17 @@ import { defineStore } from 'pinia';
 import { store } from '@/store';
 
 import { ThemeEnum } from '@/enums/appEnum';
-import { PROJ_CFG_KEY } from '@/enums/cacheEnum';
+import { APP_DARK_MODE_KEY_, PROJ_CFG_KEY,APP_THEMEOVERRIDES_KEY } from '@/enums/cacheEnum';
 import { Persistent } from '@/utils/cache/persistent';
+import { darkMode } from '@/settings/designSetting';
 import { resetRouter } from '@/router';
 import { deepMerge } from '@/utils';
 
 interface AppState {
-  theme?: ThemeEnum;
+  //吴鑫峰加的，naive用的
+  themeOverrides:ThemeOverrides| null;
+
+  darkMode?: ThemeEnum;
   // Page loading status
   pageLoading: boolean;
   // project config
@@ -29,63 +34,77 @@ let timeId: TimeoutHandle;
 export const useAppStore = defineStore({
   id: 'app',
   state: (): AppState => ({
-    theme: undefined,
-    pageLoading: false,
-    projectConfig: Persistent.getLocal(PROJ_CFG_KEY),
-    beforeMiniInfo: {},
+    themeOverrides:Persistent.getLocal(APP_THEMEOVERRIDES_KEY),
+    darkMode: undefined, // 主题模式  dark|light
+    pageLoading: false, //  页面加载状态
+    projectConfig: Persistent.getLocal(PROJ_CFG_KEY), //  属性用于配置项目内展示的内容、布局、文本等效果，具体配置文件路径
+    beforeMiniInfo: {}, //  属性用于当窗口缩小时记住菜单状态，并在恢复窗口时恢复这些状态（是否折叠、是否分割、类型、模式）
   }),
   getters: {
+    getThemeOverrides():ThemeOverrides{
+      return this.themeOverrides || ({} as ThemeOverrides);
+    },
+    // 页面加载状态
     getPageLoading(): boolean {
       return this.pageLoading;
     },
-    // getTheme(): ThemeEnum {
-    //   return this.theme || localStorage.getItem(APP_THEME_KEY_) as ThemeEnum || Theme;
-    // },
-
+    // 主题模式
+    getDarkMode(): 'light' | 'dark' | string {
+      return this.darkMode || localStorage.getItem(APP_DARK_MODE_KEY_) || darkMode;
+    },
+    // 菜单状态快照
     getBeforeMiniInfo(): BeforeMiniState {
       return this.beforeMiniInfo;
     },
-
+    // 项目配置
     getProjectConfig(): ProjectConfig {
       return this.projectConfig || ({} as ProjectConfig);
     },
-
+    // 头部配置
     getHeaderSetting(): HeaderSetting {
       return this.getProjectConfig.headerSetting;
     },
+    // 菜单配置
     getMenuSetting(): MenuSetting {
       return this.getProjectConfig.menuSetting;
     },
+    // 动画配置
     getTransitionSetting(): TransitionSetting {
       return this.getProjectConfig.transitionSetting;
     },
+    // 多标签配置
     getMultiTabsSetting(): MultiTabsSetting {
       return this.getProjectConfig.multiTabsSetting;
     },
   },
   actions: {
+    setThemeOverrides(theme: DeepPartial<ThemeOverrides>){
+      this.themeOverrides = deepMerge(this.themeOverrides || {}, theme);
+      Persistent.setLocal(APP_THEMEOVERRIDES_KEY, this.themeOverrides);
+    },
     setPageLoading(loading: boolean): void {
       this.pageLoading = loading;
     },
 
-    // setDarkMode(mode: ThemeEnum): void {
-    //   this.theme = mode;
-    //   localStorage.setItem(APP_THEME_KEY_, mode);
-    // },
+    setDarkMode(mode: ThemeEnum): void {
+      this.darkMode = mode;
+      localStorage.setItem(APP_DARK_MODE_KEY_, mode);
+    },
 
     setBeforeMiniInfo(state: BeforeMiniState): void {
       this.beforeMiniInfo = state;
     },
-
+    // 设置项目配置 项目自带的缓存类进行缓存操作
     setProjectConfig(config: DeepPartial<ProjectConfig>): void {
       this.projectConfig = deepMerge(this.projectConfig || {}, config);
       Persistent.setLocal(PROJ_CFG_KEY, this.projectConfig);
     },
-
+    // 重置路由
     async resetAllState() {
       resetRouter();
-      Persistent.clearAll();
+      Persistent.clearAll(); // 清空缓存
     },
+    // 使用定时器设置页面加载状态
     async setPageLoadingAction(loading: boolean): Promise<void> {
       if (loading) {
         clearTimeout(timeId);

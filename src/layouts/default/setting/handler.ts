@@ -157,10 +157,14 @@ export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConf
     //   return { multiTabsSetting: { showFold: value } };
     //
     // // ============header==================
-    // case HandlerEnum.HEADER_THEME:
-    //   updateHeaderBgColor(value);
-    //   return { headerSetting: { bgColor: value } };
-    //
+    case HandlerEnum.HEADER_THEME:
+      designStore.setThemeOverrides({
+        Layout:{
+          headerColor:value
+        }
+      });
+      // return { headerSetting: { bgColor: value } };
+      return {};
     // case HandlerEnum.HEADER_SEARCH:
     //   return { headerSetting: { showSearch: value } };
     //
