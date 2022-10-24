@@ -1,5 +1,5 @@
 <template>
-  <n-card :title="t(item.title)" size="small">
+  <n-card :title="t(item.title)" block size="small" >
     <n-button class="menu"
               size="small"
               :bordered="false"

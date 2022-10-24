@@ -14,23 +14,22 @@
 </template>
 <script lang="ts" setup>
 import {computed, CSSProperties} from 'vue';
-import {useDesignStoreWithOut} from "@/store/modules/design";
 import {NSwitch} from 'naive-ui';
-// import {useRootSetting} from '@/hooks/setting/useRootSetting';
+import {useAppStore} from "@/store/modules/app";
 import {ThemeEnum} from "@/enums/appEnum";
 import {Icon} from "@vicons/utils";
-import {Moon,Sunny} from '@vicons/ionicons5'
+import {Moon, Sunny} from '@vicons/ionicons5'
 
 
-const designStore = useDesignStoreWithOut();
+const appStore = useAppStore();
 // const {getShowDarkModeToggle} = useRootSetting();
 
 const isDarkTheme = computed({
   get() {
-    return designStore.getDarkTheme;
+    return appStore.getDarkMode===ThemeEnum.DARK;
   },
   set(th) {
-    designStore.setDarkTheme(th);
+    appStore.setDarkMode(th?ThemeEnum.DARK:ThemeEnum.LIGHT);
   }
 });
 

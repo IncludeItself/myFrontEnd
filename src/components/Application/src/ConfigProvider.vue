@@ -1,8 +1,9 @@
 <script lang="ts">
-import {NConfigProvider} from 'naive-ui';
+import {darkTheme, lightTheme, NConfigProvider} from 'naive-ui';
 import {computed, defineComponent, h, unref} from 'vue';
 import {useLocaleStore} from "@/store/modules/locale";
-import {useDesignStore} from "@/store/modules/design";
+import {useAppStore} from "@/store/modules/app";
+import {ThemeEnum} from "@/enums/appEnum";
 
 
 export default defineComponent({
@@ -11,14 +12,13 @@ export default defineComponent({
   setup(props, {slots}) {
 
     const localStore = useLocaleStore();
-    const designStore = useDesignStore();
+    const appStore=useAppStore();
     const getBindValues = computed(() => {
       return {
         locale: localStore.getGlobalLocale,
         "date-locale": localStore.getGlobalDateLocale,
-        theme: unref(designStore.getNaiveTheme),
-        // theme:lightTheme,
-        "theme-overrides": designStore.getThemeOverrides
+        theme: unref(appStore.getDarkMode===ThemeEnum.DARK?darkTheme:lightTheme),
+        "theme-overrides": unref(appStore.getThemeOverrides)
       }
     });
     return () => {

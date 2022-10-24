@@ -1,14 +1,23 @@
 <template>
   <div class="prefixCls">
     <template v-for="item in menuTypeList || []" :key="item.title">
-      <Tooltip :title="item.title" placement="bottom">
+      <n-tooltip placement="bottom">
+        <template #trigger>
         <div
           @click="handler(item)"
-          class="prefixCls}__item"
+          :class="[
+            'prefixCls__item',
+            `prefixCls__item--${item.type}`,
+            {
+              ['prefixCls__item--active']: def === item.type,
+            },
+          ]"
         >
           <div class="mix-sidebar"></div>
         </div>
-      </Tooltip>
+        </template>
+        {{item.title}}
+      </n-tooltip>
     </template>
   </div>
 </template>
@@ -48,14 +57,14 @@
 <style lang="less" scoped>
   //@prefix-cls: ~'@{namespace}-setting-menu-type-picker';
 
-  .prefix-cls{
+  .prefixCls{
     display: flex;
 
     &__item {
       position: relative;
       width: 56px;
       height: 48px;
-      margin-right: 16px;
+      margin-right: 14px;
       overflow: hidden;
       cursor: pointer;
       background-color: #f0f2f5;
@@ -154,7 +163,7 @@
       &:hover,
       &--active {
         padding: 12px;
-        //border: 2px solid @primary-color;
+        border: 2px solid #ffb9b9;
         border: 2px solid;
 
         &::before,

@@ -16,7 +16,7 @@ import { useAppStore } from '@/store/modules/app';
 import { useLocaleStore } from '@/store/modules/locale';
 
 import { getCommonStoragePrefix, getStorageShortName } from '@/utils/env';
-import {useDesignStore} from "@/store/modules/design";
+import {useRootSetting} from "@/hooks/setting/useRootSetting";
 import { primaryColor } from '../../build/config/themeConfig';
 import { Persistent } from '@/utils/cache/persistent';
 import { deepMerge } from '@/utils';
@@ -26,10 +26,10 @@ import { ThemeEnum } from '@/enums/appEnum';
 export function initAppConfigStore() {
   const localeStore = useLocaleStore();
   const appStore = useAppStore();
-  const designStore=useDesignStore();
+  // const {getDarkMode}=useRootSetting();
   let projCfg: ProjectConfig = Persistent.getLocal(PROJ_CFG_KEY) as ProjectConfig;
   projCfg = deepMerge(projectSetting, projCfg || {});
-  const darkMode = designStore.getDarkTheme;
+  // const darkMode = getDarkMode;
   const {
     colorWeak,
     grayMode,

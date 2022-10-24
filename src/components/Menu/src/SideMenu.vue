@@ -4,17 +4,13 @@
       :options="menuOption"
       :render-label="renderLabel"
       :render-icon="renderIcon"
-      :key="path"
       key-field="path"
       :collapsed-width="64"
       :collapsed-icon-size="20"
       :indent="24"
       :on-update:value="handleChanged"
       mode="vertical"
-      :inverted="true"
       style="overflow: hidden"
-      dropdown-props=""
-
   />
 </template>
 
@@ -22,10 +18,9 @@
 import {defineComponent,h} from "vue";
 import {usePermissionStore} from "@/store/modules/permission";
 import {useI18n} from "@/hooks/web/useI18n";
-import {NMenu} from 'naive-ui';
+import {MenuOption, NMenu} from 'naive-ui';
 import {useGo} from "@/hooks/web/usePage";
 import Icon from "@/components/Icon";
-import {useAppStore} from "@/store/modules/app";
 const {t} =useI18n();
 
 export default defineComponent({

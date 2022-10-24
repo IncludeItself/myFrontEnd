@@ -3,7 +3,6 @@ import type { ProjectConfig } from '#/config';
 import { computed } from 'vue';
 
 import { useAppStore } from '@/store/modules/app';
-import {useDesignStore} from "@/store/modules/design";
 import { ContentEnum, ThemeEnum } from '@/enums/appEnum';
 
 type RootSetting = Omit<
@@ -13,7 +12,6 @@ type RootSetting = Omit<
 
 export function useRootSetting() {
   const appStore = useAppStore();
-  const designStore=useDesignStore();
   const getPageLoading = computed(() => appStore.getPageLoading);
 
   const getOpenKeepAlive = computed(() => appStore.getProjectConfig.openKeepAlive);
@@ -38,7 +36,7 @@ export function useRootSetting() {
 
   const getShowBreadCrumb = computed(() => appStore.getProjectConfig.showBreadCrumb);
 
-  const getThemeColor = computed(() => designStore.getThemeOverrides.common.primaryColor);
+  const getThemeColor = computed(() => appStore.getThemeOverrides.common?.primaryColor);
 
   const getShowBreadCrumbIcon = computed(() => appStore.getProjectConfig.showBreadCrumbIcon);
 
@@ -52,7 +50,7 @@ export function useRootSetting() {
 
   const getShowDarkModeToggle = computed(() => appStore.getProjectConfig.showDarkModeToggle);
 
-  // const getDarkMode = computed(() => appStore.getDarkMode);
+  const getDarkMode = computed(() => appStore.getDarkMode);
 
   const getLayoutContentMode = computed(() =>
     appStore.getProjectConfig.contentMode === ContentEnum.FULL
@@ -64,9 +62,9 @@ export function useRootSetting() {
     appStore.setProjectConfig(setting);
   }
 
-  // function setDarkMode(mode: ThemeEnum) {
-  //   appStore.setDarkMode(mode);
-  // }
+  function setDarkMode(mode: ThemeEnum) {
+    appStore.setDarkMode(mode);
+  }
   return {
     setRootSetting,
 
@@ -89,8 +87,8 @@ export function useRootSetting() {
     getContentMode,
     getLockTime,
     getThemeColor,
-    // getDarkMode,
-    // setDarkMode,
+    getDarkMode,
+    setDarkMode,
     getShowDarkModeToggle,
   };
 }

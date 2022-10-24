@@ -1,23 +1,29 @@
 <template>
-  <NSpace class="miniMenuWrapper" vertical>
-    <NButton tertiary class="miniMenuBtn">
+  <n-popselect>
+    <NButton tertiary>
       <template #icon>
         <Icon size="35">
           <MenuSharp/>
         </Icon>
       </template>
     </NButton>
-    <NCard class="miniMenu" embedded>
-      <n-space>
-        <MenuCategoryItem v-for="menuItem in menus" :item="menuItem"/>
-      </n-space>
-    </NCard>
-  </NSpace>
-</template>
+    <template #empty>
+      <n-space class="miniMenu">
+        <n-scrollbar style="max-height: 90vh;display: flex;position: relative;overflow: visible">
 
+
+          <MenuCategoryItem v-for="menuItem in menus" :item="menuItem"
+                            style="display: inline-block;width: auto"/>
+        </n-scrollbar>
+      </n-space>
+
+    </template>
+  </n-popselect>
+
+</template>
 <script>
 import {defineComponent} from 'vue';
-import {NButton, NCard, NSpace} from 'naive-ui';
+import {NButton, NCard, NSpace, NPopselect, NLayoutContent, NScrollbar} from 'naive-ui';
 import {Icon} from "@vicons/utils";
 import {MenuSharp} from '@vicons/ionicons5';
 import {useI18n} from "@/hooks/web/useI18n";
@@ -29,7 +35,7 @@ const {t} = useI18n();
 
 export default defineComponent({
   name: "MiniMenu",
-  components: {Icon, MenuSharp, NButton, NCard, NSpace, MenuCategoryItem},
+  components: {Icon, MenuSharp, NButton, NCard, NSpace, NPopselect, NLayoutContent, NScrollbar, MenuCategoryItem},
   setup() {
     const menus = permissionStore.getFlattedMenu;
 
@@ -46,31 +52,23 @@ export default defineComponent({
 
 <style lang="less" scoped>
 
-.miniMenuWrapper {
-  position: relative;
-  float: left;
-  display: block;
 
-  .miniMenuBtn {
-    z-index: 3;
-  }
+.miniMenu {
+  display: flex;
+  z-index: 2;
+  overflow: auto;
+  height: 90vh;
+  width: 80vw;
+}
 
-  .miniMenu {
-    display: none;
-  }
+.empty {
+  width: 0px;
+  height: 0px;
+}
 
-  &:hover {
-    .miniMenu {
-      display: block;
-      position: fixed;
-      width: auto;
-      z-index: 2;
-      overflow: auto;
-      max-height: 90vh;
-      max-width: 80vw;
-    }
-  }
-
+.scroll {
+  height: 900px;
+  width: 100%;
 }
 
 </style>

@@ -3,7 +3,6 @@ import type { HeaderSetting } from '#/config';
 import { computed, unref } from 'vue';
 
 import { useAppStore } from '@/store/modules/app';
-import {useDesignStore} from "@/store/modules/design";
 
 import { useMenuSetting } from '@/hooks/setting/useMenuSetting';
 import { useRootSetting } from '@/hooks/setting/useRootSetting';
@@ -13,7 +12,6 @@ import { MenuModeEnum } from '@/enums/menuEnum';
 export function useHeaderSetting() {
   const { getFullContent } = useFullContent();
   const appStore = useAppStore();
-  const designStore=useDesignStore();
   const getShowFullHeaderRef = computed(() => {
     return (
       !unref(getFullContent) &&
@@ -56,7 +54,7 @@ export function useHeaderSetting() {
   const getFixed = computed(() => appStore.getHeaderSetting.fixed);
 
   // const getHeaderBgColor = computed(() => appStore.getHeaderSetting.bgColor);
-  const getHeaderBgColor = computed(() => designStore.getThemeOverrides.Layout?.headerColor);
+  const getHeaderBgColor = computed(() => appStore.getThemeOverrides.Layout?.headerColor);
 
   const getShowSearch = computed(() => appStore.getHeaderSetting.showSearch);
 

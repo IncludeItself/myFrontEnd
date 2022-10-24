@@ -26,7 +26,7 @@ interface BasicStore {
   [LOCK_INFO_KEY]: LockInfo;
   [PROJ_CFG_KEY]: ProjectConfig;
   [MULTIPLE_TABS_KEY]: RouteLocationNormalized[];
-  [APP_THEMEOVERRIDES_KEY]:ThemeOverrides;
+  [APP_THEMEOVERRIDES_KEY]:DeepPartial<ThemeOverrides>;
 }
 
 type LocalStore = BasicStore;

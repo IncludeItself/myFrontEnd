@@ -49,7 +49,7 @@ export function transformRouteToMenu(routeModList: AppRouteModule[], routerMappi
 
   // 对路由项进行修改
   cloneRouteModList.forEach((item) => {
-    if (routerMapping && item.meta.hideChildrenInMenu && typeof item.redirect === 'string') {
+    if (routerMapping && item.meta?.hideChildrenInMenu && typeof item.redirect === 'string') {
       item.path = item.redirect;
     }
 
@@ -109,7 +109,7 @@ export function configureDynamicParamsMenu(menu: Menu, params: RouteParams) {
 export function flatMenuList(menuList:AppRouteRecordRaw[]):Menu[]{
   const flattedMenuList=cloneDeep(menuList);
   for(let i=0;i<flattedMenuList.length;i++){
-    if(flattedMenuList[i].meta.hideChildrenInMenu){
+    if(flattedMenuList[i].meta?.hideChildrenInMenu){
       flattedMenuList[i]=omit(flattedMenuList[i],'children');
     }else{
       flattedMenuList[i].children=treeFootToList(flattedMenuList[i].children);

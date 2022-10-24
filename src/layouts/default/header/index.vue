@@ -92,8 +92,12 @@
         </n-dropdown>
       </div>
 
+      <!--语言-->
+      <div class="layout-header-trigger layout-header-trigger-min">
+        <AppLocalePicker />
+      </div>
       <!--设置-->
-<!--      <SettingDrawerBtn class="layout-header-trigger layout-header-trigger-min"/>-->
+      <!--      <SettingDrawerBtn class="layout-header-trigger layout-header-trigger-min"/>-->
       <SettingDrawer class="layout-header-trigger layout-header-trigger-min"/>
     </div>
   </n-layout-header>
@@ -124,10 +128,12 @@ import {
 import MiniMenu from "@/components/Menu/src/MiniMenu.vue";
 import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 import {createAsyncComponent} from "@/utils/factory/createAsyncComponent";
+import AppLocalePicker from "@/components/Application/src/AppLocalePicker.vue";
 
 export default defineComponent({
   name: 'PageHeader',
   components: {
+    AppLocalePicker,
     MiniMenu,
     // SettingDrawerBtn,
     SettingsOutline,
@@ -140,7 +146,7 @@ export default defineComponent({
     AmericanFootballOutline,
     NLayoutHeader,
     NIcon,
-    SettingDrawer:createAsyncComponent(() => import('@/layouts/default/setting/index.vue'),{loading: true,})
+    SettingDrawer: createAsyncComponent(() => import('@/layouts/default/setting/index.vue'), {loading: true,})
   },
   props: {
     collapsed: {
@@ -151,7 +157,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const {getMenuMode}=useMenuSetting();
+    const {getMenuMode} = useMenuSetting();
 
     // const userStore = useUserStore();
     // // const useLockscreen = useLockscreenStore();

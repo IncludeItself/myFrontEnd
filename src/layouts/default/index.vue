@@ -1,6 +1,6 @@
 <template>
   <n-layout class="layout" position="absolute" has-sider>
-    <LayoutSideBar class="layout-sider"/>
+    <LayoutSideBar class="layout-sider" v-if="getMenuMode !== 'horizontal'"/>
     <n-layout inverted>
       <LayoutHeader/>
       <LayoutContent class="layout-content"/>
@@ -16,6 +16,7 @@ import LayoutHeader from './header/index.vue';
 import LayoutContent from './content/index.vue';
 import LayoutSideBar from './sider/index.vue';
 import {useLockPage} from '@/hooks/web/useLockPage';
+import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 
 export default defineComponent({
   name: 'DefaultLayout',
@@ -30,11 +31,13 @@ export default defineComponent({
 
     // Create a lock screen monitor
     const lockEvents = useLockPage();
+    const {getMenuMode}=useMenuSetting();
 
 
     return {
       // getShowSidebar,
       lockEvents,
+      getMenuMode
     };
   },
 });

@@ -4,6 +4,7 @@ import {loadEnv} from 'vite';
 import {resolve} from "path";
 import {wrapperEnv} from './build/utils';
 import {createVitePlugins} from "./build/vite/plugin";
+import {createProxy} from "./build/vite/proxy";
 
 function pathResolve(dir: string) {
     return resolve(process.cwd(), '.', dir);
@@ -18,7 +19,8 @@ export default defineConfig(({command, mode}: ConfigEnv): UserConfig => {
     const {VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY, VITE_DROP_CONSOLE} = viteEnv;
     const isBuild = command === 'build';
     return {
-        plugins: createVitePlugins(viteEnv, isBuild),
+        base: VITE_PUBLIC_PATH,
+        root,
         resolve: {
             alias: [
                 {
@@ -37,6 +39,17 @@ export default defineConfig(({command, mode}: ConfigEnv): UserConfig => {
                 },
             ],
         },
+        server: {
+            // https: true,
+            // Listening on all local IPs
+            host: true,
+            port: VITE_PORT,
+            // Load proxy configuration from .env
+            proxy: createProxy(VITE_PROXY),
+        },
+
+
+        plugins: createVitePlugins(viteEnv, isBuild),
         optimizeDeps: {
             // @iconify/iconify: The dependency is dynamically and virtually loaded by @purge-icons/generated, so it needs to be specified explicitly
             include: [

@@ -3,8 +3,7 @@
     <template v-for="color in colorList || []" :key="color">
       <span
           @click="handleClick(color)"
-          class="prefixCls__item"
-          :class="{'prefixCls__item--active': def === color}"
+          :class="['prefixCls__item',{'prefixCls__item--active': def === color}]"
           :style="{ background: color }"
       >
         <CheckmarkOutline />
@@ -53,6 +52,7 @@
   //@prefix-cls: ~'@{namespace}-setting-theme-picker';
 
   .prefixCls{
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     margin: 16px 0;
@@ -70,13 +70,13 @@
       }
 
       &--active {
-        //border: 1px solid lighten(@primary-color, 10%);
+        border: 1px solid ;
 
         svg {
           display: inline-block;
           margin: 0 0 3px 3px;
           font-size: 12px;
-          //fill: @white !important;
+          fill: white;
         }
       }
     }

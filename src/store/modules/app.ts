@@ -13,14 +13,16 @@ import { store } from '@/store';
 
 import { ThemeEnum } from '@/enums/appEnum';
 import { APP_DARK_MODE_KEY_, PROJ_CFG_KEY,APP_THEMEOVERRIDES_KEY } from '@/enums/cacheEnum';
+import {APP_PRESET_COLOR_LIST} from "@/settings/designSetting";
 import { Persistent } from '@/utils/cache/persistent';
-import { darkMode } from '@/settings/designSetting';
+import {darkMode} from '@/settings/designSetting';
 import { resetRouter } from '@/router';
 import { deepMerge } from '@/utils';
+import {lighten} from "@/utils/color";
 
 interface AppState {
   //吴鑫峰加的，naive用的
-  themeOverrides:ThemeOverrides| null;
+  themeOverrides:DeepPartial<ThemeOverrides>| null;
 
   darkMode?: ThemeEnum;
   // Page loading status
@@ -30,19 +32,32 @@ interface AppState {
   // When the window shrinks, remember some states, and restore these states when the window is restored
   beforeMiniInfo: BeforeMiniState;
 }
+
+const PrimaryColor=APP_PRESET_COLOR_LIST[1];
+const defaultOverrides:DeepPartial<ThemeOverrides>={
+  common:{
+    primaryColor:PrimaryColor,
+    primaryColorHover: lighten(PrimaryColor,6),
+    primaryColorPressed: lighten(PrimaryColor,7),
+  },
+  LoadingBar:{
+    colorLoading: PrimaryColor
+  }
+};
+
 let timeId: TimeoutHandle;
 export const useAppStore = defineStore({
   id: 'app',
   state: (): AppState => ({
-    themeOverrides:Persistent.getLocal(APP_THEMEOVERRIDES_KEY),
+    themeOverrides:Persistent.getLocal(APP_THEMEOVERRIDES_KEY)||defaultOverrides,
     darkMode: undefined, // 主题模式  dark|light
     pageLoading: false, //  页面加载状态
     projectConfig: Persistent.getLocal(PROJ_CFG_KEY), //  属性用于配置项目内展示的内容、布局、文本等效果，具体配置文件路径
     beforeMiniInfo: {}, //  属性用于当窗口缩小时记住菜单状态，并在恢复窗口时恢复这些状态（是否折叠、是否分割、类型、模式）
   }),
   getters: {
-    getThemeOverrides():ThemeOverrides{
-      return this.themeOverrides || ({} as ThemeOverrides);
+    getThemeOverrides():DeepPartial<ThemeOverrides>{
+      return this.themeOverrides || {};
     },
     // 页面加载状态
     getPageLoading(): boolean {

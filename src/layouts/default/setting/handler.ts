@@ -6,7 +6,7 @@ import {useAppStore} from '@/store/modules/app';
 import {ProjectConfig} from '#/config';
 // import { changeTheme } from '@/logics/theme';
 // import { updateDarkTheme } from '@/logics/theme/dark';
-import {useDesignStore} from "@/store/modules/design";
+import {useRootSetting} from "@/hooks/setting/useRootSetting";
 import {ThemeEnum} from "@/enums/appEnum";
 
 export function baseHandler(event: HandlerEnum, value: any) {
@@ -22,8 +22,7 @@ export function baseHandler(event: HandlerEnum, value: any) {
 export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConfig> {
   const appStore = useAppStore();
 
-  // const { getThemeColor, getDarkMode } = useRootSetting();
-  const designStore=useDesignStore();
+  const { getThemeColor, getDarkMode,setDarkMode } = useRootSetting();
   switch (event) {
     case HandlerEnum.CHANGE_LAYOUT:
       const { mode, type, split } = value;
@@ -40,19 +39,24 @@ export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConf
         },
       };
 
-    // case HandlerEnum.CHANGE_THEME_COLOR:
-    //   if (getThemeColor.value === value) {
-    //     return {};
-    //   }
-    //   changeTheme(value);
-    //
-    //   return { themeColor: value };
-
-    case HandlerEnum.CHANGE_THEME:
-      if (designStore.getDarkTheme=== value) {
+    case HandlerEnum.CHANGE_THEME_COLOR:
+      if (getThemeColor.value === value) {
         return {};
       }
-      designStore.setDarkTheme(value);
+      console.log("primaryColor",value);
+      appStore.setThemeOverrides({
+        common:{
+          primaryColor:value
+        }
+      });
+
+      return {};
+
+    case HandlerEnum.CHANGE_THEME:
+      if ((getDarkMode.value===ThemeEnum.DARK)== value) {
+        return {};
+      }
+      setDarkMode(value?ThemeEnum.DARK:ThemeEnum.LIGHT);
 
       return {};
 
@@ -158,7 +162,7 @@ export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConf
     //
     // // ============header==================
     case HandlerEnum.HEADER_THEME:
-      designStore.setThemeOverrides({
+      appStore.setThemeOverrides({
         Layout:{
           headerColor:value
         }

@@ -9,14 +9,16 @@
       :options="localeList"
       @select="handleMenuEvent"
   >
-    <NButton size="small" v-bind="$attrs">
-      <template #icon>
-        <Icon>
+<!--    <NButton size="small" v-bind="$attrs" :bordered="false">-->
+<!--      <template #icon>-->
+    <div>
+        <Icon style="margin: 10px">
           <Language/>
         </Icon>
-      </template>
+<!--      </template>-->
       <span v-if="showText">{{ getLocaleText }}</span>
-    </NButton>
+<!--    </NButton>-->
+    </div>
   </NDropdown>
 </template>
 <script lang="ts" setup>
@@ -33,7 +35,7 @@ const props = defineProps({
   /**
    * Whether to display text
    */
-  showText: {type: Boolean, default: true},
+  showText: {type: Boolean, default: false},
   /**
    * Whether to refresh the interface when changing
    */

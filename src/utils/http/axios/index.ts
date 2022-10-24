@@ -44,6 +44,7 @@ const transform: AxiosTransform = {
     }
     // 错误的时候返回
     const { data } = res;
+    console.log("data",data);
     if (!data) {
       // return '[HTTP] Request has no return value';
       throw new Error(t('sys.api.apiRequestFailed'));
@@ -260,11 +261,9 @@ export const defHttp = createAxios();
 
 // other api url
 export const myHttp = createAxios({
-  // baseURL:'/basic-api',
   timeout:10000,
   requestOptions: {
     apiUrl: '/api',
     // // urlPrefix: 'xxx',
-
   },
 });
