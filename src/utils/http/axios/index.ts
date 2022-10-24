@@ -44,7 +44,6 @@ const transform: AxiosTransform = {
     }
     // 错误的时候返回
     const { data } = res;
-    console.log("data",data);
     if (!data) {
       // return '[HTTP] Request has no return value';
       throw new Error(t('sys.api.apiRequestFailed'));

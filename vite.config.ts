@@ -40,7 +40,7 @@ export default defineConfig(({command, mode}: ConfigEnv): UserConfig => {
             ],
         },
         server: {
-            // https: true,
+            https: true,//要安装证书使用插件 vite-plugin-mkcert
             // Listening on all local IPs
             host: true,
             port: VITE_PORT,

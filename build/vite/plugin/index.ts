@@ -25,9 +25,9 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
         vueJsx(),
         // support name
         // vueSetupExtend(),
-        // VitePluginCertificate({
-        //     source: 'coding',
-        // }),
+        VitePluginCertificate({
+            source: 'coding',
+        }),
     ];
 
     // vite-plugin-windicss
