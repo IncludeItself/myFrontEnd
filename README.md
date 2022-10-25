@@ -17,4 +17,3 @@ You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/
 
 //TODO
 1、菜单组件请求menulist用router里封装的getAsyncMenus方法，Menu组件要封装一下，两种形式的Menu都要用到NMenu；
-2、用Naive自带国际化方式改进；

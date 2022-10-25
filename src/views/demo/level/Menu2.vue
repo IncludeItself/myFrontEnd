@@ -15,7 +15,7 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { NInput ,NButton,NIcon} from 'naive-ui';
+  import {NInput, NButton, NIcon} from 'naive-ui';
   import {useMessage} from "@/store/modules/message";
   import Icon from "@/components/Icon";
   const createMessage=useMessage();

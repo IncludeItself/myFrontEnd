@@ -1,22 +1,29 @@
 <template>
-  <span :style="{ fontSize: size }">
-    <span ref="elRef" class="iconify m-iconify"></span>
-  </span>
+  <n-space vertical style="position: relative;top: 8px">
+    <div style="position: relative">
+      <span :style="{ fontSize: size}" ref="elRef" class="iconify m-iconify"></span>
+    </div>
+    <div style="position: relative;top: -6px" >
+      <span :style="{ fontSize: textSize,margin:'0',verticalAlign:'top' }">{{ text }}</span>
+    </div>
+  </n-space>
 
 </template>
 
 <script lang="ts">
 import {defineComponent, nextTick, onMounted, ref, unref, watch} from 'vue';
 import Iconify from '@purge-icons/generated';
+import {NSpace} from 'naive-ui';
 
 export default defineComponent({
-  name: 'Icon',
+  name: 'IconWithText',
   props: {
-    icon: { type: String, required: true },
-    size: { type: String, default: '18px' },
-
+    icon: {type: String, required: true},
+    size: {type: String, default: '18px'},
+    text: {type: String,default:null},
+    textSize: {type: String, default: '10px'}
   },
-
+  components:{NSpace},
   setup(props) {
     const elRef = ref<ElRef>(null);
 
@@ -40,7 +47,7 @@ export default defineComponent({
       }
     };
 
-    watch(() => props.icon, update, { flush: 'post' });
+    watch(() => props.icon, update, {flush: 'post'});
 
     onMounted(update);
 
@@ -51,6 +58,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 .m-iconify {
-  vertical-align: middle;
+  vertical-align: bottom;
+  line-height: 1px;
 }
 </style>

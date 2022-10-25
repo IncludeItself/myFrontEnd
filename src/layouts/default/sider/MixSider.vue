@@ -1,48 +1,32 @@
 <template>
-<!--  <div :class="`${prefixCls}-dom`" :style="getDomStyle"></div>-->
-  <div
-  >
-    <ScrollContainer>
-      <ul >
-        <li :class="['prefixCls-module__item', {'prefixCls-module__item--active': item.path === activePath}]"
-          v-for="item in menuModules"
-          :key="item.path"
-        >
-          <Icon size="25px" class="prefixCls-module__icon"
-            :icon="item.icon || (item.meta && item.meta.icon)"
-          />
-          <p class="prefixCls-module__name">
-            {{ t(item.name) }}
-          </p>
-        </li>
-      </ul>
-    </ScrollContainer>
+  <div>
+<MixMenu/>
 
-    <div  ref="sideRef" >
-      <div v-show="openMenu">
-        <span class="text"> {{ title }}</span>
-        <Icon
-          :size="16"
-          :icon="getMixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
-          class="pushpin"
-          @click="handleFixedMenu"
-        />
-      </div>
-      <ScrollContainer class="prefixCls-menu-list__content">
-<!--        <SimpleMenu-->
-<!--          :items="childrenMenus"-->
-<!--          :theme="getMenuTheme"-->
-<!--          mixSider-->
-<!--          @menu-click="handleMenuClick"-->
+<!--    <div  ref="sideRef" >-->
+<!--      <div v-show="openMenu">-->
+<!--        <span class="text"> {{ title }}</span>-->
+<!--        <Icon-->
+<!--          :size="16"-->
+<!--          :icon="getMixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"-->
+<!--          class="pushpin"-->
+<!--          @click="handleFixedMenu"-->
 <!--        />-->
+<!--      </div>-->
+<!--      <ScrollContainer class="prefixCls-menu-list__content">-->
+<!--&lt;!&ndash;        <SimpleMenu&ndash;&gt;-->
+<!--&lt;!&ndash;          :items="childrenMenus"&ndash;&gt;-->
+<!--&lt;!&ndash;          :theme="getMenuTheme"&ndash;&gt;-->
+<!--&lt;!&ndash;          mixSider&ndash;&gt;-->
+<!--&lt;!&ndash;          @menu-click="handleMenuClick"&ndash;&gt;-->
+<!--&lt;!&ndash;        />&ndash;&gt;-->
 
-      </ScrollContainer>
-<!--      <div-->
-<!--        v-show="getShowDragBar && openMenu"-->
-<!--        :class="`${prefixCls}-drag-bar`"-->
-<!--        ref="dragBarRef"-->
-<!--      ></div>-->
-    </div>
+<!--      </ScrollContainer>-->
+<!--&lt;!&ndash;      <div&ndash;&gt;-->
+<!--&lt;!&ndash;        v-show="getShowDragBar && openMenu"&ndash;&gt;-->
+<!--&lt;!&ndash;        :class="`${prefixCls}-drag-bar`"&ndash;&gt;-->
+<!--&lt;!&ndash;        ref="dragBarRef"&ndash;&gt;-->
+<!--&lt;!&ndash;      ></div>&ndash;&gt;-->
+<!--    </div>-->
   </div>
 </template>
 <script lang="ts">
@@ -50,7 +34,7 @@
   import type { CSSProperties } from 'vue';
   import { computed, defineComponent, onMounted, ref, unref, watch } from 'vue';
   import type { RouteLocationNormalized } from 'vue-router';
-  import { NScrollbar as  ScrollContainer } from 'naive-ui';
+  import { NScrollbar } from 'naive-ui';
   // import { SimpleMenu, SimpleMenuTag } from '@/components/SimpleMenu';
   import  Icon  from '@/components/Icon';
   import { AppLogo } from '@/components/Application';
@@ -65,12 +49,14 @@
   // import clickOutside from '@/directives/clickOutside';
   import { getChildrenMenus, getCurrentParentPath, getShallowMenus } from '@/router/menus';
   import { listenerRouteChange } from '@/logics/mitt/routeChange';
+  import MixMenu from "@/components/Menu/src/MixMenu.vue";
   // import LayoutTrigger from '../trigger/index.vue';
 
   export default defineComponent({
     name: 'LayoutMixSider',
     components: {
-      ScrollContainer,
+      MixMenu,
+      NScrollbar,
       AppLogo,
       // SimpleMenu,
       Icon,
