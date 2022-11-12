@@ -3,6 +3,7 @@
       :data="backMenuList"
       :render-label="renderLabel"
       key-field="path"
+      draggable
   />
 
 </template>
