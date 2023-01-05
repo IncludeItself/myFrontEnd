@@ -5,7 +5,7 @@ import axios from 'axios';
 import qs from 'qs';
 import { AxiosCanceler } from './axiosCancel';
 import { isFunction } from '@/utils/is';
-import { cloneDeep } from 'lodash-es';
+import {cloneDeep, omit} from 'lodash-es';
 import { ContentTypeEnum } from '@/enums/httpEnum';
 import { RequestEnum } from '@/enums/httpEnum';
 
@@ -204,8 +204,8 @@ export class VAxios {
       conf = beforeRequestHook(conf, opt);
     }
     conf.requestOptions = opt;
-
     conf = this.supportFormData(conf);
+    console.log("conf",conf);
 
     return new Promise((resolve, reject) => {
       this.axiosInstance

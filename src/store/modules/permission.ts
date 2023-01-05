@@ -238,6 +238,8 @@ export const usePermissionStore = defineStore({
                         console.error(error);
                     }
 
+                    console.log("routeList",routeList);
+
                     // Dynamically introduce components
                     // 动态引入组件
                     routeList = transformObjToRoute(routeList);
