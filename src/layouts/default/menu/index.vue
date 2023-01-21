@@ -1,35 +1,45 @@
 <template>
   <n-menu
       v-if="true"
-      :options="menuOption"
+      :options="menusRef"
       :render-label="renderLabel"
       :render-icon="renderIcon"
       key-field="path"
       :collapsed-width="64"
       :collapsed-icon-size="20"
       :indent="24"
-      :on-update:value="handleChanged"
+      :on-update:value="handleMenuClick"
       mode="vertical"
       style="overflow: hidden"
+      :collapsed="collapsed"
   />
 </template>
 
 <script lang="ts">
-import {defineComponent,h} from "vue";
-import {usePermissionStore} from "@/store/modules/permission";
+import {defineComponent, h, ref, toRef} from "vue";
 import {useI18n} from "@/hooks/web/useI18n";
 import {MenuOption, NMenu} from 'naive-ui';
 import {useGo} from "@/hooks/web/usePage";
 import Icon from "@/components/Icon";
+import { useSplitMenu } from './useLayoutMenu';
+import {MenuSplitTyeEnum} from "@/enums/menuEnum";
 const {t} =useI18n();
 
 export default defineComponent({
-  name: "SideMenu",
+  name: "LayoutMenu",
   components:{NMenu,Icon},
-  setup() {
+  props:{
+    splitType: {
+      type: Number as PropType<MenuSplitTyeEnum>,
+      default: MenuSplitTyeEnum.NONE,
+    },
+    collapsed:{
+      type:Boolean
+    }
+  },
+  setup(props) {
     let selectedKdy='';
-    const permissionStore=usePermissionStore();
-    const menuOption=permissionStore.getFrontMenuList;
+    const { menusRef } = useSplitMenu(toRef(props, 'splitType'));
     const renderLabel=(option)=>{
       return t(option.meta.title);
     };
@@ -39,27 +49,16 @@ export default defineComponent({
 
     const go = useGo();
 
-    const handleChanged=(key: string,item)=>{
-      if(item.hasOwnProperty('children')) return;
-      if(selectedKdy===key){
-        return;
-      }
+    function handleMenuClick(key: string) {
       go(key);
-    };
+    }
     return {
-      menuOption,
+      menusRef,
       renderLabel,
       renderIcon,
-      handleChanged,
+      handleMenuClick,
       t
     };
   }
 });
 </script>
-
-<style lang="less" scoped>
-  //.menuItemCls{
-  //  display: block;
-  //  height: 1040px;
-  //}
-</style>

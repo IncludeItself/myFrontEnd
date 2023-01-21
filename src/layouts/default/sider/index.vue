@@ -1,13 +1,17 @@
 <template>
   <n-layout-sider
-      position="absolute"
-      width="auto"
-      bordered
       :native-scrollbar="false"
+      bordered
       collapse-mode="width"
       :collapsed-width="64"
+      :width="240"
+      :collapsed="collapsed"
+      show-trigger
+      @collapse="collapsed = true"
+      @expand="collapsed = false"
+      v-if="!getIsTopMenu"
   >
-    <SideMenu v-if="!collapsed"/>
+    <LayoutMenu v-if="!collapsed" :collapsed="collapsed"/>
     <LayoutMixSider v-else/>
   </n-layout-sider>
 
@@ -16,17 +20,20 @@
 <script lang="ts">
 import {defineComponent, ref} from "vue";
 import {NLayoutSider} from 'naive-ui'
-import SideMenu from "@/components/Menu/src/SideMenu.vue";
+import LayoutMenu from "@/layouts/default/menu/index.vue";
 import LayoutMixSider from "@/layouts/default/sider/MixSider.vue";
+import { useMenuSetting } from '@/hooks/setting/useMenuSetting';
 
 export default defineComponent({
-  name: "SiderWrapper",
-  components: {LayoutMixSider, SideMenu, NLayoutSider},
+  name: "LayoutSideBar",
+  components: {LayoutMixSider, LayoutMenu, NLayoutSider},
   setup() {
     const collapsed = ref<boolean>(false);
-    collapsed.value=true;
+    const { getIsTopMenu} = useMenuSetting();
+    collapsed.value=false;
     return {
-      collapsed
+      collapsed,
+      getIsTopMenu
     };
   }
 });

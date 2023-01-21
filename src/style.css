@@ -64,7 +64,7 @@ button:focus-visible {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  /*text-align: center;*/         //不注释掉的话菜单的文字也会居中
 }
 
 @media (prefers-color-scheme: light) {

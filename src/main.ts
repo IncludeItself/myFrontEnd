@@ -9,6 +9,7 @@ import {router, setupRouter} from '@/router';
 import {setupRouterGuard} from "@/router/guard";
 import '@purge-icons/generated';
 import {initAppConfigStore} from "@/logics/initAppConfig";
+import './style.css'
 
 async function bootstrap() {
     const app = createApp(App);

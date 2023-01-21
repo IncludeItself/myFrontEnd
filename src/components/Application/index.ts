@@ -6,7 +6,7 @@ import appLogo from './src/AppLogo.vue';
 import appLocalePicker from './src/AppLocalePicker.vue';
 import appThemeToggle from './src/AppThemeToggle.vue';
 //
-// export { useAppProviderContext } from './src/useAppContext';
+export { useAppProviderContext } from './src/useAppContext';
 
 export const AppLogo = withInstall(appLogo);
 // export const AppProvider = withInstall(appProvider);
