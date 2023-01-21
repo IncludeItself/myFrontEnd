@@ -125,7 +125,7 @@ import {
   AmericanFootballOutline
 } from '@vicons/ionicons5';
 // import SettingDrawerBtn from "@/layouts/default/header/SettingDrawerBtn.vue";
-import MiniMenu from "@/components/Menu/src/MiniMenu.vue";
+import MiniMenu from "@/layouts/default/header/MiniMenu.vue";
 import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 import {createAsyncComponent} from "@/utils/factory/createAsyncComponent";
 import AppLocalePicker from "@/components/Application/src/AppLocalePicker.vue";

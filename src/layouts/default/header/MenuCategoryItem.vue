@@ -1,5 +1,5 @@
 <template>
-  <n-card :title="t(item.title)" block size="small" >
+  <n-card :title="t(item.title?item.title:'')" block size="small" >
     <n-button class="menu"
               size="small"
               :bordered="false"
@@ -9,11 +9,11 @@
               @click="handleClick(menu.path)"
               strong secondary
     >
-      {{ t(menu.title) }}
+      {{ t(menu.title?menu.title:'') }}
     </n-button>
 
     <n-button class="menu" v-else size="small" :bordered="false" @click="handleClick(item.path)" strong secondary>
-      {{ t(item.title) }}
+      {{ t(item.title?item.title:'')}}
     </n-button>
 
   </n-card>

@@ -178,15 +178,15 @@ export const usePermissionStore = defineStore({
 
             switch (permissionMode) {
                 // 角色权限
-                // case PermissionModeEnum.ROLE:
-                //   // 对非一级路由进行过滤
-                //   routes = filter(asyncRoutes, routeFilter);
-                //   // 对一级路由根据角色权限过滤
-                //   routes = routes.filter(routeFilter);
-                //   // Convert multi-level routing to level 2 routing
-                //   // 将多级路由转换为 2 级路由
-                //   routes = flatMultiLevelRoutes(routes);
-                //   break;
+                case PermissionModeEnum.ROLE:
+                  // 对非一级路由进行过滤
+                  routes = filter(asyncRoutes, routeFilter);
+                  // 对一级路由根据角色权限过滤
+                  routes = routes.filter(routeFilter);
+                  // Convert multi-level routing to level 2 routing
+                  // 将多级路由转换为 2 级路由
+                  routes = flatMultiLevelRoutes(routes);
+                  break;
 
                 // 路由映射， 默认进入该case
                 case PermissionModeEnum.ROUTE_MAPPING:
@@ -234,10 +234,11 @@ export const usePermissionStore = defineStore({
                     try {
                         await this.changePermissionCode();
                         routeList = (await getMenuList()) as AppRouteRecordRaw[];
-                        console.log("routeList",routeList);
                     } catch (error) {
                         console.error(error);
                     }
+
+                    console.log("routeList",routeList);
 
                     // Dynamically introduce components
                     // 动态引入组件

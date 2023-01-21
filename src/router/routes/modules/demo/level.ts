@@ -56,7 +56,7 @@ const permission: AppRouteModule = {
     {
       path: 'menu2',
       name: 'Menu2Demo',
-      component: () => import('@/views/demo/level/Menu2.vue'),
+      component: () => import('@/views/demo/level/MenuManage.vue'),
       meta: {
         title: 'Menu2',
         // ignoreKeepAlive: true,
