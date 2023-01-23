@@ -1,10 +1,10 @@
 <template>
-  <n-space vertical style="position: relative;top: 8px">
-    <div style="position: relative">
-      <span :style="{ fontSize: size}" ref="elRef" class="iconify m-iconify"></span>
+  <n-space vertical>
+    <div>
+      <span :style="{ fontSize: size,verticalAlign: 'bottom'}" ref="elRef" class="iconify m-iconify"></span>
     </div>
-    <div style="position: relative;top: -6px" >
-      <span :style="{ fontSize: textSize,margin:'0',verticalAlign:'top' }">{{ text }}</span>
+    <div>
+      <span :style="{ fontSize: textSize,verticalAlign:'top' }">{{ text }}</span>
     </div>
   </n-space>
 

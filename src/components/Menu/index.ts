@@ -1,3 +1,4 @@
-import MiniMenu from '../../layouts/default/header/MiniMenu.vue';
+import { withInstall } from '@/utils';
+import mixMenu from './src/MixMenu.vue';
 
-export {MiniMenu};
+export const MixMenu=withInstall(mixMenu);

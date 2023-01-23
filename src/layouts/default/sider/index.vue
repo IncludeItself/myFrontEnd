@@ -3,37 +3,48 @@
       :native-scrollbar="false"
       bordered
       collapse-mode="width"
-      :collapsed-width="64"
-      :width="240"
-      :collapsed="collapsed"
+      :collapsed-width="getMixSideWidth"
+      :width="220"
+      :collapsed="getCollapsed"
       show-trigger
-      @collapse="collapsed = true"
-      @expand="collapsed = false"
+      @collapse="collapse(true)"
+      @expand="collapse(false)"
       v-if="!getIsTopMenu"
   >
-    <LayoutMenu v-if="!collapsed" :collapsed="collapsed"/>
-    <LayoutMixSider v-else/>
+    <LayoutMenu v-if="!getCollapsed" :collapsed="getCollapsed"/>
+    <MixMenu style="position: fixed" v-else/>
   </n-layout-sider>
-
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from "vue";
+import {computed, defineComponent, ref, unref} from "vue";
 import {NLayoutSider} from 'naive-ui'
 import LayoutMenu from "@/layouts/default/menu/index.vue";
-import LayoutMixSider from "@/layouts/default/sider/MixSider.vue";
-import { useMenuSetting } from '@/hooks/setting/useMenuSetting';
+import {MixMenu} from "@/components/Menu";
+import {useMenuSetting} from '@/hooks/setting/useMenuSetting';
+import SimpleMenu from "@/components/SimpleMenu/src/SimpleMenu.vue";
+import {SIDE_BAR_MINI_WIDTH, SIDE_BAR_SHOW_TIT_MINI_WIDTH} from "@/enums/appEnum";
 
 export default defineComponent({
   name: "LayoutSideBar",
-  components: {LayoutMixSider, LayoutMenu, NLayoutSider},
+  components: {SimpleMenu, MixMenu, LayoutMenu, NLayoutSider},
   setup() {
-    const collapsed = ref<boolean>(false);
-    const { getIsTopMenu} = useMenuSetting();
-    collapsed.value=false;
+    const {getIsTopMenu,getCollapsed,setMenuSetting} = useMenuSetting();
+    const getMixSideWidth = computed(() => {
+      return unref(getCollapsed) ? SIDE_BAR_MINI_WIDTH : SIDE_BAR_SHOW_TIT_MINI_WIDTH;
+    });
+
+    function collapse(b:boolean | undefined) {
+      setMenuSetting({
+        collapsed: b,
+      });
+    }
+
     return {
-      collapsed,
-      getIsTopMenu
+      getIsTopMenu,
+      getCollapsed,
+      getMixSideWidth,
+      collapse
     };
   }
 });
