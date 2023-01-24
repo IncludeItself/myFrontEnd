@@ -46,6 +46,7 @@ import {useI18n} from '@/hooks/web/useI18n';
 import {useGo} from "@/hooks/web/usePage";
 import {SIDE_BAR_MINI_WIDTH, SIDE_BAR_SHOW_TIT_MINI_WIDTH} from "@/enums/appEnum";
 import {useThemeVars} from "naive-ui";
+import {listenerRouteChange} from "@/logics/mitt/routeChange";
 
 
 export default defineComponent({
@@ -76,7 +77,6 @@ export default defineComponent({
       getCloseMixSidebarOnChange,
       getMenuTheme,
       getMixSideTrigger,
-      getRealWidth,
       getMixSideFixed,
       mixSideHasChildren,
       setMenuSetting,
@@ -137,11 +137,9 @@ export default defineComponent({
 
     // Set the currently active menu and submenu
     async function setActive(setChildren = false) {
-      console.log("currentRoute.value",currentRoute.value);
       const path = currentRoute.value?.path;
       if (!path) return;
       activePath.value = await getCurrentParentPath(path);
-      console.log("activePath.value",activePath.value);
       if (unref(getIsMixSidebar)) {
         const activeMenu = unref(menuModules).find((item) => item.path === unref(activePath));
         const p = activeMenu?.path;
@@ -217,13 +215,13 @@ export default defineComponent({
       return {
         margin: '20px',
         outline: '0px',
-        color: item.path === activePath.value ? themeVars.value.primaryColor : ''
+        color: item.path === activePath.value ? themeVars.value.primaryColor : "unset"
       }
     }
 
     const getMenuStyle = computed((): CSSProperties => {
       return {
-        width: unref(openMenu) ? `${unref(getMenuWidth)}px` : 0,
+        width: unref(openMenu) ? `${unref(getMenuWidth)-unref(getMixSideWidth)}px` : 0,
         position: "fixed",
         top: "0px",
         left: `${unref(getMixSideWidth)}px`,
@@ -231,6 +229,14 @@ export default defineComponent({
         transition: "all 0.2s"
       }
 
+    });
+
+    listenerRouteChange((route) => {
+      currentRoute.value = route;
+      setActive(true);
+      if (unref(getCloseMixSidebarOnChange)) {
+        closeMenu();
+      }
     });
 
     function getWrapCommonStyle(width: string): CSSProperties {

@@ -1,9 +1,17 @@
 <template>
   <n-layout style="height: 100vh" embedded>
     <n-layout-header style="height: 5vh">
-      <n-tag :bordered="false" style="width: 100%;margin: auto;text-align: center">
+      <n-tag :bordered="false" style="margin: auto;text-align: center">
         爱在西元前
       </n-tag>
+      <n-button quaternary :focusable="false" :type="getMixSideFixed ?'default':'tertiary'" @click="handleFixedMenu">
+        <template #icon>
+          <Icon
+              :size="16"
+              :icon="getMixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
+          />
+        </template>
+      </n-button>
     </n-layout-header>
     <n-layout-content style="height: 95vh" :native-scrollbar="false" embedded>
 
@@ -24,9 +32,9 @@
 </template>
 
 <script lang="ts">
-import type { MenuState } from './types';
+import type {MenuState} from './types';
 import {defineComponent, h, reactive, ref, toRefs, unref} from "vue";
-import {NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutContent, NLayoutHeader} from 'naive-ui';
+import {NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutContent, NLayoutHeader, NButton} from 'naive-ui';
 import Icon from "@/components/Icon";
 import {useI18n} from "@/hooks/web/useI18n";
 import {Menu} from "@/router/types";
@@ -37,10 +45,11 @@ import {RouteLocationNormalizedLoaded, useRouter} from "vue-router";
 import {useOpenKeys} from "@/components/SimpleMenu/src/useOpenKeys";
 import {openWindow} from "@/utils";
 import {isFunction, isUrl} from "@/utils/is";
+import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 
 export default defineComponent({
   name: "SimpleMenu",
-  components: {NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutContent, NLayoutHeader},
+  components: {Icon,NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutContent, NLayoutHeader, NButton},
   props: {
     items: {
       type: Array as PropType<Menu[]>,
@@ -55,9 +64,11 @@ export default defineComponent({
     },
     isSplitMenu: propTypes.bool,
   },
-  setup(props, { attrs, emit }) {
+  setup(props, {attrs, emit}) {
     const currentActiveMenu = ref('');
     const isClickGo = ref(false);
+
+    const {setMenuSetting,getMixSideFixed} = useMenuSetting();
 
     const menuState = reactive<MenuState>({
       activeName: '',
@@ -65,10 +76,10 @@ export default defineComponent({
       activeSubMenuNames: [],
     });
 
-    const { currentRoute } = useRouter();
-    const { items, accordion, mixSider, collapse } = toRefs(props);
+    const {currentRoute} = useRouter();
+    const {items, accordion, mixSider, collapse} = toRefs(props);
 
-    const { setOpenKeys, getOpenKeys } = useOpenKeys(
+    const {setOpenKeys, getOpenKeys} = useOpenKeys(
         menuState,
         items,
         accordion,
@@ -114,7 +125,7 @@ export default defineComponent({
         openWindow(key);
         return;
       }
-      const { beforeClickFn } = props;
+      const {beforeClickFn} = props;
       if (beforeClickFn && isFunction(beforeClickFn)) {
         const flag = await beforeClickFn(key);
         if (!flag) return;
@@ -127,12 +138,21 @@ export default defineComponent({
       menuState.activeName = key;
     }
 
+    function handleFixedMenu() {
+      setMenuSetting({
+        mixSideFixed: !unref(getMixSideFixed),
+        collapsed:unref(getMixSideFixed)
+      });
+    }
+
 
     return {
       renderLabel,
       renderIcon,
       handleSelect,
-      getOpenKeys
+      getOpenKeys,
+      getMixSideFixed,
+      handleFixedMenu
     };
   }
 });
