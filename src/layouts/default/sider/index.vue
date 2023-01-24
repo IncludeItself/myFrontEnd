@@ -2,8 +2,8 @@
   <n-layout-sider
       :native-scrollbar="false"
       collapse-mode="width"
-      :collapsed-width="getRealWidth"
-      :width="getRealWidth"
+      :collapsed-width="getMiniWidthNumber"
+      :width="getMixSideFixed?getMiniWidthNumber+getMenuWidth:getMenuWidth"
       :collapsed="getCollapsed"
       show-trigger
       @collapse="collapse(true)"
@@ -22,28 +22,35 @@ import LayoutMenu from "@/layouts/default/menu/index.vue";
 import {MixMenu} from "@/components/Menu";
 import {useMenuSetting} from '@/hooks/setting/useMenuSetting';
 import SimpleMenu from "@/components/SimpleMenu/src/SimpleMenu.vue";
-import {SIDE_BAR_SHOW_TIT_MINI_WIDTH} from "@/enums/appEnum";
 import {MenuTypeEnum} from "@/enums/menuEnum";
 
 export default defineComponent({
   name: "LayoutSideBar",
   components: {SimpleMenu, MixMenu, LayoutMenu, NLayoutSider},
   setup() {
-    const {getIsTopMenu, getCollapsed, setMenuSetting, getIsMixSidebar,getMixSideFixed,getRealWidth} = useMenuSetting();
-    const getMixSideWidth = SIDE_BAR_SHOW_TIT_MINI_WIDTH;
+    const {
+      getIsTopMenu,
+      getCollapsed,
+      getMenuWidth,
+      setMenuSetting,
+      getIsMixSidebar,
+      getMixSideFixed,
+      getMiniWidthNumber
+    } = useMenuSetting();
+
 
     function collapse(b: boolean | undefined) {
       if (b == true) {
         setMenuSetting({
           collapsed: true,
           mixSideFixed: false,
-          type:MenuTypeEnum.MIX_SIDEBAR
+          type: MenuTypeEnum.MIX_SIDEBAR
         });
       } else {
         setMenuSetting({
           collapsed: false,
           mixSideFixed: false,
-          type:MenuTypeEnum.SIDEBAR
+          type: MenuTypeEnum.SIDEBAR
         });
       }
 
@@ -52,11 +59,11 @@ export default defineComponent({
     return {
       getIsTopMenu,
       getCollapsed,
-      getMixSideWidth,
       getIsMixSidebar,
       getMixSideFixed,
-      getRealWidth,
-      collapse
+      getMiniWidthNumber,
+      collapse,
+      getMenuWidth
     };
   }
 });

@@ -74,6 +74,7 @@ export default defineComponent({
     const {
       getMenuWidth,
       getCanDrag,
+      getMiniWidthNumber,
       getCloseMixSidebarOnChange,
       getMenuTheme,
       getMixSideTrigger,
@@ -180,10 +181,6 @@ export default defineComponent({
       return isFixed;
     });
 
-    const getMixSideWidth = computed(() => {
-      return unref(getCollapsed) ? SIDE_BAR_MINI_WIDTH : SIDE_BAR_SHOW_TIT_MINI_WIDTH;
-    });
-
     function getItemEvents(item: Menu) {
       if (unref(getMixSideTrigger) === 'hover') {//unref(getMixSideTrigger) === 'hover'
         return {
@@ -221,10 +218,10 @@ export default defineComponent({
 
     const getMenuStyle = computed((): CSSProperties => {
       return {
-        width: unref(openMenu) ? `${unref(getMenuWidth)-unref(getMixSideWidth)}px` : 0,
+        width: unref(openMenu) ? `${unref(getMenuWidth)}px` : 0,
         position: "fixed",
         top: "0px",
-        left: `${unref(getMixSideWidth)}px`,
+        left: `${unref(getMiniWidthNumber)}px`,
         height: "100vh",
         transition: "all 0.2s"
       }
@@ -254,7 +251,7 @@ export default defineComponent({
 
 
     const getWrapStyle = computed((): CSSProperties => {
-      const width = unref(openMenu) ? `${unref(getMixSideWidth) + unref(getMenuWidth)}px` : `${unref(getMixSideWidth)}px`;
+      const width = unref(openMenu) ? `${unref(getMiniWidthNumber) + unref(getMenuWidth)}px` : `${unref(getMiniWidthNumber)}px`;
       return getWrapCommonStyle(width);
     });
 
@@ -277,7 +274,6 @@ export default defineComponent({
       menuModules,
       t,
       childrenMenus,
-      getMixSideWidth,
       getWrapStyle,
       getModuleItemStyle,
       handleMenuClick
