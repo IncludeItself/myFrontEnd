@@ -1,6 +1,6 @@
 <template>
-  <n-layout style="height: 100vh" embedded>
-    <n-layout-header style="height: 5vh">
+  <n-layout style="height: 100vh" embedded inverted>
+    <n-layout-header style="height: 5vh" inverted>
       <n-tag :bordered="false" style="margin: auto;text-align: center">
         爱在西元前
       </n-tag>
@@ -13,7 +13,7 @@
         </template>
       </n-button>
     </n-layout-header>
-    <n-layout-content style="height: 95vh" :native-scrollbar="false" embedded>
+    <n-layout-sider style="height: 95vh;width: auto" :native-scrollbar="false" embedded inverted>
 
       <!--    {{items}}-->
       <n-menu :options="items"
@@ -22,19 +22,21 @@
               key-field="path"
               mode="vertical"
               :collapsed="false"
-              indent="1px"
-              accordion
+              style="width:100%"
+              :indent="8"
+              inverted
               :on-update:value="handleSelect"
+
       />
 
-    </n-layout-content>
+    </n-layout-sider>
   </n-layout>
 </template>
 
 <script lang="ts">
 import type {MenuState} from './types';
 import {defineComponent, h, reactive, ref, toRefs, unref} from "vue";
-import {NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutContent, NLayoutHeader, NButton} from 'naive-ui';
+import {NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutSider, NLayoutHeader, NLayoutFooter,NButton} from 'naive-ui';
 import Icon from "@/components/Icon";
 import {useI18n} from "@/hooks/web/useI18n";
 import {Menu} from "@/router/types";
@@ -49,7 +51,7 @@ import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 
 export default defineComponent({
   name: "SimpleMenu",
-  components: {Icon,NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutContent, NLayoutHeader, NButton},
+  components: {Icon,NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutSider, NLayoutHeader,NLayoutFooter, NButton},
   props: {
     items: {
       type: Array as PropType<Menu[]>,

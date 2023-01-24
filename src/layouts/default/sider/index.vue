@@ -9,6 +9,7 @@
       @collapse="collapse(true)"
       @expand="collapse(false)"
       v-if="!getIsTopMenu"
+      inverted
   >
     <LayoutMenu v-if="!getCollapsed&&!getIsMixSidebar" :collapsed="getCollapsed"/>
     <MixMenu v-else/>

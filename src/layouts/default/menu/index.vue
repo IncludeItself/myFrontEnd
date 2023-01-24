@@ -7,11 +7,12 @@
       key-field="path"
       :collapsed-width="64"
       :collapsed-icon-size="20"
-      :indent="24"
+      :indent="16"
       :on-update:value="handleMenuClick"
       mode="vertical"
       style="overflow: hidden"
       :collapsed="collapsed"
+      inverted
   />
 </template>
 
