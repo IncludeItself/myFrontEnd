@@ -24,6 +24,8 @@
     <SimpleMenu :style="getMenuStyle"
                 v-show="openMenu"
                 :items="childrenMenus"
+                mixSider
+                @menu-click="handleMenuClick"
     />
 
   </n-space>
@@ -83,11 +85,6 @@ export default defineComponent({
     } = useMenuSetting();
     const themeVars = useThemeVars();
 
-    function testOnMouseMove(e) {
-      console.log(e.clientX);
-    }
-
-
     const permissionStore = usePermissionStore();
 
     onMounted(async () => {
@@ -140,10 +137,11 @@ export default defineComponent({
 
     // Set the currently active menu and submenu
     async function setActive(setChildren = false) {
+      console.log("currentRoute.value",currentRoute.value);
       const path = currentRoute.value?.path;
       if (!path) return;
       activePath.value = await getCurrentParentPath(path);
-      // hanldeModuleClick(parentPath);
+      console.log("activePath.value",activePath.value);
       if (unref(getIsMixSidebar)) {
         const activeMenu = unref(menuModules).find((item) => item.path === unref(activePath));
         const p = activeMenu?.path;
@@ -163,9 +161,9 @@ export default defineComponent({
       }
     }
 
-    // function handleMenuClick(path: string) {
-    //   go(path);
-    // }
+    function handleMenuClick(path: string) {
+      go(path);
+    }
 
     function handleClickOutside() {
       setActive(true);
@@ -275,7 +273,8 @@ export default defineComponent({
       childrenMenus,
       getMixSideWidth,
       getWrapStyle,
-      getModuleItemStyle
+      getModuleItemStyle,
+      handleMenuClick
     };
   }
 });
