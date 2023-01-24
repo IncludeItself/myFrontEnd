@@ -1,52 +1,65 @@
 <template>
-  <div v-bind="getMenuEvents" :style="getWrapStyle" onmousemove=testOnMouseMove >
-    <n-space vertical style="display: inline-block;position: relative">
+  <n-space v-bind="getMenuEvents" :style="getWrapStyle">
+    <n-scrollbar style="height: 100vh;">
+      <n-space vertical style="display: inline-block;position: relative">
 
-      <n-button v-for="item in menuModules"
-                size="large"
-                text
-                style="margin: 20px;"
-                :key="item.path"
-                v-bind="getItemEvents(item)">
-        <template #icon>
-          <IconWithText
-              size="28px"
-              :icon="item.icon || (item.meta && item.meta.icon)"
-              :text="t(item.name)"
-              textSize="1px"
-          />
-        </template>
-      </n-button>
+        <n-button v-for="item in menuModules"
+                  size="large"
+                  text
+                  :style="getModuleItemStyle(item)"
+                  :key="item.path"
+                  v-bind="getItemEvents(item)">
+          <template #icon>
+            <IconWithText
+                size="28px"
+                :icon="item.icon || (item.meta && item.meta.icon)"
+                :text="t(item.name)"
+                textSize="1px"
+            />
+          </template>
+        </n-button>
 
-    </n-space>
-
+      </n-space>
+    </n-scrollbar>
     <SimpleMenu :style="getMenuStyle"
                 v-show="openMenu"
                 :items="childrenMenus"
     />
 
-  </div>
+  </n-space>
 </template>
 
 <script lang="ts">
 import {computed, CSSProperties, defineComponent, onMounted, ref, unref, watch} from "vue";
-import {NButtonGroup, NButton, NSpace, NTooltip, NDrawer, NDrawerContent} from "naive-ui";
+import {NButtonGroup, NButton, NSpace, NTooltip, NDrawer, NDrawerContent, NScrollbar} from "naive-ui";
 import Icon from "@/components/Icon/src/Icon.vue";
 import IconWithText from "@/components/Icon/src/IconWithText.vue";
 import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
-import { usePermissionStore } from '@/store/modules/permission';
+import {usePermissionStore} from '@/store/modules/permission';
 import {SimpleMenu} from "@/components/SimpleMenu";
 import {RouteLocationNormalized} from "vue-router";
 import {getChildrenMenus, getCurrentParentPath, getShallowMenus} from "@/router/menus";
 import {Menu} from "@/router/types";
-import { useI18n } from '@/hooks/web/useI18n';
+import {useI18n} from '@/hooks/web/useI18n';
 import {useGo} from "@/hooks/web/usePage";
 import {SIDE_BAR_MINI_WIDTH, SIDE_BAR_SHOW_TIT_MINI_WIDTH} from "@/enums/appEnum";
+import {useThemeVars} from "naive-ui";
 
 
 export default defineComponent({
   name: "MixMenu",
-  components: {SimpleMenu, IconWithText, Icon, NButtonGroup, NButton, NSpace, NTooltip, NDrawer, NDrawerContent},
+  components: {
+    NScrollbar,
+    SimpleMenu,
+    IconWithText,
+    Icon,
+    NButtonGroup,
+    NButton,
+    NSpace,
+    NTooltip,
+    NDrawer,
+    NDrawerContent
+  },
   setup() {
     let menuModules = ref<Menu[]>([]);
     const activePath = ref('');
@@ -54,7 +67,7 @@ export default defineComponent({
     const openMenu = ref(false);
     const currentRoute = ref<Nullable<RouteLocationNormalized>>(null);
     const go = useGo();
-    const { t } = useI18n();
+    const {t} = useI18n();
     const {
       getMenuWidth,
       getCanDrag,
@@ -68,8 +81,9 @@ export default defineComponent({
       getIsMixSidebar,
       getCollapsed,
     } = useMenuSetting();
+    const themeVars = useThemeVars();
 
-    function testOnMouseMove(e){
+    function testOnMouseMove(e) {
       console.log(e.clientX);
     }
 
@@ -175,7 +189,7 @@ export default defineComponent({
     });
 
     function getItemEvents(item: Menu) {
-      if (false) {//unref(getMixSideTrigger) === 'hover'
+      if (unref(getMixSideTrigger) === 'hover') {//unref(getMixSideTrigger) === 'hover'
         return {
           onMouseenter: () => handleModuleClick(item.path, true),
           onClick: async () => {
@@ -201,6 +215,14 @@ export default defineComponent({
       }
     }
 
+    function getModuleItemStyle(item): CSSProperties {
+      return {
+        margin: '20px',
+        outline: '0px',
+        color: item.path === activePath.value ? themeVars.value.primaryColor : ''
+      }
+    }
+
     const getMenuStyle = computed((): CSSProperties => {
       return {
         width: unref(openMenu) ? `${unref(getMenuWidth)}px` : 0,
@@ -218,14 +240,17 @@ export default defineComponent({
         width,
         maxWidth: width,
         minWidth: width,
-        flex: `0 0 ${width}`,
-        backgroundColor:"grey"
+        // flex: `0 0 ${width}`,
+        // backgroundColor:"grey",
+        height: "100vh",
+        position: 'fixed',
+        overflow: "hidden"
       };
     }
 
 
     const getWrapStyle = computed((): CSSProperties => {
-      const width =unref(openMenu)? `${unref(getMixSideWidth)+unref(getMenuWidth)}px`: `${unref(getMixSideWidth)}px`;
+      const width = unref(openMenu) ? `${unref(getMixSideWidth) + unref(getMenuWidth)}px` : `${unref(getMixSideWidth)}px`;
       return getWrapCommonStyle(width);
     });
 
@@ -250,7 +275,7 @@ export default defineComponent({
       childrenMenus,
       getMixSideWidth,
       getWrapStyle,
-      testOnMouseMove
+      getModuleItemStyle
     };
   }
 });

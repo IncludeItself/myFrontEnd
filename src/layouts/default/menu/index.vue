@@ -38,7 +38,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    let selectedKdy='';
     const { menusRef } = useSplitMenu(toRef(props, 'splitType'));
     const renderLabel=(option)=>{
       return t(option.meta.title);

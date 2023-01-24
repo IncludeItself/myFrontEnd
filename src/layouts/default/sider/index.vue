@@ -1,7 +1,6 @@
 <template>
   <n-layout-sider
       :native-scrollbar="false"
-      bordered
       collapse-mode="width"
       :collapsed-width="getMixSideWidth"
       :width="220"
@@ -12,7 +11,7 @@
       v-if="!getIsTopMenu"
   >
     <LayoutMenu v-if="!getCollapsed" :collapsed="getCollapsed"/>
-    <MixMenu style="position: fixed" v-else/>
+    <MixMenu v-else/>
   </n-layout-sider>
 </template>
 
