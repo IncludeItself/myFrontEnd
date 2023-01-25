@@ -1,19 +1,24 @@
 <template>
-  <n-layout style="height: 100vh" embedded inverted>
-    <n-layout-header style="height: 5vh" inverted>
-      <n-tag :bordered="false" style="margin: auto;text-align: center">
-        爱在西元前
-      </n-tag>
-      <n-button quaternary :focusable="false" :type="getMixSideFixed ?'default':'tertiary'" @click="handleFixedMenu">
-        <template #icon>
-          <Icon
-              :size="16"
-              :icon="getMixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
-          />
-        </template>
-      </n-button>
-    </n-layout-header>
-    <n-layout-sider style="height: 95vh;width: auto" :native-scrollbar="false" embedded inverted>
+  <n-layout :style="{height: '100vh',width: getMenuWidth}" embedded inverted has-sider>
+    <n-layout-sider style="height: 100vh;width: auto" :native-scrollbar="false" embedded inverted>
+      <n-space style="position: absolute">
+
+        <span>爱在西元前</span>
+
+        <n-button quaternary
+                  :focusable="false"
+                  :type="getMixSideFixed ?'default':'tertiary'"
+                  @click="handleFixedMenu"
+        >
+          <template #icon>
+            <Icon
+                :size="16"
+                :icon="getMixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
+            />
+          </template>
+        </n-button>
+      </n-space>
+
 
       <!--    {{items}}-->
       <n-menu :options="items"
@@ -22,11 +27,10 @@
               key-field="path"
               mode="vertical"
               :collapsed="false"
-              style="width:100%"
-              :indent="8"
+              :style="getSimpleMenuStyle"
+              :indent="5"
               inverted
               :on-update:value="handleSelect"
-
       />
 
     </n-layout-sider>
@@ -35,8 +39,19 @@
 
 <script lang="ts">
 import type {MenuState} from './types';
-import {defineComponent, h, reactive, ref, toRefs, unref} from "vue";
-import {NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutSider, NLayoutHeader, NLayoutFooter,NButton} from 'naive-ui';
+import {computed, CSSProperties, defineComponent, h, reactive, ref, toRefs, unref} from "vue";
+import {
+  NSpace,
+  NTag,
+  NMenu,
+  NCard,
+  NScrollbar,
+  NLayout,
+  NLayoutSider,
+  NLayoutHeader,
+  NLayoutFooter,
+  NButton
+} from 'naive-ui';
 import Icon from "@/components/Icon";
 import {useI18n} from "@/hooks/web/useI18n";
 import {Menu} from "@/router/types";
@@ -51,7 +66,19 @@ import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 
 export default defineComponent({
   name: "SimpleMenu",
-  components: {Icon,NSpace, NTag, NMenu, NCard, NScrollbar, NLayout, NLayoutSider, NLayoutHeader,NLayoutFooter, NButton},
+  components: {
+    Icon,
+    NSpace,
+    NTag,
+    NMenu,
+    NCard,
+    NScrollbar,
+    NLayout,
+    NLayoutSider,
+    NLayoutHeader,
+    NLayoutFooter,
+    NButton
+  },
   props: {
     items: {
       type: Array as PropType<Menu[]>,
@@ -70,7 +97,7 @@ export default defineComponent({
     const currentActiveMenu = ref('');
     const isClickGo = ref(false);
 
-    const {setMenuSetting,getMixSideFixed} = useMenuSetting();
+    const {setMenuSetting, getMixSideFixed, getMiniWidthNumber, getMenuWidth} = useMenuSetting();
 
     const menuState = reactive<MenuState>({
       activeName: '',
@@ -97,6 +124,15 @@ export default defineComponent({
     const renderIcon = (option) => {
       return h(Icon, {icon: option.meta.icon});
     };
+
+    const getSimpleMenuStyle = computed((): CSSProperties => {
+      return {
+        width: `${unref(getMenuWidth)}px`,
+        // left:`${unref(getMiniWidthNumber)}px`,
+        top: "20px",
+        position: "relative"
+      };
+    });
 
     listenerRouteChange((route) => {
       if (route.name === REDIRECT_NAME) return;
@@ -143,7 +179,7 @@ export default defineComponent({
     function handleFixedMenu() {
       setMenuSetting({
         mixSideFixed: !unref(getMixSideFixed),
-        collapsed:unref(getMixSideFixed)
+        collapsed: unref(getMixSideFixed)
       });
     }
 
@@ -154,7 +190,9 @@ export default defineComponent({
       handleSelect,
       getOpenKeys,
       getMixSideFixed,
-      handleFixedMenu
+      handleFixedMenu,
+      getSimpleMenuStyle,
+      getMenuWidth
     };
   }
 });

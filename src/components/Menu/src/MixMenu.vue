@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import {computed, CSSProperties, defineComponent, onMounted, ref, unref, watch} from "vue";
-import {NButtonGroup, NButton, NSpace, NTooltip, NDrawer, NDrawerContent, NScrollbar} from "naive-ui";
+import {NButton, NButtonGroup, NDrawer, NDrawerContent, NScrollbar, NSpace, NTooltip, useThemeVars} from "naive-ui";
 import Icon from "@/components/Icon/src/Icon.vue";
 import IconWithText from "@/components/Icon/src/IconWithText.vue";
 import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
@@ -44,9 +44,9 @@ import {getChildrenMenus, getCurrentParentPath, getShallowMenus} from "@/router/
 import {Menu} from "@/router/types";
 import {useI18n} from '@/hooks/web/useI18n';
 import {useGo} from "@/hooks/web/usePage";
-import {SIDE_BAR_MINI_WIDTH, SIDE_BAR_SHOW_TIT_MINI_WIDTH} from "@/enums/appEnum";
-import {useThemeVars} from "naive-ui";
 import {listenerRouteChange} from "@/logics/mitt/routeChange";
+import {TriggerEnum} from "@/enums/menuEnum";
+import {openMenu} from "@/layouts/default/sider/useLayoutSider";
 
 
 export default defineComponent({
@@ -67,7 +67,7 @@ export default defineComponent({
     let menuModules = ref<Menu[]>([]);
     const activePath = ref('');
     const childrenMenus = ref<Menu[]>([]);
-    const openMenu = ref(false);
+    // const openMenu = ref(false);
     const currentRoute = ref<Nullable<RouteLocationNormalized>>(null);
     const go = useGo();
     const {t} = useI18n();
@@ -102,6 +102,18 @@ export default defineComponent({
           immediate: true,
         },
     );
+
+    watch([openMenu,getMixSideFixed],()=>{
+      if(unref(openMenu)&&!unref(getMixSideFixed)){
+        setMenuSetting({
+          trigger:TriggerEnum.NONE,
+        });
+      }else{
+        setMenuSetting({
+          trigger:TriggerEnum.HEADER,
+        });
+      }
+    }, {immediate: true});
 
 
     // Process module menu click

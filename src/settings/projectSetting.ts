@@ -103,7 +103,7 @@ const setting: ProjectConfig = {
     // Menu theme
     theme: ThemeEnum.DARK,
     // Split menu
-    split: false,
+    split: true,               //false,吴鑫峰改为true
     // Top menu layout
     topMenuAlign: 'center',
     // Fold trigger position

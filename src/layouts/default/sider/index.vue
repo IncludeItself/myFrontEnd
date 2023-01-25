@@ -4,8 +4,8 @@
       collapse-mode="width"
       :collapsed-width="getMiniWidthNumber"
       :width="getMixSideFixed?getMiniWidthNumber+getMenuWidth:getMenuWidth"
-      :collapsed="getCollapsed"
-      show-trigger
+      :collapsed="getCollapsed||(getIsMixSidebar&&!getMixSideFixed)"
+      :show-trigger="!(openMenu&&!getMixSideFixed)"
       @collapse="collapse(true)"
       @expand="collapse(false)"
       v-if="!getIsTopMenu"
@@ -24,6 +24,9 @@ import {MixMenu} from "@/components/Menu";
 import {useMenuSetting} from '@/hooks/setting/useMenuSetting';
 import SimpleMenu from "@/components/SimpleMenu/src/SimpleMenu.vue";
 import {MenuTypeEnum} from "@/enums/menuEnum";
+import {useTrigger} from "./useLayoutSider";
+import {useAppInject} from "@/hooks/web/useAppInject";
+import {openMenu} from "./useLayoutSider";
 
 export default defineComponent({
   name: "LayoutSideBar",
@@ -39,6 +42,9 @@ export default defineComponent({
       getMiniWidthNumber
     } = useMenuSetting();
 
+    const { getIsMobile } = useAppInject();
+
+    const { getTriggerAttr, getShowTrigger } = useTrigger(getIsMobile);
 
     function collapse(b: boolean | undefined) {
       if (b == true) {
@@ -57,6 +63,8 @@ export default defineComponent({
 
     }
 
+
+
     return {
       getIsTopMenu,
       getCollapsed,
@@ -64,7 +72,9 @@ export default defineComponent({
       getMixSideFixed,
       getMiniWidthNumber,
       collapse,
-      getMenuWidth
+      getMenuWidth,
+      getShowTrigger,
+      openMenu
     };
   }
 });

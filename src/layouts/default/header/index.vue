@@ -1,20 +1,19 @@
 <template>
   <n-layout-header bordered position="absolute" class="layout-header">
-    <!--顶部菜单-->
-    <MiniMenu class="layout-header-left" v-if="getMenuMode === 'horizontal'"/>
+
     <!--左侧菜单-->
     <div class="layout-header-left">
-      <!-- 菜单收起 -->
-      <div
-          class="ml-1 layout-header-trigger layout-header-trigger-min"
-      >
-        <n-icon size="18" v-if="collapsed">
-          <MenuOutline/>
-        </n-icon>
-        <n-icon size="18" v-else>
-          <MenuOutline/>
-        </n-icon>
-      </div>
+      <!--顶部迷你菜单minimenu-->
+      <MiniMenu/>
+      <NButton :focusable="false" text style="outline: 0px" size="tiny" ghost @click="setMiniMenu">
+        <template #icon>
+          <Icon size="20">
+            <CaretForwardSharp v-if="getIsTopMenu"/>
+            <CaretBackSharp v-else/>
+          </Icon>
+        </template>
+      </NButton>
+
       <!-- 刷新 -->
       <div
           class="mr-1 layout-header-trigger layout-header-trigger-min"
@@ -94,7 +93,7 @@
 
       <!--语言-->
       <div class="layout-header-trigger layout-header-trigger-min">
-        <AppLocalePicker />
+        <AppLocalePicker/>
       </div>
       <!--设置-->
       <!--      <SettingDrawerBtn class="layout-header-trigger layout-header-trigger-min"/>-->
@@ -107,7 +106,7 @@
 import {defineComponent, reactive, toRefs, ref, computed, unref} from 'vue';
 import {useRouter, useRoute} from 'vue-router';
 // import components from './components';
-import {NTooltip, NDropdown, NAvatar, NLayoutHeader, NIcon} from 'naive-ui';
+import {NButton,NTooltip, NDropdown, NAvatar, NLayoutHeader, NIcon} from 'naive-ui';
 import {useMessage} from "@/store/modules/message";
 // import { TABS_ROUTES } from '@/store/mutation-types';
 import {useUserStore} from '@/store/modules/user';
@@ -116,7 +115,7 @@ import {useUserStore} from '@/store/modules/user';
 // import { AsideMenu } from '@/layout/components/Menu';
 // import { useProjectSetting } from '@/hooks/setting/useProjectSetting';
 // import { websiteConfig } from '@/config/website.config';
-
+import {Icon} from "@vicons/utils";
 import {
   SettingsOutline,
   AccessibilityOutline,
@@ -126,9 +125,11 @@ import {
 } from '@vicons/ionicons5';
 // import SettingDrawerBtn from "@/layouts/default/header/SettingDrawerBtn.vue";
 import MiniMenu from "@/layouts/default/header/MiniMenu.vue";
+import {CaretBackSharp,CaretForwardSharp} from '@vicons/ionicons5';
 import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 import {createAsyncComponent} from "@/utils/factory/createAsyncComponent";
 import AppLocalePicker from "@/components/Application/src/AppLocalePicker.vue";
+import {MenuTypeEnum} from "@/enums/menuEnum";
 
 export default defineComponent({
   name: 'PageHeader',
@@ -138,8 +139,12 @@ export default defineComponent({
     // SettingDrawerBtn,
     SettingsOutline,
     NTooltip,
+    Icon,
+    NButton,
     AccessibilityOutline,
     NDropdown,
+    CaretBackSharp,
+    CaretForwardSharp,
     NAvatar,
     ReloadOutline,
     MenuOutline,
@@ -157,7 +162,19 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const {getMenuMode} = useMenuSetting();
+    const {getMenuMode,setMenuSetting,getIsTopMenu} = useMenuSetting();
+    function setMiniMenu(){
+      if(unref(getIsTopMenu)){
+        setMenuSetting({
+          type:MenuTypeEnum.MIX_SIDEBAR
+        });
+      }else{
+        setMenuSetting({
+          type:MenuTypeEnum.TOP_MENU
+        });
+      }
+
+    }
 
     // const userStore = useUserStore();
     // // const useLockscreen = useLockscreenStore();
@@ -332,7 +349,9 @@ export default defineComponent({
 
     return {
       collapsed,
-      getMenuMode
+      getMenuMode,
+      setMiniMenu,
+      getIsTopMenu
       // ...toRefs(state),
       // iconList,
       // toggleFullScreen,

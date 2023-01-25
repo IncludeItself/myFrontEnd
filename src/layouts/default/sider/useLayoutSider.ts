@@ -1,12 +1,14 @@
 import type { Ref } from 'vue';
 
-import { computed, unref, onMounted, nextTick } from 'vue';
+import {computed, unref, onMounted, nextTick, ref} from 'vue';
 
 import { TriggerEnum } from '@/enums/menuEnum';
 
 import { useMenuSetting } from '@/hooks/setting/useMenuSetting';
 import { useDebounceFn } from '@vueuse/core';
 import { useAppStore } from '@/store/modules/app';
+
+export const openMenu = ref(false);
 
 /**
  * Handle related operations of menu events

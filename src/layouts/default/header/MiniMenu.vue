@@ -1,24 +1,26 @@
 <template>
-  <n-popselect>
-    <NButton tertiary>
+  <n-popselect  v-if="getIsTopMenu">
+    <NButton tertiary style="outline: 0px">
       <template #icon>
-        <Icon size="35">
+        <Icon size="30">
           <MenuSharp/>
         </Icon>
       </template>
     </NButton>
     <template #empty>
-      <n-space class="miniMenu">
-        <n-scrollbar style="max-height: 90vh;display: flex;position: relative;overflow: visible">
+<!--      <n-space class="miniMenu">-->
+        <n-scrollbar style="max-height: 100%;height: 80vh;width: 50vw;">
 
 
           <MenuCategoryItem v-for="menuItem in menus" :item="menuItem"
                             style="display: inline-block;width: auto"/>
         </n-scrollbar>
-      </n-space>
+<!--      </n-space>-->
 
     </template>
   </n-popselect>
+
+
 
 </template>
 <script>
@@ -28,21 +30,29 @@ import {Icon} from "@vicons/utils";
 import {MenuSharp} from '@vicons/ionicons5';
 import {useI18n} from "@/hooks/web/useI18n";
 import {usePermissionStore} from "@/store/modules/permission";
+import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 import MenuCategoryItem from './MenuCategoryItem.vue';
+import {MenuModeEnum, MenuTypeEnum} from "@/enums/menuEnum";
 
-const permissionStore = usePermissionStore();
-const {t} = useI18n();
+
+
+
 
 export default defineComponent({
   name: "MiniMenu",
-  components: {Icon, MenuSharp, NButton, NCard, NSpace, NPopselect, NLayoutContent, NScrollbar, MenuCategoryItem},
+  components: {Icon, MenuSharp,NButton, NCard, NSpace, NPopselect, NLayoutContent, NScrollbar, MenuCategoryItem},
   setup() {
+    const {getIsTopMenu} = useMenuSetting();
+    const permissionStore = usePermissionStore();
     const menus = permissionStore.getFlattedMenu;
+    const {t} = useI18n();
+
 
 
     return {
       t,
       menus,
+      getIsTopMenu,
     }
 
   }
@@ -57,8 +67,8 @@ export default defineComponent({
   display: flex;
   z-index: 2;
   overflow: auto;
-  height: 90vh;
-  width: 80vw;
+  height: 80vh;
+  width: 50vw;
 }
 
 .empty {
@@ -66,9 +76,9 @@ export default defineComponent({
   height: 0px;
 }
 
-.scroll {
-  height: 900px;
-  width: 100%;
-}
+//.scroll {
+//  height: 900px;
+//  width: 100%;
+//}
 
 </style>
