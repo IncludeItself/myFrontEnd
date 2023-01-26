@@ -77,39 +77,25 @@
           <span>全屏</span>
         </n-tooltip>
       </div>
+
       <!-- 个人中心 -->
-      <div class="layout-header-trigger layout-header-trigger-min">
-        <n-dropdown trigger="hover">
-          <div class="avatar">
-            <n-avatar round>
-              username
-              <template #icon>
-                <AccessibilityOutline/>
-              </template>
-            </n-avatar>
-          </div>
-        </n-dropdown>
-      </div>
+      <user-dropdown/>
 
       <!--语言-->
-      <div class="layout-header-trigger layout-header-trigger-min">
-        <AppLocalePicker/>
-      </div>
+      <AppLocalePicker/>
+
       <!--设置-->
       <!--      <SettingDrawerBtn class="layout-header-trigger layout-header-trigger-min"/>-->
-      <SettingDrawer class="layout-header-trigger layout-header-trigger-min"/>
+      <SettingDrawer/>
     </div>
   </n-layout-header>
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, toRefs, ref, computed, unref} from 'vue';
-import {useRouter, useRoute} from 'vue-router';
+import {defineComponent, unref} from 'vue';
 // import components from './components';
-import {NButton,NTooltip, NDropdown, NAvatar, NLayoutHeader, NIcon} from 'naive-ui';
-import {useMessage} from "@/store/modules/message";
+import {NButton, NTooltip, NDropdown, NAvatar, NLayoutHeader, NIcon} from 'naive-ui';
 // import { TABS_ROUTES } from '@/store/mutation-types';
-import {useUserStore} from '@/store/modules/user';
 // import { useLockscreenStore } from '@/store/modules/lockscreen';
 // import ProjectSetting from './ProjectSetting.vue';
 // import { AsideMenu } from '@/layout/components/Menu';
@@ -125,15 +111,17 @@ import {
 } from '@vicons/ionicons5';
 // import SettingDrawerBtn from "@/layouts/default/header/SettingDrawerBtn.vue";
 import MiniMenu from "@/layouts/default/header/MiniMenu.vue";
-import {CaretBackSharp,CaretForwardSharp} from '@vicons/ionicons5';
+import {CaretBackSharp, CaretForwardSharp} from '@vicons/ionicons5';
 import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 import {createAsyncComponent} from "@/utils/factory/createAsyncComponent";
 import AppLocalePicker from "@/components/Application/src/AppLocalePicker.vue";
 import {MenuTypeEnum} from "@/enums/menuEnum";
+import UserDropdown from "@/layouts/default/header/components/user-dropdown/index.vue";
 
 export default defineComponent({
   name: 'PageHeader',
   components: {
+    UserDropdown,
     AppLocalePicker,
     MiniMenu,
     // SettingDrawerBtn,
@@ -162,15 +150,16 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const {getMenuMode,setMenuSetting,getIsTopMenu} = useMenuSetting();
-    function setMiniMenu(){
-      if(unref(getIsTopMenu)){
+    const {getMenuMode, setMenuSetting, getIsTopMenu} = useMenuSetting();
+
+    function setMiniMenu() {
+      if (unref(getIsTopMenu)) {
         setMenuSetting({
-          type:MenuTypeEnum.MIX_SIDEBAR
+          type: MenuTypeEnum.MIX_SIDEBAR
         });
-      }else{
+      } else {
         setMenuSetting({
-          type:MenuTypeEnum.TOP_MENU
+          type: MenuTypeEnum.TOP_MENU
         });
       }
 
@@ -427,7 +416,7 @@ export default defineComponent({
   &-right {
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 10px;
 
     .avatar {
       display: flex;
@@ -442,7 +431,7 @@ export default defineComponent({
 
   &-trigger {
     display: inline-block;
-    width: 35px;
+    width: 20px;
     height: 35px;
     text-align: center;
     cursor: pointer;

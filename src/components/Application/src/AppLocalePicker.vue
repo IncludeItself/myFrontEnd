@@ -3,33 +3,29 @@
  * @Description: Multi-language switching component
 -->
 <template>
-  <NDropdown
+  <n-popselect
+      v-model:value="selectedKey"
       placement="bottom"
       trigger="click"
       :options="localeList"
-      @select="handleMenuEvent"
+      :on-update:value="handleMenuEvent"
   >
-<!--    <NButton size="small" v-bind="$attrs" :bordered="false">-->
-<!--      <template #icon>-->
-    <div>
-        <Icon style="margin: 10px">
-          <Language/>
-        </Icon>
-<!--      </template>-->
-      <span v-if="showText">{{ getLocaleText }}</span>
-<!--    </NButton>-->
-    </div>
-  </NDropdown>
+
+    <n-button text style="outline: 0px;margin-left: 8px" :focusable="false" ghost>
+      <template #icon>
+        <Icon icon="ion:language"/>
+      </template>
+    </n-button>
+  </n-popselect>
 </template>
 <script lang="ts" setup>
 import type {LocaleType} from '#/config';
-import {NDropdown, NButton,NSpace} from 'naive-ui';
-import {Icon} from '@vicons/utils'
+import {NPopselect, NButton, NSpace} from 'naive-ui';
+import Icon from '@/components/Icon';
 import {useLocale} from '@/locales/useLocale';
 import {useLocaleStore} from "@/store/modules/locale";
 import {localeList} from '@/settings/localeSetting';
 import {computed, ref, unref, watchEffect} from "vue";
-import {Language} from '@vicons/ionicons5'
 
 const props = defineProps({
   /**

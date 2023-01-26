@@ -1,37 +1,42 @@
 <template>
-  <n-layout :style="{height: '100vh',width: getMenuWidth}" embedded inverted has-sider>
-    <n-layout-sider style="height: 100vh;width: auto" :native-scrollbar="false" embedded inverted>
-      <n-space style="position: absolute">
+  <n-layout style="height: 100vh" embedded inverted has-sider>
+    <n-layout-sider style="height: 100vh;width: 100%" :native-scrollbar="false" embedded inverted position="absolute">
 
-        <span>爱在西元前</span>
-
-        <n-button quaternary
-                  :focusable="false"
-                  :type="getMixSideFixed ?'default':'tertiary'"
-                  @click="handleFixedMenu"
-        >
-          <template #icon>
-            <Icon
-                :size="16"
-                :icon="getMixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
-            />
-          </template>
-        </n-button>
-      </n-space>
-
+      <div :style="{left:`${getMiniWidthNumber}px`,
+      display: 'inline-block',
+      position: 'absolute',
+      lineHeight:'30px',
+      }">
+        <span style="display: inline;">爱在西元前</span>
+      </div>
+      <n-button secondary
+                :focusable="false"
+                :type="getMixSideFixed ?'default':'tertiary'"
+                @click="handleFixedMenu"
+                style="position: absolute;right: 0px;"
+                :color="getMixSideFixed ?'#75a479':'unset'"
+      >
+        <template #icon>
+          <Icon
+              :size="16"
+              :icon="getMixSideFixed ? 'ri:pushpin-2-fill' : 'ri:pushpin-2-line'"
+          />
+        </template>
+      </n-button>
 
       <!--    {{items}}-->
-      <n-menu :options="items"
-              :render-label="renderLabel"
-              :render-icon="renderIcon"
-              key-field="path"
-              mode="vertical"
-              :collapsed="false"
-              :style="getSimpleMenuStyle"
-              :indent="5"
-              inverted
-              :on-update:value="handleSelect"
-      />
+      <n-scrollbar :style="getSimpleMenuStyle">
+        <n-menu :options="items"
+                :render-label="renderLabel"
+                :render-icon="renderIcon"
+                key-field="path"
+                mode="vertical"
+                :collapsed="false"
+                :indent="5"
+                inverted
+                :on-update:value="handleSelect"
+        />
+      </n-scrollbar>
 
     </n-layout-sider>
   </n-layout>
@@ -128,9 +133,10 @@ export default defineComponent({
     const getSimpleMenuStyle = computed((): CSSProperties => {
       return {
         width: `${unref(getMenuWidth)}px`,
-        // left:`${unref(getMiniWidthNumber)}px`,
-        top: "20px",
-        position: "relative"
+        left: `${unref(getMiniWidthNumber)}px`,
+        top: "30px",
+        height: "calc(100vh - 30px)",
+        position: "absolute"
       };
     });
 
@@ -192,7 +198,8 @@ export default defineComponent({
       getMixSideFixed,
       handleFixedMenu,
       getSimpleMenuStyle,
-      getMenuWidth
+      getMenuWidth,
+      getMiniWidthNumber
     };
   }
 });

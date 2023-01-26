@@ -4,7 +4,7 @@ import {CacheTypeEnum} from "@/enums/cacheEnum";
 
 export type LocaleType = 'zhCN' | 'enUS' | 'ruRU' | 'jaJP' | 'koKR';
 
-export type DateLocaleType = 'zh-CN' | 'en-US';
+export type DateLocaleType = 'dateZhCN' | 'dateEnUS';
 export interface LocaleSetting {
     showPicker: boolean;
     // Current language

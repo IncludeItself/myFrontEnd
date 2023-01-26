@@ -16,6 +16,7 @@ import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '@/router/routes/basic';
 import { isArray } from '@/utils/is';
 import { h } from 'vue';
+import {useMessage} from "@/store/modules/message";
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -155,18 +156,18 @@ export const useUserStore = defineStore({
     /**
      * @description: Confirm before logging out
      */
-    // confirmLoginOut() {
-    //   const { createConfirm } = useMessage();
-    //   const { t } = useI18n();
-    //   createConfirm({
-    //     iconType: 'warning',
-    //     title: () => h('span', t('sys.app.logoutTip')),
-    //     content: () => h('span', t('sys.app.logoutMessage')),
-    //     onOk: async () => {
-    //       await this.logout(true);
-    //     },
-    //   });
-    // },
+    confirmLoginOut() {
+      const { warning } = useMessage();
+      const { t } = useI18n();
+      warning({
+        type: 'warning',
+        title: () => h('span', t('sys.app.logoutTip')),
+        content: () => h('span', t('sys.app.logoutMessage')),
+        onClose: async () => {
+          await this.logout(true);
+        },
+      });
+    },
   },
 });
 

@@ -30,10 +30,10 @@ export const localeSetting: LocaleSetting = {
 export const localeList: DropdownOption[] = [
     {
         label: '简体中文',
-        key: LOCALE.ZH_CN,
+        value: LOCALE.ZH_CN,
     },
     {
         label: 'English',
-        key: LOCALE.EN_US,
+        value: LOCALE.EN_US,
     },
 ];
