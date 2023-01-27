@@ -1,7 +1,11 @@
 import { createAsyncComponent } from '@/utils/factory/createAsyncComponent';
 // import FullScreen from './FullScreen.vue';
 
-export const UserDropDown = createAsyncComponent(() => import('./user-dropdown/index.vue'), {
+export const UserDropdown = createAsyncComponent(() => import('./user-dropdown/index.vue'), {
+  loading: true,
+});
+
+export const MultipleTabs = createAsyncComponent(() => import('./tabs/index.vue'), {
   loading: true,
 });
 
