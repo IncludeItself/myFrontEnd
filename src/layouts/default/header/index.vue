@@ -14,42 +14,9 @@
         </template>
       </NButton>
 
-      <!-- 刷新 -->
-      <div
-          class="mr-1 layout-header-trigger layout-header-trigger-min"
-          v-if="collapsed"
-      >
-        <n-icon size="18">
-          <ReloadOutline/>
-        </n-icon>
-      </div>
-      <!-- 面包屑 -->
-      <!--      <n-breadcrumb v-if="crumbsSetting.show">-->
-      <!--        <template v-for="routeItem in breadcrumbList" :key="routeItem.name">-->
-      <!--          <n-breadcrumb-item v-if="routeItem.meta.title">-->
-      <!--            <n-dropdown-->
-      <!--                v-if="routeItem.children.length"-->
-      <!--                :options="routeItem.children"-->
-      <!--                @select="dropdownSelect"-->
-      <!--            >-->
-      <!--              <span class="link-text">-->
-      <!--                <component-->
-      <!--                    v-if="crumbsSetting.showIcon && routeItem.meta.icon"-->
-      <!--                    :is="routeItem.meta.icon"-->
-      <!--                />-->
-      <!--                {{ routeItem.meta.title }}-->
-      <!--              </span>-->
-      <!--            </n-dropdown>-->
-      <!--            <span class="link-text" v-else>-->
-      <!--              <component-->
-      <!--                  v-if="crumbsSetting.showIcon && routeItem.meta.icon"-->
-      <!--                  :is="routeItem.meta.icon"-->
-      <!--              />-->
-      <!--              {{ routeItem.meta.title }}-->
-      <!--            </span>-->
-      <!--          </n-breadcrumb-item>-->
-      <!--        </template>-->
-      <!--      </n-breadcrumb>-->
+      <n-divider vertical />
+
+      <multiple-tabs/>
     </div>
     <div class="layout-header-right">
       <div
@@ -94,7 +61,7 @@
 <script lang="ts">
 import {defineComponent, unref} from 'vue';
 // import components from './components';
-import {NButton, NTooltip, NDropdown, NAvatar, NLayoutHeader, NIcon} from 'naive-ui';
+import {NButton, NTooltip, NDropdown, NAvatar, NLayoutHeader, NIcon,NDivider} from 'naive-ui';
 // import { TABS_ROUTES } from '@/store/mutation-types';
 // import { useLockscreenStore } from '@/store/modules/lockscreen';
 // import ProjectSetting from './ProjectSetting.vue';
@@ -116,14 +83,16 @@ import {useMenuSetting} from "@/hooks/setting/useMenuSetting";
 import {createAsyncComponent} from "@/utils/factory/createAsyncComponent";
 import AppLocalePicker from "@/components/Application/src/AppLocalePicker.vue";
 import {MenuTypeEnum} from "@/enums/menuEnum";
-import UserDropdown from "@/layouts/default/header/components/user-dropdown/index.vue";
+import {UserDropdown,MultipleTabs} from "./components";
 
 export default defineComponent({
   name: 'PageHeader',
   components: {
     UserDropdown,
+    MultipleTabs,
     AppLocalePicker,
     MiniMenu,
+    NDivider,
     // SettingDrawerBtn,
     SettingsOutline,
     NTooltip,
@@ -165,175 +134,6 @@ export default defineComponent({
 
     }
 
-    // const userStore = useUserStore();
-    // // const useLockscreen = useLockscreenStore();
-    // const message = useMessage();
-    // // const { getNavMode, getNavTheme, getHeaderSetting, getMenuSetting, getCrumbsSetting } =
-    // //     useProjectSetting();
-    //
-    // const { username } = userStore?.info || {};
-    //
-    // const drawerSetting = ref();
-    //
-    // const state = reactive({
-    //   username: username || '',
-    //   fullscreenIcon: 'FullscreenOutlined',
-    //   navMode: getNavMode,
-    //   navTheme: getNavTheme,
-    //   headerSetting: getHeaderSetting,
-    //   crumbsSetting: getCrumbsSetting,
-    // });
-    //
-    // const getInverted = computed(() => {
-    //   const navTheme = unref(getNavTheme);
-    //   return ['light', 'header-dark'].includes(navTheme) ? props.inverted : !props.inverted;
-    // });
-    //
-    // const mixMenu = computed(() => {
-    //   return unref(getMenuSetting).mixMenu;
-    // });
-    //
-    // const getChangeStyle = computed(() => {
-    //   const { collapsed } = props;
-    //   const { minMenuWidth, menuWidth }: any = unref(getMenuSetting);
-    //   return {
-    //     left: collapsed ? `${minMenuWidth}px` : `${menuWidth}px`,
-    //     width: `calc(100% - ${collapsed ? `${minMenuWidth}px` : `${menuWidth}px`})`,
-    //   };
-    // });
-    //
-    // const getMenuLocation = computed(() => {
-    //   return 'header';
-    // });
-    //
-    // const router = useRouter();
-    // const route = useRoute();
-    //
-    // const generator: any = (routerMap) => {
-    //   return routerMap.map((item) => {
-    //     const currentMenu = {
-    //       ...item,
-    //       label: item.meta.title,
-    //       key: item.name,
-    //       disabled: item.path === '/',
-    //     };
-    //     // 是否有子菜单，并递归处理
-    //     if (item.children && item.children.length > 0) {
-    //       // Recursion
-    //       currentMenu.children = generator(item.children, currentMenu);
-    //     }
-    //     return currentMenu;
-    //   });
-    // };
-    //
-    // const breadcrumbList = computed(() => {
-    //   return generator(route.matched);
-    // });
-    //
-    // const dropdownSelect = (key) => {
-    //   router.push({ name: key });
-    // };
-    //
-    // // 刷新页面
-    // const reloadPage = () => {
-    //   router.push({
-    //     path: '/redirect' + unref(route).fullPath,
-    //   });
-    // };
-    //
-    // // 退出登录
-    // const doLogout = () => {
-    //   // message.info({
-    //   //   title: '提示',
-    //   //   content: '您确定要退出登录吗',
-    //   //   positiveText: '确定',
-    //   //   negativeText: '取消',
-    //   //   onPositiveClick: () => {
-    //   //     userStore.logout().then(() => {
-    //   //       message.success({content:'成功退出登录'});
-    //   //       // 移除标签页
-    //   //       localStorage.removeItem(TABS_ROUTES);
-    //   //       router
-    //   //           .replace({
-    //   //             name: 'Login',
-    //   //             query: {
-    //   //               redirect: route.fullPath,
-    //   //             },
-    //   //           })
-    //   //           .finally(() => location.reload());
-    //   //     });
-    //   //   },
-    //   //   onNegativeClick: () => {},
-    //   // });
-    // };
-    //
-    // // 切换全屏图标
-    // const toggleFullscreenIcon = () =>
-    //     (state.fullscreenIcon =
-    //         document.fullscreenElement !== null ? 'FullscreenExitOutlined' : 'FullscreenOutlined');
-    //
-    // // 监听全屏切换事件
-    // document.addEventListener('fullscreenchange', toggleFullscreenIcon);
-    //
-    // // 全屏切换
-    // const toggleFullScreen = () => {
-    //   if (!document.fullscreenElement) {
-    //     document.documentElement.requestFullscreen();
-    //   } else {
-    //     if (document.exitFullscreen) {
-    //       document.exitFullscreen();
-    //     }
-    //   }
-    // };
-    //
-    // // 图标列表
-    // const iconList = [
-    //   {
-    //     icon: 'SearchOutlined',
-    //     tips: '搜索',
-    //   },
-    //   {
-    //     icon: 'GithubOutlined',
-    //     tips: 'github',
-    //     eventObject: {
-    //       click: () => window.open('https://github.com/jekip/naive-ui-admin'),
-    //     },
-    //   },
-    //   {
-    //     icon: 'LockOutlined',
-    //     tips: '锁屏',
-    //     eventObject: {
-    //       click: () => useLockscreen.setLock(true),
-    //     },
-    //   },
-    // ];
-    // const avatarOptions = [
-    //   {
-    //     label: '个人设置',
-    //     key: 1,
-    //   },
-    //   {
-    //     label: '退出登录',
-    //     key: 2,
-    //   },
-    // ];
-    //
-    // //头像下拉菜单
-    // const avatarSelect = (key) => {
-    //   switch (key) {
-    //     case 1:
-    //       router.push({ name: 'Setting' });
-    //       break;
-    //     case 2:
-    //       doLogout();
-    //       break;
-    //   }
-    // };
-    //
-    // function openSetting() {
-    //   const { openDrawer } = drawerSetting.value;
-    //   openDrawer();
-    // }
     const collapsed = false;
 
     return {
@@ -341,23 +141,6 @@ export default defineComponent({
       getMenuMode,
       setMiniMenu,
       getIsTopMenu
-      // ...toRefs(state),
-      // iconList,
-      // toggleFullScreen,
-      // doLogout,
-      // route,
-      // dropdownSelect,
-      // avatarOptions,
-      // getChangeStyle,
-      // avatarSelect,
-      // breadcrumbList,
-      // reloadPage,
-      // drawerSetting,
-      // openSetting,
-      // getInverted,
-      // getMenuLocation,
-      // mixMenu,
-      // websiteConfig,
     };
   },
 });
