@@ -12,8 +12,8 @@
       </n-tab>
     </n-tabs>
   </n-scrollbar>
-  <n-dropdown placement="bottom-start" trigger="click" :options="options">
-    <n-button text style="outline: 0px;margin-top: 12px" :focusable="false" ghost>
+  <n-dropdown placement="bottom-start" trigger="click" :options="getDropMenuList" :on-select="handleMenuEvent">
+    <n-button text style="outline: 0px;margin-top: 12px" :focusable="false" ghost @click="handleContext">
       <Icon icon="ion:chevron-down"/>
     </n-button>
   </n-dropdown>
@@ -22,9 +22,10 @@
       trigger="manual"
       :x="x"
       :y="y"
-      :options="options"
+      :options="getDropMenuList"
       :show="showDropdown"
       :on-clickoutside="onClickoutside"
+      :on-select="(key)=>{handleMenuEvent(key);showDropdown=false;}"
   />
 </template>
 <script lang="ts">
@@ -39,57 +40,12 @@ import {useUserStore} from "@/store/modules/user";
 import {useGo} from "@/hooks/web/usePage";
 import Icon from '@/components/Icon';
 import {useTabDropdown} from "@/layouts/default/header/components/tabs/useTabDropdown";
+import {useTabs} from "@/hooks/web/useTabs"
 
 export default defineComponent({
   name: 'MultipleTabs',
   components: {NTag, NSpace, NScrollbar, NTabs, NTab, Icon, NButton, NDropdown},
   setup() {
-    const options = [
-      {
-        label: '杰·盖茨比',
-        key: 'jay gatsby'
-      },
-      {
-        label: '黛西·布坎南',
-        key: 'daisy buchanan'
-      },
-      {
-        type: 'divider',
-        key: 'd1'
-      },
-      {
-        label: '尼克·卡拉威',
-        key: 'nick carraway'
-      },
-      {
-        label: '其他',
-        key: 'others1',
-        children: [
-          {
-            label: '乔丹·贝克',
-            key: 'jordan baker'
-          },
-          {
-            label: '汤姆·布坎南',
-            key: 'tom buchanan'
-          },
-          {
-            label: '其他',
-            key: 'others2',
-            children: [
-              {
-                label: '鸡肉',
-                key: 'chicken'
-              },
-              {
-                label: '牛肉',
-                key: 'beef'
-              }
-            ]
-          }
-        ]
-      }
-    ];
     const themeVars = useThemeVars();
     const activeKeyRef = ref('');
     const {t} = useI18n();
@@ -101,6 +57,10 @@ export default defineComponent({
     const y = ref(0);
 
     const go = useGo();
+
+    const {getCurrentTab}=useTabs();
+
+    const currentTab=computed<RouteLocationNormalized>(()=>getCurrentTab(activeKeyRef.value));
 
     const getTitle = (tabItem: RouteLocationNormalized | undefined) => {
       const {meta} = tabItem ?? {};
@@ -158,7 +118,6 @@ export default defineComponent({
     //padding-left: 3px;padding-right: 3px;margin-top: 11px;height: 27px;border-bottom: #535bf2 3px solid
     function getTabStyle(item: RouteLocationNormalized): CSSProperties {
       const p = item.fullPath || item.path
-      console.log("p", p);
       return {
         paddingLeft: '3px',
         paddingRight: '1px',
@@ -170,22 +129,18 @@ export default defineComponent({
       }
     }
 
-    // const {handleContextMenu } = useTabDropdown(
-    //     props as TabContentProps,
-    //     getIsTabs,
-    // );
+    const {getDropMenuList, handleContextMenu, handleMenuEvent} = useTabDropdown();
 
-    function handleContext(e, item) {
-      if (!unref(item)) {
-        return;
+    function handleContext(e, item?) {
+      handleContextMenu(unref(item||currentTab))(e);
+      if (unref(item)) {
+        showDropdown.value = false;
+        nextTick().then(() => {
+          showDropdown.value = true
+          x.value = e.clientX
+          y.value = e.clientY
+        });
       }
-      e?.preventDefault();
-      showDropdown.value = false;
-      nextTick().then(() => {
-        showDropdown.value = true
-        x.value = e.clientX
-        y.value = e.clientY
-      })
     }
 
     return {
@@ -196,14 +151,15 @@ export default defineComponent({
       unClose,
       getTabStyle,
       activeKeyRef,
+      getDropMenuList,
       handleContext,
+      handleMenuEvent,
       showDropdown,
       x,
       y,
       onClickoutside() {
         showDropdown.value = false
-      },
-      options
+      }
     };
   },
 });
