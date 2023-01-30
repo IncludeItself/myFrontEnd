@@ -142,7 +142,6 @@ export default defineComponent({
 
     async function getBackMenuList() {
       backMenuList.value = await getMenuList() as AppRouteRecordRaw[];
-      console.log("backMenuList.toRaw",backMenuList.value);
     }
 
     onMounted(() => {

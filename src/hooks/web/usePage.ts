@@ -32,6 +32,7 @@ export function useGo(_router?: Router) {
  */
 export const useRedo = (_router?: Router) => {
   const { replace, currentRoute } = _router || useRouter();
+  console.log("currentRoute.value",unref(currentRoute.value));
   const { query, params = {}, name, fullPath } = unref(currentRoute.value);
   function redo(): Promise<boolean> {
     return new Promise((resolve) => {
