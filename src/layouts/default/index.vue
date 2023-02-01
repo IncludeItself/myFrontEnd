@@ -1,9 +1,9 @@
 <template>
   <n-layout class="layout" position="absolute" has-sider>
     <LayoutSideBar class="layout-sider" v-if="getMenuMode !== 'horizontal'"/>
-    <n-layout inverted>
+    <n-layout inverted >
       <LayoutHeader/>
-      <LayoutContent class="layout-content"/>
+      <LayoutContent />
     </n-layout>
   </n-layout>
 </template>
@@ -93,8 +93,8 @@ export default defineComponent({
 
   .layout-content {
     flex: auto;
-    height: 100vh;
-    padding-top: 35px;
+    height: auto;
+    top: 35px;
     margin: 0 0;
   }
 

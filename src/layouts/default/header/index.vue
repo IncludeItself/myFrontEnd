@@ -1,5 +1,5 @@
 <template>
-  <n-layout-header bordered position="absolute" class="layout-header">
+  <n-layout-header bordered class="layout-header" :style="{height:HEADER_HEIGHT}">
 
     <!--左侧菜单-->
     <div class="layout-header-left">
@@ -60,14 +60,8 @@
 
 <script lang="ts">
 import {defineComponent, unref} from 'vue';
-// import components from './components';
 import {NButton, NTooltip, NDropdown, NAvatar, NLayoutHeader, NIcon,NDivider} from 'naive-ui';
-// import { TABS_ROUTES } from '@/store/mutation-types';
-// import { useLockscreenStore } from '@/store/modules/lockscreen';
-// import ProjectSetting from './ProjectSetting.vue';
-// import { AsideMenu } from '@/layout/components/Menu';
-// import { useProjectSetting } from '@/hooks/setting/useProjectSetting';
-// import { websiteConfig } from '@/config/website.config';
+import {HEADER_HEIGHT} from '@/enums/appEnum'
 import {Icon} from "@vicons/utils";
 import {
   SettingsOutline,
@@ -140,7 +134,8 @@ export default defineComponent({
       collapsed,
       getMenuMode,
       setMiniMenu,
-      getIsTopMenu
+      getIsTopMenu,
+      HEADER_HEIGHT
     };
   },
 });
@@ -152,7 +147,6 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
   padding: 0;
-  height: 35px;
   box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
   transition: all 0.2s ease-in-out;
   width: 100%;

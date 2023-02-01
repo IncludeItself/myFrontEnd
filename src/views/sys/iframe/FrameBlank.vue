@@ -1,20 +1,9 @@
 <template>
-<span>This is FrameBlank</span>
+  <div></div>
 </template>
-
-<script>
-import {defineComponent} from 'vue';
-
-export default defineComponent({
-  name: "FrameBlank",
-
-  setup() {
-
-  }
-
-});
+<script lang="ts">
+  import { defineComponent } from 'vue';
+  export default defineComponent({
+    name: 'FrameBlank',
+  });
 </script>
-
-<style scoped>
-
-</style>

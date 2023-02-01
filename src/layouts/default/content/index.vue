@@ -1,5 +1,5 @@
 <template>
-  <n-layout-content :native-scrollbar="false">
+  <n-layout-content :native-scrollbar="false" :style="{height: `${getViewHeight}px`}">
     <div class="main-view">
       <router-view/>
     </div>
@@ -9,12 +9,15 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {NLayoutContent, NSpace} from 'naive-ui';
+import {useContentViewHeight} from "@/layouts/default/content/useContentViewHeight";
+
 
 export default defineComponent({
   name: "LayoutContent",
   components: {NLayoutContent, NSpace},
   setup() {
-    return {};
+    const {getViewHeight}=useContentViewHeight();
+    return {getViewHeight};
   }
 });
 </script>

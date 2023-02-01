@@ -1,5 +1,6 @@
 export const SIDE_BAR_MINI_WIDTH = 48;
 export const SIDE_BAR_SHOW_TIT_MINI_WIDTH = 64;
+export const HEADER_HEIGHT=35;
 
 export enum ContentEnum {
   // auto width
