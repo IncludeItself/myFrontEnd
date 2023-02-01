@@ -406,7 +406,6 @@ export default defineComponent({
                 {...attrs}
                 title={t('layout.setting.drawerTitle')}
                 width={330}
-                class="setting-drawer"
                 v-model:show={isShow.value}
             >
                 <NDrawerContent native-scrollbar={false}>

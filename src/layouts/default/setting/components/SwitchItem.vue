@@ -1,5 +1,5 @@
 <template>
-  <div class="prefixCls">
+  <n-space justify="space-between" style="margin: 12px 0">
     <span> {{ title }}</span>
     <n-switch
       v-bind="getBindValue"
@@ -8,19 +8,19 @@
       :checkedChildren="t('layout.setting.on')"
       :unCheckedChildren="t('layout.setting.off')"
     />
-  </div>
+  </n-space>
 </template>
 <script lang="ts">
   import { defineComponent, PropType, computed } from 'vue';
 
-  import { NSwitch } from 'naive-ui';
+  import { NSwitch,NSpace } from 'naive-ui';
   import { useI18n } from '@/hooks/web/useI18n';
   import { baseHandler } from '../handler';
   import { HandlerEnum } from '../enum';
 
   export default defineComponent({
     name: 'SwitchItem',
-    components: { NSwitch },
+    components: { NSwitch,NSpace },
     props: {
       event: {
         type: Number as PropType<HandlerEnum>,
@@ -55,12 +55,4 @@
     },
   });
 </script>
-<style lang="less" scoped>
-  //@prefix-cls: ~'@{namespace}-setting-switch-item';
 
-  .prefix-cls {
-    display: flex;
-    justify-content: space-between;
-    margin: 16px 0;
-  }
-</style>

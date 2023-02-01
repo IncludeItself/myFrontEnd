@@ -4,10 +4,10 @@ import type {
   HeaderSetting,
   MenuSetting,
   TransitionSetting,
-  MultiTabsSetting, ThemeOverrides,
+  MultiTabsSetting,
 } from '#/config';
 import type { BeforeMiniState } from '#/store';
-
+import {GlobalThemeOverrides} from 'naive-ui';
 import { defineStore } from 'pinia';
 import { store } from '@/store';
 
@@ -22,7 +22,7 @@ import {lighten} from "@/utils/color";
 
 interface AppState {
   //吴鑫峰加的，naive用的
-  themeOverrides:DeepPartial<ThemeOverrides>| null;
+  themeOverrides:DeepPartial<GlobalThemeOverrides>| null;
 
   darkMode?: ThemeEnum;
   // Page loading status
@@ -34,11 +34,12 @@ interface AppState {
 }
 
 const PrimaryColor=APP_PRESET_COLOR_LIST[1];
-const defaultOverrides:DeepPartial<ThemeOverrides>={
+const defaultOverrides:DeepPartial<GlobalThemeOverrides>={
   common:{
     primaryColor:PrimaryColor,
     primaryColorHover: lighten(PrimaryColor,6),
     primaryColorPressed: lighten(PrimaryColor,7),
+    primaryColorSuppl:PrimaryColor
   },
   LoadingBar:{
     colorLoading: PrimaryColor
@@ -56,7 +57,7 @@ export const useAppStore = defineStore({
     beforeMiniInfo: {}, //  属性用于当窗口缩小时记住菜单状态，并在恢复窗口时恢复这些状态（是否折叠、是否分割、类型、模式）
   }),
   getters: {
-    getThemeOverrides():DeepPartial<ThemeOverrides>{
+    getThemeOverrides():DeepPartial<GlobalThemeOverrides>{
       return this.themeOverrides || {};
     },
     // 页面加载状态
@@ -93,7 +94,7 @@ export const useAppStore = defineStore({
     },
   },
   actions: {
-    setThemeOverrides(theme: DeepPartial<ThemeOverrides>){
+    setThemeOverrides(theme: DeepPartial<GlobalThemeOverrides>){
       this.themeOverrides = deepMerge(this.themeOverrides || {}, theme);
       Persistent.setLocal(APP_THEMEOVERRIDES_KEY, this.themeOverrides);
     },

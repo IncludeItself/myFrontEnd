@@ -17,19 +17,6 @@ export interface LocaleSetting {
     availableLocales: LocaleType[];
 }
 
-export interface ThemeOverrides{
-    common: {
-        primaryColor: string,
-        primaryColorHover: string,
-        primaryColorPressed: string,
-    },
-    LoadingBar: {
-        colorLoading: string,
-    },
-    Layout:{
-        headerColor:string
-    }
-}
 
 export interface ProjectConfig {
     // Storage location of permission related information

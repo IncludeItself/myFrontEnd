@@ -1,4 +1,5 @@
 <template>
+<n-space justify="center">
   <n-switch :value="isDarkTheme" :rail-style="railStyle" @update:value="isDarkTheme=!isDarkTheme">
     <template #checked>
       <Icon color='#ffdd63'>
@@ -11,10 +12,11 @@
       </Icon>
     </template>
   </n-switch>
+</n-space>
 </template>
 <script lang="ts" setup>
 import {computed, CSSProperties} from 'vue';
-import {NSwitch} from 'naive-ui';
+import {NSwitch,NSpace} from 'naive-ui';
 import {useAppStore} from "@/store/modules/app";
 import {ThemeEnum} from "@/enums/appEnum";
 import {Icon} from "@vicons/utils";
