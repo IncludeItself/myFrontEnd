@@ -1,5 +1,5 @@
 <template>
-  <n-layout-header bordered class="layout-header" :style="{height:HEADER_HEIGHT}">
+  <n-layout-header bordered class="layout-header" :style="{height:`${HEADER_HEIGHT}px`}">
 
     <!--左侧菜单-->
     <div class="layout-header-left">
@@ -147,6 +147,7 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
   padding: 0;
+  margin: 0;
   box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
   transition: all 0.2s ease-in-out;
   width: 100%;
@@ -160,16 +161,16 @@ export default defineComponent({
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 35px;
-      line-height: 35px;
+      //height: 35px;
+      //line-height: 35px;
       overflow: hidden;
       white-space: nowrap;
       padding-left: 10px;
 
       img {
         width: auto;
-        height: 32px;
-        margin-right: 10px;
+        //height: 32px;
+        //margin-right: 10px;
       }
 
       .title {
@@ -198,7 +199,7 @@ export default defineComponent({
     .avatar {
       display: flex;
       align-items: center;
-      height: 35px;
+      //height: 35px;
     }
 
     > * {
@@ -209,7 +210,7 @@ export default defineComponent({
   &-trigger {
     display: inline-block;
     width: 20px;
-    height: 35px;
+    //height: 35px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -217,8 +218,8 @@ export default defineComponent({
     .n-icon {
       display: flex;
       align-items: center;
-      height: 35px;
-      line-height: 35px;
+      //height: 35px;
+      //line-height: 35px;
     }
 
     &:hover {

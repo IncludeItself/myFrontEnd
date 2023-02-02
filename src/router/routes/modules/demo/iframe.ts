@@ -35,7 +35,7 @@ const iframe: AppRouteModule = {
       },
     },
     {
-      path: 'https://vvbin.cn/doc-next/',
+      path: 'http://oa.sunda.com:90/',
       name: 'DocExternal',
       component: IFrame,
       meta: {

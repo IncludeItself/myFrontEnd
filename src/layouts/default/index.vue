@@ -1,7 +1,7 @@
 <template>
   <n-layout class="layout" position="absolute" has-sider>
     <LayoutSideBar class="layout-sider" v-if="getMenuMode !== 'horizontal'"/>
-    <n-layout inverted >
+    <n-layout inverted>
       <LayoutHeader/>
       <LayoutContent />
     </n-layout>

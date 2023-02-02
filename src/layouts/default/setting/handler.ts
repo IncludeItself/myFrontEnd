@@ -46,7 +46,8 @@ export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConf
       console.log("primaryColor",value);
       appStore.setThemeOverrides({
         common:{
-          primaryColor:value
+          primaryColor:value,
+          primaryColorSuppl:value
         }
       });
 

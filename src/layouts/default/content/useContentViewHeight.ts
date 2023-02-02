@@ -22,8 +22,8 @@ export function useContentViewHeight() {
     return unref(contentHeight) - unref(headerHeightRef) - unref(footerHeightRef) || 0;
   });
 
-  useWindowSizeFn(
-    () => {
+  useWindowSizeFn<void>(
+    ()  => {
       contentHeight.value = window.innerHeight;
     },
     100,
