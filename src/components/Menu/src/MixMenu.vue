@@ -4,7 +4,7 @@
       <n-space vertical style="display: inline-block;position: relative">
 
         <n-button v-for="item in menuModules"
-                  size="large"
+                  :size="getCollapsedShowTitle?'large':'small'"
                   text
                   :style="getModuleItemStyle(item)"
                   :key="item.path"
@@ -13,7 +13,7 @@
             <IconWithText
                 size="28px"
                 :icon="item.icon || (item.meta && item.meta.icon)"
-                :text="t(item.name)"
+                :text="getCollapsedShowTitle?t(item.name):null"
                 textSize="1px"
             />
           </template>
@@ -66,14 +66,15 @@ export default defineComponent({
   setup() {
     let menuModules = ref<Menu[]>([]);
     const activePath = ref('');
+    const moduleTitle = ref('');
     const childrenMenus = ref<Menu[]>([]);
-    // const openMenu = ref(false);
     const currentRoute = ref<Nullable<RouteLocationNormalized>>(null);
     const go = useGo();
     const {t} = useI18n();
     const {
       getMenuWidth,
       getCanDrag,
+      getCollapsedShowTitle,
       getMiniWidthNumber,
       getCloseMixSidebarOnChange,
       getMenuTheme,
@@ -103,14 +104,14 @@ export default defineComponent({
         },
     );
 
-    watch([openMenu,getMixSideFixed],()=>{
-      if(unref(openMenu)&&!unref(getMixSideFixed)){
+    watch([openMenu, getMixSideFixed], () => {
+      if (unref(openMenu) && !unref(getMixSideFixed)) {
         setMenuSetting({
-          trigger:TriggerEnum.NONE,
+          trigger: TriggerEnum.NONE,
         });
-      }else{
+      } else {
         setMenuSetting({
-          trigger:TriggerEnum.HEADER,
+          trigger: TriggerEnum.HEADER,
         });
       }
     }, {immediate: true});
@@ -222,7 +223,7 @@ export default defineComponent({
 
     function getModuleItemStyle(item): CSSProperties {
       return {
-        margin: '20px',
+        margin: unref(getCollapsedShowTitle) ? '20px' : '14px',
         outline: '0px',
         color: item.path === activePath.value ? themeVars.value.primaryColor : "unset"
       }
@@ -285,6 +286,7 @@ export default defineComponent({
       getItemEvents,
       menuModules,
       t,
+      getCollapsedShowTitle,
       childrenMenus,
       getWrapStyle,
       getModuleItemStyle,

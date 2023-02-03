@@ -1,7 +1,3 @@
-<!--
- * @Author: Vben
- * @Description: Multi-language switching component
--->
 <template>
   <n-popselect
       v-model:value="selectedKey"
@@ -11,7 +7,7 @@
       :on-update:value="handleMenuEvent"
   >
 
-    <n-button text style="outline: 0px;margin-left: 8px" :focusable="false" ghost>
+    <n-button text style="outline: 0px;margin-left: 10px" :focusable="false" ghost>
       <template #icon>
         <Icon icon="ion:language"/>
       </template>

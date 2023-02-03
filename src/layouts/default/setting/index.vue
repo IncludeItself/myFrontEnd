@@ -1,5 +1,5 @@
 <template>
-    <n-button text style="outline: 0px;margin-left: 8px" :focusable="false" ghost @click="openDrawer">
+    <n-button text style="outline: 0px;margin-left: 10px" :focusable="false" ghost @click="openDrawer">
       <template #icon>
         <Icon icon="ion:settings-outline"/>
       </template>

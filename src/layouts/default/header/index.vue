@@ -19,31 +19,8 @@
       <multiple-tabs/>
     </div>
     <div class="layout-header-right">
-      <div
-          class="layout-header-trigger layout-header-trigger-min"
-      >
-        <n-tooltip placement="bottom">
-          <template #trigger>
-            <n-icon size="18">
-              <!--              <component :is="item.icon" v-on="item.eventObject || {}" />-->
-              <AmericanFootballOutline/>
-            </n-icon>
-          </template>
-          <span>item.tips</span>
-        </n-tooltip>
-      </div>
       <!--切换全屏-->
-      <div class="layout-header-trigger layout-header-trigger-min">
-        <n-tooltip placement="bottom">
-          <template #trigger>
-            <n-icon size="18">
-              <!--              <component :is="fullscreenIcon" @click="toggleFullScreen" />-->
-              <AmericanFootballOutline/>
-            </n-icon>
-          </template>
-          <span>全屏</span>
-        </n-tooltip>
-      </div>
+      <full-screen/>
 
       <!-- 个人中心 -->
       <user-dropdown/>
@@ -63,6 +40,8 @@ import {defineComponent, unref} from 'vue';
 import {NButton, NTooltip, NDropdown, NAvatar, NLayoutHeader, NIcon,NDivider} from 'naive-ui';
 import {HEADER_HEIGHT} from '@/enums/appEnum'
 import {Icon} from "@vicons/utils";
+import {FullScreen} from "./components";
+
 import {
   SettingsOutline,
   AccessibilityOutline,
@@ -78,16 +57,17 @@ import {createAsyncComponent} from "@/utils/factory/createAsyncComponent";
 import AppLocalePicker from "@/components/Application/src/AppLocalePicker.vue";
 import {MenuTypeEnum} from "@/enums/menuEnum";
 import {UserDropdown,MultipleTabs} from "./components";
+import FullScreenBtn from "@/layouts/default/header/components/FullScreenBtn.vue";
 
 export default defineComponent({
   name: 'PageHeader',
   components: {
+    FullScreenBtn,
     UserDropdown,
     MultipleTabs,
     AppLocalePicker,
     MiniMenu,
     NDivider,
-    // SettingDrawerBtn,
     SettingsOutline,
     NTooltip,
     Icon,
@@ -102,6 +82,7 @@ export default defineComponent({
     AmericanFootballOutline,
     NLayoutHeader,
     NIcon,
+    FullScreen,
     SettingDrawer: createAsyncComponent(() => import('@/layouts/default/setting/index.vue'), {loading: true,})
   },
   props: {

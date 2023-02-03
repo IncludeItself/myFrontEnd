@@ -35,8 +35,9 @@ export function removeResizeListener(element: any, fn: () => any) {
 }
 
 export function triggerWindowResize() {
-  const event = document.createEvent('HTMLEvents');
-  event.initEvent('resize', true, true);
+  // const event = document.createEvent('HTMLEvents');
+  // event.initEvent('resize', true, true);
+  const event=new Event('resize',{cancelable:true,bubbles:true});
   (event as any).eventType = 'message';
   window.dispatchEvent(event);
 }

@@ -48,7 +48,7 @@ export function openDrawer() {
 
 export default defineComponent({
     name: 'SettingDrawer',
-    setup(_, {attrs}) {
+    setup() {
         const {
             getContentMode,
             getShowFooter,
@@ -211,7 +211,7 @@ export default defineComponent({
                         title={t('layout.setting.collapseMenuDisplayName')}
                         event={HandlerEnum.MENU_COLLAPSED_SHOW_TITLE}
                         def={unref(getCollapsedShowTitle)}
-                        disabled={!unref(getShowMenuRef) || !unref(getCollapsed) || unref(getIsMixSidebar)}
+                        disabled={!unref(getShowMenuRef) || !unref(getCollapsed)}
                     />
 
                     <SwitchItem
@@ -403,7 +403,6 @@ export default defineComponent({
 
         return () => (
             <NDrawer
-                {...attrs}
                 title={t('layout.setting.drawerTitle')}
                 width={330}
                 v-model:show={isShow.value}

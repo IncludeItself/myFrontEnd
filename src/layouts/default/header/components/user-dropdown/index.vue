@@ -1,6 +1,6 @@
 <template>
-  <n-badge value="8" :max="15" :offset="offset" style="margin-right: 8px;margin-left: 8px">
-    <n-avatar round size="small" >
+  <n-badge value="8" :max="15" :offset="offset" style="margin-right: 10px;margin-left: 10px">
+    <n-avatar round size="small">
 
       <Icon size="40px">
         <CarSharp/>
@@ -56,7 +56,7 @@ export default defineComponent({
       getUserInfo,
       getShowDoc,
       getUseLockPage,
-      offset:[0, 7] as const
+      offset: [0, 7] as const
     };
   },
 });
