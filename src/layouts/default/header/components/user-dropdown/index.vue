@@ -1,6 +1,6 @@
 <template>
   <n-badge value="8" :max="15" :offset="offset" style="margin-right: 10px;margin-left: 10px">
-    <n-avatar round size="small">
+    <n-avatar round size="small" @click="toggle">
 
       <Icon size="40px">
         <CarSharp/>
@@ -8,9 +8,10 @@
 
     </n-avatar>
   </n-badge>
+  <JobDrawer/>
 </template>
 <script lang="ts">
-import {defineComponent, computed} from 'vue';
+import {defineComponent, computed, ref, unref} from 'vue';
 import {useUserStore} from '@/store/modules/user';
 import {useHeaderSetting} from '@/hooks/setting/useHeaderSetting';
 import {useI18n} from '@/hooks/web/useI18n';
@@ -18,16 +19,16 @@ import headerImg from '@/assets/images/header.jpg';
 import {CarSharp} from '@vicons/ionicons5';
 import {NAvatar, NBadge} from "naive-ui";
 import {propTypes} from '@/utils/propTypes';
-import {openWindow} from '@/utils';
+import {useJobDrawer} from "./useJobDrawer";
 import {Icon} from "@vicons/utils";
-
-import {createAsyncComponent} from '@/utils/factory/createAsyncComponent';
+import JobDrawer from "./JobDrawer.vue";
 
 type MenuEvent = 'logout' | 'doc' | 'lock';
 
 export default defineComponent({
   name: 'UserDropdown',
   components: {
+    JobDrawer,
     CarSharp, NAvatar, Icon, NBadge
     // MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
     // LockAction: createAsyncComponent(() => import('../lock/LockModal.vue')),
@@ -39,24 +40,24 @@ export default defineComponent({
     const {t} = useI18n();
     const {getShowDoc, getUseLockPage} = useHeaderSetting();
     const userStore = useUserStore();
-
     const getUserInfo = computed(() => {
       const {realName = '', avatar, desc} = userStore.getUserInfo || {};
       return {realName, avatar: avatar || headerImg, desc};
     });
+    const {toggle}=useJobDrawer();
 
     //  login out
     function handleLoginOut() {
       userStore.confirmLoginOut();
     }
 
-
     return {
       t,
       getUserInfo,
       getShowDoc,
       getUseLockPage,
-      offset: [0, 7] as const
+      offset: [0, 7] as const,
+      toggle
     };
   },
 });

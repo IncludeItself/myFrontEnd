@@ -1,5 +1,8 @@
 <template>
-  <n-layout-content :native-scrollbar="false" :style="{height: isFullscreen?'100vh':`${getViewHeight}px`,padding:'0',margin:'0 0'}">
+  <n-layout-content :native-scrollbar="false"
+                    :style="{height: isFullscreen?'100vh':`${getViewHeight}px`,padding:'0',margin:'0 0'}"
+                    id="page"
+  >
     <PageLayout/>
   </n-layout-content>
 </template>
